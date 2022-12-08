@@ -1,14 +1,14 @@
 import './App.css';
+import React from 'react';
+import Cards from './Cards/Cards';
+
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello </h1>
-      <h1>Hello </h1>
-      <h1>Hello </h1>
-      <h1>Hello </h1>
-      <h1>Hello </h1>
-    </div>
+    <>
+    <Cards/>
+    </>
+
   );
 }
 
