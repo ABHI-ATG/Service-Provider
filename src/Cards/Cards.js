@@ -1,15 +1,27 @@
-import Info from './Info'
 
 
-function Cards(){
+function Cards({props}){
+
+
+    // console.log(props);
+    const x=props.map((e)=>{
+        return e;
+    });
+
+    const y=x.map((e)=>{
+        return (<>
+            <li>{e.name}</li>
+            <li>{e.image}</li>
+        </>
+        )
+    })
+    
     return (
         <>
-            <h1> Jai mata di</h1>
+            <h1> Services</h1>
             <div className="Cards">
                 <ul>
-                    <li>
-                        abhi
-                    </li>
+                    {y}
                 </ul>
             </div>
         </>

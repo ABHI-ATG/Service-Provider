@@ -1,21 +1,21 @@
-const Info=[
+const Daily=[
     {
-     name:"Carpentar",
+     name:"Milkman",
      image:"url",
     },
     {
-     name:"Painter",
+     name:"NewsPaper",
      image:"url",
     },
     {
-     name:"Plumbour",
+     name:"Household Worker",
      image:"url",
     },
     {
-     name:"Labour",
+     name:"Tailor",
      image:"url",
     },
 
 ];
 
-export default Info;
+export default Daily;
