@@ -1,21 +1,33 @@
-import './App.css';
 import React from 'react';
-import Cards from './Cards/Cards';
-import Monthly from './Cards/Monthly'
-import Daily from './Cards/Daily'
+import { BrowserRouter , Routes , Route } from 'react-router-dom';
 
-function App() {
+import LandingPage from './components/pages/LandingPage';
+import LoginPage from "./components/pages/LoginPage";
+import SignUpPage from './components/pages/SignUpPage';
+import ForgetPasswordPage from './components/pages/ForgetPasswordPage';
+import HomePage from './components/pages/HomePage';
 
-  console.log(Monthly);
-  console.log("abhi_");
+import './App.css'
 
-  return (
-    <>
-    <Cards props={Monthly}/>
-    <Cards props={Daily}/>
-    </>
 
-  );
+export default function App() {
+    return (
+        <BrowserRouter>
+            
+                <Routes>
+                
+                    <Route path="/" element={<LandingPage/> } />
+                    <Route path="/login" element={ <LoginPage/>} />
+                    <Route path="/signup" element={ <SignUpPage/> } />
+                    <Route path="/forget-password" element={ <ForgetPasswordPage/> } />
+                    <Route path="/home" element={ <HomePage/> } />
+
+                </Routes>
+                
+            
+        </BrowserRouter>
+        
+    )
 }
 
-export default App;
+
