@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter , Routes , Route } from 'react-router-dom';
 
-import LandingPage from './components/pages/LandingPage';
-import LoginPage from "./components/pages/LoginPage";
-import SignUpPage from './components/pages/SignUpPage';
-import ForgetPasswordPage from './components/pages/ForgetPasswordPage';
-import HomePage from './components/pages/HomePage';
+import LandingPage from './User/LandingPage/LandingPage';
+import LoginPage from "./User/LoginPage/LoginPage";
+import SignUpPage from './User/SignUpPage/SignUpPage';
+import ForgetPasswordPage from './User/ForgetPasswordPage/ForgetPasswordPage';
+import HomePage from './User/Home Page/HomePage';
 
 import './App.css'
 
@@ -23,7 +23,6 @@ export default function App() {
                     <Route path="/home" element={ <HomePage/> } />
 
                 </Routes>
-                
             
         </BrowserRouter>
         

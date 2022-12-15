@@ -1,4 +1,4 @@
-
+import { Link } from 'react-router-dom'
 
 function Cards({props}){
 
@@ -12,6 +12,9 @@ function Cards({props}){
         return (<>
             <li>{e.name}</li>
             <li>{e.image}</li>
+            <li>
+            <Link to={`/home/${e.name}`}>Check</Link>
+            </li>
         </>
         )
     })
