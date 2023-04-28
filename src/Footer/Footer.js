@@ -12,10 +12,10 @@ const Footer=()=>{
             </a>
             <ul class="flex flex-wrap items-center mb-6 text-xl font-bold text-gray-500 sm:mb-0 dark:text-gray-400">
                 <li>
-                    <a href="#" class="mr-4 hover:underline md:mr-6 ">Register Professionals</a>
+                    <Link to="/Signinn" class="mr-4 hover:underline md:mr-6 ">Register Professionals</Link>
                 </li>
                 <li>
-                    <a href="#" class="mr-4 hover:underline md:mr-6">Login Professionals</a>
+                    <Link to="/Loginn" class="mr-4 hover:underline md:mr-6">Login Professionals</Link>
                 </li>
             </ul>
         </div>
