@@ -11,7 +11,9 @@ exports.register=async(req,res)=>{
         if(password === cpassword){
             const registerPerson=new Register({
                 //check out register.js file schema use all the attrebutes in it
-                name:req.body.firstname,
+                firstname:req.body.firstname,
+                lastName:req.body.lastName,
+                mobile:req.body.mobile,
                 email:req.body.email,
                 password:req.body.password,
                 confirmPassword:req.body.confirmPassword
@@ -26,13 +28,10 @@ exports.register=async(req,res)=>{
             //value parameter may be a string or an object converted to json
             //res.cookie(give any name of cookie, token value,property)
             res.cookie("jwt",token,{
-                expires:new Date()(Date.now()+ 1000000),//cookies expiration time
+                expires:new Date()(Date.now()+  "24h"),//cookies expiration time
                 httpOnly:true,//client side script will not affect cookies
                 //secure:true//only work if site is on https or we can say in productioon version
             });
-
-
-
             //hashing of password
             //between saving and creating
              const registered=await registerPerson.save();
@@ -42,5 +41,58 @@ exports.register=async(req,res)=>{
         }
     }catch(e){
         res.status(400).send('Error');
+    }
+}
+
+exports.verifyUser=async(req, res, next)=>{
+    try {
+        
+        const { email } = req.method == "GET" ? req.query : req.body;
+
+        // check the email existance
+        let exist = await Register.findOne({ email });
+        if(!exist) return res.status(404).send({ error : "Can't find Mail Adress!"});
+        next();
+
+    } catch (error) {
+        return res.status(404).send({ error: "Authentication Error"});
+    }
+}
+
+exports.login=async(req,res)=>{
+    const { email, password } = req.body;
+
+    try {
+        
+        Register.findOne({ email })
+            .then(user => {
+                bcrypt.compare(password, user.password)
+                    .then(passwordCheck => {
+
+                        if(!passwordCheck) return res.status(400).send({ error: "Don't have Password"});
+
+                        // create jwt token
+                        const token = jwt.sign({
+                                        userId: user._id,
+                                        email : user.email
+                                    }, process.env.SECRET_KEY , { expiresIn : "24h"});
+
+                        return res.status(200).send({
+                            msg: "Login Successful...!",
+                            email: user.email,
+                            token
+                        });                                    
+
+                    })
+                    .catch(error =>{
+                        return res.status(400).send({ error: "Credentials does not Match"})
+                    })
+            })
+            .catch( error => {
+                return res.status(404).send({ error : "Email not Found"});
+            })
+
+    } catch (error) {
+        return res.status(500).send({ error});
     }
 }
