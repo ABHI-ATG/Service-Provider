@@ -1,6 +1,20 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const Loginn = () => {
+    const [showPassword, setShowPassword] = useState(false);
+    const [password , setPassword] = useState('');
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value)
+
+    }
+
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
     return (
         <>
             <div className="w-full ">
@@ -30,11 +44,30 @@ const Loginn = () => {
                             <div className="mb-3 w-80">
                                 <label className="block">
                                     <span className="text-grey-700 text-lg">Password</span>
-                                    <input type='password' className="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder='Password' required />
+                                    <div className=' flex '>
+                                        <input
+                                            type={showPassword ? 'text' : 'password'}
+                                            className="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
+                                            placeholder="Password"
+                                            value={password}
+                                            onChange={handlePasswordChange}
+                                            required
+                                        />
+                                        {password &&
+                                        (
+                                            <FontAwesomeIcon 
+                                            icon={showPassword ? faEyeSlash : faEye}
+                                            className="eye-icon -ml-6 mt-4"
+                                            onClick={toggleShowPassword}
+                                        />
+                                        ) }
+                                        
+                                    </div>
                                 </label>
+
                             </div>
 
-                            <div className="my-10">
+                            <div className="my-4">
                                 {
 
                                     <button className=" bg-sky-400 text-white py-3 w-24 rounded-full" type="submit">

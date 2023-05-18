@@ -5,6 +5,7 @@ import { useState } from "react";
 
 export default function Nav() {
     const [navbar, setNavbar] = useState(false);
+    
 
     return (
         <nav className="w-full bg-white ">
@@ -56,4 +57,4 @@ export default function Nav() {
 
 
 
-<li></li>
+    

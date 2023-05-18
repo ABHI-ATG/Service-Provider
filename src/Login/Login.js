@@ -1,8 +1,23 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const Login = () => {
 
- 
+  const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState('');
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  }
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+
+  };
+
+
   return (
     <>
       <div className="w-full h-4/5 grid grid-cols-1 md:grid-cols-2 justify-items-center items-center">
@@ -25,24 +40,40 @@ const Login = () => {
               <div className="mb-3">
                 <label className="block">
                   <span className="text-grey-700">Email Address</span>
-                  <input type='email'  className="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder='jondoe@email.com' required />
+                  <input type='email' className="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder='jondoe@email.com' required />
                 </label>
               </div>
 
               <div className="mb-3">
                 <label className="block">
                   <span className="text-grey-700">Password</span>
-                  <input type='password'  className="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder='Password' required />
+                  <div className=' flex '>
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      className="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
+                      value={password}
+                      onChange={handlePasswordChange}
+                      placeholder="Password"
+                      required
+                    />
+                    {password && (
+                      <FontAwesomeIcon
+                        icon={showPassword ? faEyeSlash : faEye}
+                        className="eye-icon -ml-6 mt-4"
+                        onClick={toggleShowPassword}
+                      />
+                    )}
+                  </div>
                 </label>
               </div>
 
               <div className="my-10">
                 {
-                  
-                    <button className=" bg-sky-400 text-white py-3 w-24 rounded-full" type="submit">
-                      Login
-                    </button>
-                   
+
+                  <button className=" bg-sky-400 text-white py-3 w-24 rounded-full" type="submit">
+                    Login
+                  </button>
+
 
                 }
               </div>
