@@ -2,11 +2,13 @@ const express= require('express');
 const app = express();
 const morgan = require('morgan');
 const port = 8000;
-const router= require('router');
+const router = require('./router/route');
+
+//const router= require('router');
 const cors = require('cors');
 
 /**Database connection */
-app.require('./db/conn');
+require('./db/conn');
 
 /**middleware */
 app.use(express.json());

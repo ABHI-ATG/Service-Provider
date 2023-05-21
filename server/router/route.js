@@ -8,3 +8,4 @@ const controller = require('../controllers/app.controller');
 router.route('/SignUp').post(controller.register);
 router.route('/login').post(controller.verifyUser,controller.login);
 
+module.exports = router;
