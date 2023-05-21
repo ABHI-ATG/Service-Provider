@@ -26,7 +26,7 @@ const App=()=>{
             <Route path='/Provider' Component={Provider}/>
             <Route path='/Service/:id' Component={Service}/>
         </Routes>
-        <Footer/>
+        <Footer id="footer" />
     </>
     )
 }

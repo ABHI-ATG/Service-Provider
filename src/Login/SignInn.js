@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 
@@ -110,7 +109,7 @@ const SignInn = () => {
                         </div>
 
                         <div className="flex justify-center pt-3 mr-24">
-                            <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                            <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border  border-blue-500 hover:border-transparent rounded-full">
                                 Register
                             </button>
                         </div>
