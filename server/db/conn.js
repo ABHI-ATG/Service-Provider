@@ -1,9 +1,10 @@
 const  mongoose= require('mongoose');
 
-main().catch(err => console.log(err));
+const DB= 'mongodb+srv://Servicely:Project123@cluster0.jckugsx.mongodb.net/?retryWrites=true&w=majority';
 
-async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/service').then
-  (console.log("database connection established"));
+mongoose.connect(DB).then(()=>{
+  console.log(`DB connected`);
+}).catch((err)=>{
+  console.log(err);
+})
 
-}
