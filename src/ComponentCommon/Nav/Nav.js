@@ -59,10 +59,10 @@ export default function Nav() {
                                 </ScrollLink>
                             </li>
                             <li className="text-gray-600 font-bold hover:text-blue-600">
-                                <Link to="/Signin">SignUp</Link>
+                                <Link to="/signin">SignIn</Link>
                             </li>
                             <li className="text-gray-600 font-bold font-sans hover:text-blue-600">
-                                <Link to='/login'>LogIn</Link>
+                                <Link to='/signup'>SignUp</Link>
                             </li>
                         </ul>
                     </div>

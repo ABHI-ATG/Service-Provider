@@ -1,6 +1,5 @@
 import Page from './Page'
 import { Link } from 'react-router-dom';
-import "../Css/card.css";
 
 const Card = (props) => {
     return (

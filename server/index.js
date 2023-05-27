@@ -1,15 +1,16 @@
-require('dotenv').config();
+
 const express= require('express');
 const app = express();
 const morgan = require('morgan');
-const port = 8000||process.env.PORT;
+const cors = require('cors');
 const router = require('./router/route');
 
-//const router= require('router');
-const cors = require('cors');
-
 /**Database connection */
+require('dotenv').config();
 require('./db/conn');
+
+
+const port = process.env.PORT;
 
 /**middleware */
 app.use(express.json());
@@ -25,6 +26,8 @@ app.get('/', (req, res) => {
 
 /** api routes */
 app.use('/api', router);
+
+console.log("oh");
 
 app.listen(port,()=>{
     console.log(`listening on port ${port}`);
