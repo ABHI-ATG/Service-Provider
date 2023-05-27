@@ -49,6 +49,6 @@ UserSchema.pre('save',async function (next){
      next(); //used to tell that after having the password it will run ahead
 })
 
-const hostPerson = mongoose.model('User', UserSchema);
+const hostPerson = mongoose.model('users', UserSchema);
 
 module.exports =hostPerson;

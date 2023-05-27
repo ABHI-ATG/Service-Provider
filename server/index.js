@@ -16,7 +16,7 @@ const port = process.env.PORT;
 app.use(express.json());
 app.use(cors());//used for connection with react
 app.disable('x-powered-by'); // less hackers know about our stack
-app.use(morgan('tiny'));//HTTP request miidle ware logger
+app.use(morgan('tiny'));//HTTP request middleware logger
 
 /** HTTP GET Request */
 app.get('/', (req, res) => {
@@ -27,7 +27,6 @@ app.get('/', (req, res) => {
 /** api routes */
 app.use('/api', router);
 
-console.log("oh");
 
 app.listen(port,()=>{
     console.log(`listening on port ${port}`);
