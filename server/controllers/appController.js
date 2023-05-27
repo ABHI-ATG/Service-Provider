@@ -33,7 +33,7 @@ exports.signin=async(req,res)=>{
         if(!email  || !password){
             res.status(400).json({error:"Fill all details"});
         }
-        Register.findOne({ email })
+        UserRegister.findOne({ email })
             .then(user => {
                 bcrypt.compare(password, user.password)
                     .then(passwordCheck => {
@@ -94,7 +94,7 @@ exports.login=async(req,res)=>{
         if(!email  || !password){
             res.status(400).json({error:"Fill all details"});
         }
-        const user=await Register.findOne({ email });
+        const user=await ProRegister.findOne({ email });
         if(!user){
             return res.status(400).send({ error : "Invalid Details"});
         }
