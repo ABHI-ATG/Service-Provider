@@ -8,17 +8,12 @@ const Home=()=>{
     
     return (
     <div>
-        {/* <Banner/> */}
-
+        <Banner/>
         <Fullreport/>
-       
         <Card type="Home Repairs"/>
         <Card type="Cleaning"/>
         <Card type="Designing"/>
         <Card type="Beauty"/>
-
-        
-    
     </div>
     )
 }
