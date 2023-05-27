@@ -6,6 +6,6 @@ const controller = require('../controllers/app.controller');
 
 /**Post Method */
 router.route('/SignUp').post(controller.register);
-router.route('/login').post(controller.verifyUser,controller.login);
+router.route('/login').post(controller.login);
 
 module.exports = router;

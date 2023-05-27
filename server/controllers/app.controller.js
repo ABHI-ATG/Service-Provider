@@ -44,21 +44,6 @@ exports.register=async(req,res)=>{
     }
 }
 
-exports.verifyUser=async(req, res, next)=>{
-    try {
-        
-        const { email } = req.method == "GET" ? req.query : req.body;
-
-        // check the email existance
-        let exist = await Register.findOne({ email });
-        if(!exist) return res.status(404).send({ error : "Can't find Mail Adress!"});
-        next();
-
-    } catch (error) {
-        return res.status(404).send({ error: "Authentication Error"});
-    }
-}
-
 exports.login=async(req,res)=>{
     const { email, password } = req.body;
 
