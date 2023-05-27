@@ -19,7 +19,7 @@ const ProjectCompleted = () => {
         if (currentCustomerSatisfaction >= targetCustomerSatisfaction) {
           clearInterval(interval);
         }
-      }, 10);
+      }, 20);
     };
 
     const handleScroll = () => {
