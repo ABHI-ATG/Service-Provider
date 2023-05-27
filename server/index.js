@@ -1,3 +1,4 @@
+
 const express= require('express');
 const app = express();
 const morgan = require('morgan');
@@ -26,7 +27,6 @@ app.get('/', (req, res) => {
 /** api routes */
 app.use('/api', router);
 
-console.log("oh");
 
 app.listen(port,()=>{
     console.log(`listening on port ${port}`);
