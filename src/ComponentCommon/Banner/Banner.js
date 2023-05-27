@@ -1,6 +1,5 @@
 import { Slide } from 'react-slideshow-image';
-import 'react-slideshow-image/dist/styles.css';
-import SearchBar from "../SearchBar/SearchBar"
+import SearchBar from "../../ComponentUser/SearchBar/SearchBar"
 
 const slideImages = [
   {

@@ -3,23 +3,24 @@ const bcrypt=require('bcrypt');
 const jwt=require("jsonwebtoken");
 
 const UserSchema = new mongoose.Schema({
-    password: {
-        type: String,
-        required: [true, "Please provide a password"],
-        unique : false,
-    },
-    confirmPassword: {
-        type: String,
-        required: true
-    },
+    fname: { type: String},
+    lname: { type: String},
     email: {
         type: String,
         required : [true, "Please provide a unique email"],
         unique: true,
     },
-    firstName: { type: String},
-    lastName: { type: String},
+    
     mobile : { type : Number},
+    password: {
+        type: String,
+        required: [true, "Please provide a password"],
+        unique : false,
+    },
+    cpassword: {
+        type: String,
+        required: true
+    },
     tokens:[{
         token:{
             type: String,
@@ -35,17 +36,17 @@ UserSchema.methods.generateAuthToken= async function(){
         await this.save();
         return token;
     }catch(err){
+        console.log("Error while generating token");
         console.error(err);
     }
 }
 UserSchema.pre('save',async function (next){
     //if pasword is change only than change the hashing/bcrypt
-     if(this.isModified("password")){
-     this.password = bcrypt.hash(this.password);
-         
-     this.confirmPassword=bcrypt.hash(this.confirmPassword);
- }
-     next(); //used to tell that after hasing the password it will run ahead
+    if(this.isModified("password")){
+     this.password = await bcrypt.hash(this.password,10);
+     this.cpassword=await bcrypt.hash(this.cpassword,10);
+    }
+     next(); //used to tell that after having the password it will run ahead
 })
 
 const hostPerson = mongoose.model('User', UserSchema);

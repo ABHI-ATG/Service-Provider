@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "../Css/search.css";
 import { Link } from "react-router-dom";
 var data = require("./MOCK_DATA.json");
 

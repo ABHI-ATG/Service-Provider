@@ -1,21 +1,40 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const Login = () => {
-
+  const navigate=useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  }
+  const [email, setEmail] = useState('');
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
-
   };
+
+  const onSubmit=async (e)=>{
+    e.preventDefault();
+
+    const res=await fetch('/api/signin',{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            email,password
+        })
+    })
+
+    const data=await res.json();
+    if(data.status===400 || !data){
+        console.log("Fail to Sign Up");
+    }else{
+        console.log("Success");
+        navigate('/');
+    }
+}
+
 
 
   return (
@@ -36,11 +55,13 @@ const Login = () => {
           </div>
 
           <div className="loginForm__form">
-            <form >
+            <form method='POST'>
               <div className="mb-3">
                 <label className="block">
                   <span className="text-grey-700">Email Address</span>
-                  <input type='email' className="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder='jondoe@email.com' required />
+                  <input type='email' className="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder='jondoe@email.com' value={email} name="email" onChange={(e)=>{
+                    setEmail(e.target.value)
+                  }} required />
                 </label>
               </div>
 
@@ -51,8 +72,9 @@ const Login = () => {
                     <input
                       type={showPassword ? 'text' : 'password'}
                       className="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
-                      value={password}
-                      onChange={handlePasswordChange}
+                      value={password} name="password" onChange={(e)=>{
+                        setPassword(e.target.value)
+                      }}
                       placeholder="Password"
                       required
                     />
@@ -70,11 +92,7 @@ const Login = () => {
               <div className="my-10">
                 {
 
-                  <button className=" bg-sky-400 text-white py-3 w-24 rounded-full" type="submit">
-                    Login
-                  </button>
-
-
+                  <input className=" bg-sky-400 text-white py-3 w-24 rounded-full" type="submit" onClick={onSubmit} value="SignIn"/>
                 }
               </div>
             </form>
