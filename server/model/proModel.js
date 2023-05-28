@@ -36,6 +36,10 @@ const ProSchema = new mongoose.Schema({
         type:String,
         require:true
     },
+    profession:{
+        type:String,
+        require:true
+    },
     password: {
         type: String,
         required: [true, "Please provide a password"],
@@ -44,6 +48,9 @@ const ProSchema = new mongoose.Schema({
     cpassword: {
         type: String,
         required: true
+    },
+    profile:{
+        type: String
     },
     tokens:[{
         token:{

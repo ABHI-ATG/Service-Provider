@@ -1,22 +1,24 @@
-
 const express= require('express');
 const app = express();
 const morgan = require('morgan');
 const cors = require('cors');
-const router = require('./router/route');
-
-/**Database connection */
+const router=require('./router/route');
+const cookeParser=require("cookie-parser");
 require('dotenv').config();
-require('./db/conn');
 
+
+
+// /**Database connection */
+require('./db/conn');
 
 const port = process.env.PORT;
 
-/**middleware */
+// /**middleware */
+app.use(cookeParser());
 app.use(express.json());
 app.use(cors());//used for connection with react
 app.disable('x-powered-by'); // less hackers know about our stack
-app.use(morgan('tiny'));//HTTP request miidle ware logger
+app.use(morgan('tiny'));//HTTP request middleware logger
 
 /** HTTP GET Request */
 app.get('/', (req, res) => {
@@ -24,9 +26,7 @@ app.get('/', (req, res) => {
 });
 
 
-/** api routes */
-app.use('/api', router);
-
+app.use(router);
 
 app.listen(port,()=>{
     console.log(`listening on port ${port}`);

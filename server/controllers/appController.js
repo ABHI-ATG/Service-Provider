@@ -17,7 +17,7 @@ exports.signup=async(req,res)=>{
                 password:password,
                 cpassword:cpassword
             })
-            const registered=await registerPerson.save();
+             await registerPerson.save();
             res.status(201).json({message:"account created successfully"});//send to index page
         }else{
             res.status(400).send("Invalid Details")
@@ -74,11 +74,11 @@ exports.signin=async(req,res)=>{
 exports.register=async(req,res)=>{
     try{
         const {fname,lname,email,mobile,state,district,pincode,city,password,cpassword}=req.body;
-        if(password === cpassword && fname && lname && email && mobile && password && cpassword && state && district && pincode && city){
+        if(password === cpassword && fname && lname && email && mobile && password && cpassword && state && pincode && city){
             const registerPerson=new ProRegister({
-                fname,lname,email,mobile,state,district,pincode,city,password,cpassword
+                fname,lname,email,mobile,state,district,pincode,city,password,cpassword,profile
             })
-            const registered=await registerPerson.save();
+           await registerPerson.save();
             res.status(201).json({message:"account created successfully"});//send to index page
         }else{
             res.status(400).send("Invalid Details")
@@ -119,3 +119,25 @@ exports.login=async(req,res)=>{
     }                              
 }
 
+exports.logout=async(req,res)=>{
+    try {
+        res.clearCookie('jwtoken');
+        const data=await UserRegister.findOne({_id:req.userId});
+        data.tokens=[];
+        return res.status(200).json({messege:"successfully log out"})  
+    }catch(err){
+        console.log("logout fails");
+        return res.status(400).send({ error: "Credentials does not Match"})
+    }                              
+}
+
+exports.out=async(req,res)=>{
+    try {
+        res.clearCookie('jwtoken');
+        const data=await ProRegister.findOne({_id:req.userId});
+        data.tokens=[];
+        return res.status(200).json({messege:"successfully log out"})  
+    }catch(err){
+        return res.status(400).send({ error: "Credentials does not Match"})
+    }                              
+}

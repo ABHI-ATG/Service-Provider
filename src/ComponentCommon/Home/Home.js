@@ -7,14 +7,16 @@ import Fullreport from '../creport/Fullreport';
 const Home=()=>{
     
     return (
-    <div>
+        <>
+        <div>
         <Banner/>
         <Fullreport/>
         <Card type="Home Repairs"/>
         <Card type="Cleaning"/>
         <Card type="Designing"/>
         <Card type="Beauty"/>
-    </div>
+        </div>
+        </>
     )
 }
 

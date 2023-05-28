@@ -1,9 +1,14 @@
-import { useState } from 'react';
+import { useState,useContext } from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { userContext } from '../../App';
+
 
 const Login = () => {
+
+  const {state,dispatch}=useContext(userContext);  
+
   const navigate=useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
@@ -16,7 +21,7 @@ const Login = () => {
   const onSubmit=async (e)=>{
     e.preventDefault();
 
-    const res=await fetch('/api/signin',{
+    const res=await fetch('/signin',{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -30,7 +35,8 @@ const Login = () => {
     if(data.status===400 || !data){
         console.log("Fail to Sign Up");
     }else{
-        console.log("Success");
+      console.log("Success");
+        dispatch({type:"USER",payload:1});
         navigate('/');
     }
 }
@@ -48,7 +54,7 @@ const Login = () => {
           <div className="loginForm__subtitle py-5 text-base">
             Don't have an account?
             <span className="ml-2 text-sky-400 font-medium">
-              <Link to='/Signin'>
+              <Link to='/signup'>
                 Sign Up
               </Link>
             </span>
