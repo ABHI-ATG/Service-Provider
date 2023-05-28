@@ -6,11 +6,16 @@ import HappyCustomer from './HappyCustomer'
 
 export default function Fullreport() {
   return (
-    <div className=' text-black flex justify-center flex-wrap my-3'>
-        <CustomerSatisfaction/>
-        <ProjectCompleted/>
-        <YearsMarket/>
-        <HappyCustomer/>
+    <div>
+      <div className=' text-black flex justify-center flex-wrap my-3'>
+        <CustomerSatisfaction />
+        <ProjectCompleted />
+        <YearsMarket />
+        <HappyCustomer />
+      </div>
+      <div className=' flex justify-center  '>
+        <img src='./Images/aa.png' alt='ourServices'  />
+      </div>
     </div>
   )
 }

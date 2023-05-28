@@ -9,7 +9,6 @@ import Home from './ComponentCommon/Home/Home';
 import Nav from './ComponentCommon/Nav/Nav';
 import Footer from './ComponentCommon/Footer/Footer'
 import './Css/index.css'
-import './Css/banner.css'
 import './Css/card.css'
 import './Css/search.css'
 

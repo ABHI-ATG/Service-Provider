@@ -12,12 +12,12 @@ const Card = (props) => {
                         return (
                             (props.type === e.type) ? (
                                 <article className="card m-3">
-                                    <img className='card__background' style={{ width: "300px" }} src={"images/"+e.imgname+".jpg"} alt={e.imgname} />
+                                    <img className='card__background' style={{ width: "300px" }} src={"images/"+e.imgproname+".jpg"} alt={e.imgproname} />
                                     <div className="card__content | flow">
                                         <div className="card__content--container | flow">
-                                            <h5 className=' text-3xl font-extrabold text-white'>{e.name}</h5>
+                                            <h5 className=' text-3xl font-extrabold text-white'>{e.proname}</h5>
                                         </div>
-                                        <Link to={"/Service/" + e.name}><button className="card__button">Check</button></Link>
+                                        <Link to={"/Service/" + e.proname}><button className="card__button">Check</button></Link>
                                     </div>
                                 </article>
                             ) : ""
@@ -29,3 +29,4 @@ const Card = (props) => {
     )
 }
 export default Card;
+

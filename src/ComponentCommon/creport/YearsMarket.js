@@ -18,7 +18,7 @@ const YearsMarket = () => {
         if (currentCustomerSatisfaction >= targetCustomerSatisfaction) {
           clearInterval(interval);
         }
-      }, 12);
+      }, 30);
     };
 
     const handleScroll = () => {
