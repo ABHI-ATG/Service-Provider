@@ -11,7 +11,6 @@ import Home from './ComponentCommon/Home/Home';
 import Footer from './ComponentCommon/Footer/Footer'
 import Nav from './ComponentCommon/Nav/Nav'
 import './Css/index.css'
-import './Css/banner.css'
 import './Css/card.css'
 import './Css/search.css'
 export const userContext=createContext();

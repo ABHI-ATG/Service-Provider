@@ -49,6 +49,9 @@ const ProSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    profile:{
+        type: String
+    },
     tokens:[{
         token:{
             type: String,

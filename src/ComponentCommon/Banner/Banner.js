@@ -1,4 +1,3 @@
-import { Slide } from 'react-slideshow-image';
 import SearchBar from "../../ComponentUser/SearchBar/SearchBar"
 
 const Banner = () => {
