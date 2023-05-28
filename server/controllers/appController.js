@@ -17,7 +17,7 @@ exports.signup=async(req,res)=>{
                 password:password,
                 cpassword:cpassword
             })
-            const registered=await registerPerson.save();
+             await registerPerson.save();
             res.status(201).json({message:"account created successfully"});//send to index page
         }else{
             res.status(400).send("Invalid Details")
@@ -73,12 +73,13 @@ exports.signin=async(req,res)=>{
 
 exports.register=async(req,res)=>{
     try{
-        const {fname,lname,email,mobile,state,district,pincode,city,password,cpassword}=req.body;
-        if(password === cpassword && fname && lname && email && mobile && password && cpassword && state && district && pincode && city){
+        const {fname,lname,email,mobile,state,district,pincode,city,password,cpassword,profile}=req.body;
+        if(password === cpassword && fname &&  profile && lname && email && mobile 
+            && password && cpassword && state && district && pincode && city){
             const registerPerson=new ProRegister({
-                fname,lname,email,mobile,state,district,pincode,city,password,cpassword
+                fname,lname,email,mobile,state,district,pincode,city,password,cpassword,profile
             })
-            const registered=await registerPerson.save();
+           await registerPerson.save();
             res.status(201).json({message:"account created successfully"});//send to index page
         }else{
             res.status(400).send("Invalid Details")

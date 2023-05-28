@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 
 
-
 const citiesByState = [
     {
         state: "Uttar Pradesh",
@@ -40,11 +39,19 @@ const SignInn = () => {
 
         <div className="flex justify-center items-center  ">
             <div className="my-4 flex justify-center ">
-
+           
                 <div className="text-black flex flex-col justify-center">
                     <h3 className="mb-5 ml-5 text-4xl font-serif font-bold">Profesional Registration form</h3>
-
-                    <form className=' ml-5 flex flex-col  justify-center'>
+                   
+                    <div className='profile py-3 flex flex-col justify-center w-[120px] border-4 rounded-full border-gray-100  align-middle shadow-lg cursor-pointer hover:border-gray-400'>
+                        <label htmlFor="profile">
+                        <img src="./icons/altPro.jpg" alt="./icons/altPro.jpg" 
+                          className=' '/>
+                        </label>
+                        <input type="file" id='profile' name='profile' />
+                    </div>
+                    
+                    <form className=' ml-5 flex flex-col  justify-center py-6'>
                         <div className="flex flex-wrap  ">
                             <div className="w-72 mr-5 mb-4 border-black items-end gap-6">
                                 <input class="appearance-none block w-full  text-gray-700 border border-gray-600 rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"  type="text" placeholder="First Name" required />
