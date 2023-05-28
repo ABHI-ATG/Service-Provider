@@ -76,7 +76,7 @@ exports.register=async(req,res)=>{
         const {fname,lname,email,mobile,state,district,pincode,city,password,cpassword}=req.body;
         if(password === cpassword && fname && lname && email && mobile && password && cpassword && state && pincode && city){
             const registerPerson=new ProRegister({
-                fname,lname,email,mobile,state,district,pincode,city,password,cpassword,profile
+                fname,lname,email,mobile,state,district,pincode,city,password,cpassword
             })
            await registerPerson.save();
             res.status(201).json({message:"account created successfully"});//send to index page
