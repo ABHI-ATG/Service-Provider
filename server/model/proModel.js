@@ -36,6 +36,10 @@ const ProSchema = new mongoose.Schema({
         type:String,
         require:true
     },
+    profession:{
+        type:String,
+        require:true
+    },
     password: {
         type: String,
         required: [true, "Please provide a password"],

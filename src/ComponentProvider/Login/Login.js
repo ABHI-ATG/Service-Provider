@@ -1,20 +1,44 @@
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { userContext } from '../../App';
 
 const Loginn = () => {
+    const {state,dispatch}=useContext(userContext);  
+    const navigate=useNavigate();
     const [showPassword, setShowPassword] = useState(false);
-    const [password , setPassword] = useState('');
-
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value)
-
-    }
-
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+  
     const toggleShowPassword = () => {
-        setShowPassword(!showPassword);
+      setShowPassword(!showPassword);
     };
+  
+    const onSubmit=async (e)=>{
+      e.preventDefault();
+  
+      const res=await fetch('/login',{
+          method:"POST",
+          headers:{
+              "Content-Type":"application/json"
+          },
+          body:JSON.stringify({
+              email,password
+          })
+      })
+  
+      const data=await res.json();
+      if(data.status===400 || !data){
+          console.log("Fail to Sign Up");
+      }else{
+        dispatch({type:"USER",payload:2});
+          console.log("Success");
+          navigate('/');
+      }
+  }
+
+
     return (
         <>
             <div className="w-full ">
@@ -26,18 +50,19 @@ const Loginn = () => {
                     <div className="loginForm__subtitle py-5 text-base">
                         Don't have an account?
                         <span className="ml-2 text-sky-400 font-medium">
-                            <Link to='/Signinn'>
+                            <Link to='/register'>
                                 Register
                             </Link>
                         </span>
                     </div>
 
                     <div className="loginForm__form">
-                        <form className=' flex flex-col justify-center' >
+                        <form method="POST" className=' flex flex-col justify-center' >
                             <div className="mb-3 w-80">
                                 <label className="block">
                                     <span className="text-grey-700 text-lg">Email Address</span>
-                                    <input type='email' className="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder='jondoe@email.com' required />
+                                    <input type='email' className="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder='jondoe@email.com' required name="email" value={email}
+                                    onChange={(e)=>setEmail(e.target.value)}/>
                                 </label>
                             </div>
 
@@ -49,8 +74,8 @@ const Loginn = () => {
                                             type={showPassword ? 'text' : 'password'}
                                             className="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
                                             placeholder="Password"
-                                            value={password}
-                                            onChange={handlePasswordChange}
+                                            name="password" value={password}
+                                    onChange={(e)=>setPassword(e.target.value)}
                                             required
                                         />
                                         {password &&
@@ -69,12 +94,7 @@ const Loginn = () => {
 
                             <div className="my-4">
                                 {
-
-                                    <button className=" bg-sky-400 text-white py-3 w-24 rounded-full" type="submit">
-                                        Login
-                                    </button>
-
-
+                                    <input className=" bg-sky-400 text-white py-3 w-24 rounded-full" onClick={onSubmit} type="submit"/>
                                 }
                             </div>
                         </form>

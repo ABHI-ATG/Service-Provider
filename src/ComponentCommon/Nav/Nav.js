@@ -1,15 +1,20 @@
 import { Link } from 'react-router-dom';
 import { Link as ScrollLink, animateScroll as scroll } from 'react-scroll';
-import { useState } from 'react';
+import {  useContext, useState } from 'react';
+import { userContext } from '../../App';
 
 export default function Nav() {
     const [navbar, setNavbar] = useState(false);
+
     const scrollToFooter = () => {
         scroll.scrollToBottom({
             duration: 500,
             smooth: true,
         });
     };
+
+    const {state,dispatch}=useContext(userContext);
+
 
     return (
         <nav className="w-full bg-white">
@@ -58,12 +63,13 @@ export default function Nav() {
                                     <button> Professionals</button>
                                 </ScrollLink>
                             </li>
-                            <li className="text-gray-600 font-bold hover:text-blue-600">
+                            {state?(state==1?(<li className="text-gray-600 font-bold hover:text-blue-600">
+                                <Link to="/logout">LogOut</Link>
+                            </li>):(<li className="text-gray-600 font-bold hover:text-blue-600">
+                                <Link to="/out">LogOut</Link>
+                            </li>)):(<li className="text-gray-600 font-bold hover:text-blue-600">
                                 <Link to="/signin">SignIn</Link>
-                            </li>
-                            <li className="text-gray-600 font-bold font-sans hover:text-blue-600">
-                                <Link to='/signup'>SignUp</Link>
-                            </li>
+                            </li>)}
                         </ul>
                     </div>
                 </div>

@@ -28,7 +28,7 @@ const SignIn = () => {
 
         const {fname,lname,email,mobile,password,cpassword}=userData;
         console.log(userData);
-        const res=await fetch('/api/signup',{
+        const res=await fetch('/signup',{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -43,7 +43,7 @@ const SignIn = () => {
             console.log("Fail to Sign Up");
         }else{
             console.log("Success");
-            navigate('/login');
+            navigate('/signin');
         }
     }
 
@@ -59,7 +59,7 @@ const SignIn = () => {
                     <div className="loginForm__subtitle py-5 text-base">
                         Already have an account?
                         <span className="ml-2 text-sky-400 font-medium">
-                            <Link to='/login'>
+                            <Link to='/signin'>
                                 Login
                             </Link>
                         </span>
