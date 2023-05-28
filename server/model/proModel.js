@@ -2,7 +2,7 @@ const mongoose=require('mongoose');
 const bcrypt=require('bcrypt');
 const jwt=require("jsonwebtoken");
 
-const UserSchema = new mongoose.Schema({
+const ProSchema = new mongoose.Schema({
     fname: { 
         type: String,
         require:true
@@ -16,9 +16,24 @@ const UserSchema = new mongoose.Schema({
         required : [true, "Please provide a unique email"],
         unique: true,
     },
-    
     mobile : { 
         type : Number,
+        require:true
+    },
+    state:{
+        type:String,
+        require:true
+    },
+    district:{
+        type:String,
+        require:true
+    },
+    pincode:{
+        type:String,
+        require:true
+    },
+    city:{
+        type:String,
         require:true
     },
     password: {
@@ -38,7 +53,7 @@ const UserSchema = new mongoose.Schema({
     }]
 });
 
-UserSchema.methods.generateAuthToken= async function(){
+ProSchema.methods.generateAuthToken= async function(){
     try{
         const token= jwt.sign({_id:this._id},process.env.SECRET_KEY);
         this.tokens= this.tokens.concat({token:token});
@@ -49,15 +64,14 @@ UserSchema.methods.generateAuthToken= async function(){
         console.error(err);
     }
 }
-UserSchema.pre('save',async function (next){
-    //if pasword is change only than change the hashing/bcrypt
+ProSchema.pre('save',async function (next){
     if(this.isModified("password")){
      this.password = await bcrypt.hash(this.password,10);
      this.cpassword=await bcrypt.hash(this.cpassword,10);
     }
-     next(); //used to tell that after having the password it will run ahead
+     next(); 
 })
 
-const hostPerson = mongoose.model('users', UserSchema);
+const hostPerson = mongoose.model('providers', ProSchema);
 
-module.exports = hostPerson;
+module.exports =hostPerson;
