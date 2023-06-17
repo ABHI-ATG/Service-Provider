@@ -3,7 +3,8 @@ const Pro= require('../models/provider');
 const signup=async(req,res)=>{
     try {
         console.log(req.body);
-        const {fname,lname,email,mobile,state,pincode,city,password}=req.body;
+        
+        const {fname, lname, email, mobile, state, city, pincode, profession, password}=req.body;
         if(!fname || !lname || !email || !mobile || !password || !state ||  !pincode || !city){
             return res.status(400).send('Enter all details');
         }
@@ -12,7 +13,7 @@ const signup=async(req,res)=>{
         if(userExist){
             return res.status(400).send('User already exist');
         }
-        const data=await Pro.create({fname,lname,email,mobile,password})
+        const data=await Pro.create({fname, lname, email, mobile, state, city, pincode, profession, password})
         res.status(200).send("Account Created Successfully")
     } catch (error) {
         return res.status(404).send(error);

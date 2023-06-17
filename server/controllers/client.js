@@ -75,31 +75,17 @@ const service=async(req,res)=>{
         const pincode=req.query.pincode;
         const work=req.query.work;
 
-        console.log(state);
-        console.log(city);
-        console.log(pincode);
-        console.log(work);
         const data = await Pro.find({
-            $and: [
-              { profession: { $regex: new RegExp(work, 'i') } },
-              {
-                $and: [
-                  { state: { $regex: new RegExp(state, 'i') } },
-                  {
-                    $or: [
-                      { city: { $regex: new RegExp(city, 'i') } },
-                      { pincode: { $regex: new RegExp(pincode, 'i') } }
-                    ]
-                  }
-                ]
-              }
+            profession: { $regex: new RegExp(work, "i") },
+            state: { $regex: new RegExp(state, "i") },
+            $or: [
+              { pincode: { $regex: new RegExp(pincode, "i") } },
+              { city: { $regex: new RegExp(city, "i") } }
             ]
-        });
-          
-
+          });
         console.log(data);
 
-        res.status(200).send("Success")
+        res.status(200).send(data)
         
     } catch (error) {
         res.status(401).send("Failed to Search");

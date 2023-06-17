@@ -25,8 +25,8 @@ const data=[
         type:"Cleaning",
     },
     {
-        proname:"Air Conditioner(AC)",
-        imgproname:"AirConditioner(AC)",
+        proname:"Air Conditioner",
+        imgproname:"AirConditioner",
         type:"Home Repairs",
     },
     {

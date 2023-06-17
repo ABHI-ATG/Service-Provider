@@ -4,20 +4,19 @@ import Providers from './Providers';
 import axios from 'axios'
 
 const Services = () => {
-    const city="muradnagar";
     const state="uttar Pradesh";
+    const city="muradnagar";
     const pincode="201204"
     
     const location = useLocation();
     const encodedName = location.pathname.slice(9);
     const decodedName = decodeURIComponent(encodedName);
 
-    const [searchTerm, setSearchTerm] = useState('');
     const [filteredData, setFilteredData] = useState([]);
 
     useEffect(() => {
         searchApi();
-    }, [searchTerm]);
+    },[]);
 
     const searchApi=async (data)=>{
         try {
@@ -25,26 +24,14 @@ const Services = () => {
             const data=await axios.get(`/api/client/service?state=${state}&city=${city}&pincode=${pincode}&work=${work}`,{headers:{
                 Authorization:localStorage.getItem('token')
             }})
-            // setFilteredData(data);
-            console.log(data);
+            setFilteredData(data.data);
+            console.log(data.data);
             
         } catch (error) {
             console.log(error);
         }
     }
 
-
-    const filterData = (searchTerm) => {
-        const filteredProviders = Providers.filter(item => {
-            return (
-                (item.state.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    item.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    item.pincode.includes(searchTerm)) &&
-                item.proname === decodedName
-            );
-        });
-        setFilteredData(filteredProviders);
-    };
 
     return (
         <div>
@@ -64,8 +51,8 @@ const Services = () => {
                                         </div>
                                     </div>
                                     <div className="mt-16 flex flex-col items-center">
-                                        <h4 className="text-xl font-bold text-navy-700 dark:text-white">
-                                            {item.name}
+                                        <h4 className="text-xl font-bold text-navy-700">
+                                            {item.fname+" "+item.lname}
                                         </h4>
                                         <p className="text-base font-normal text-gray-600">State: {item.state}</p>
                                         <p className="text-base font-normal text-gray-600">City: {item.city}</p>
