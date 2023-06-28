@@ -1,5 +1,7 @@
 const User= require('../models/user');
 const Pro=require('../models/provider')
+const Message=require('../models/message')
+
 const signup=async(req,res)=>{
     try {
         console.log("SignUp Client")
@@ -92,4 +94,14 @@ const service=async(req,res)=>{
     }
 }
 
-module.exports={signin,signup,signout,service};
+const create=async()=>{
+    try {
+        // const {user,provider}=req.body;
+        console.log(req.body);
+        // const userExist=Message.findOne({$and:[{user:{$regex:}}]})
+    } catch (error) {
+        res.status(401).send("Error in create")  
+    }
+}
+
+module.exports={signin,signup,signout,service,create};

@@ -1,5 +1,5 @@
 const router=require('express')();
-const {signin,signup,signout,service} = require('../controllers/client');
+const {signin,signup,signout,service,create} = require('../controllers/client');
 const {authenticateUser} = require('../middleware/authenticate');
 
 /**Post Method */
@@ -12,6 +12,7 @@ router.route('/signin').post(signin);
 
 router.route('/signout').get(authenticateUser,signout);
 router.route('/service').get(authenticateUser,service);
+router.route('/create').post(authenticateUser,create);
 
 
 module.exports = router;

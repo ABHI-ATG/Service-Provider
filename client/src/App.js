@@ -7,6 +7,7 @@ import SignInUser from './LoginUser/Signup'
 import SignInPro from './LoginProvider/Register'
 import LogoutUser from './LoginUser/Logout';
 import LogoutPro from './LoginProvider/Logout'
+import Chat from './Chat/Chat'
 import Home from './Home/Home';
 import Footer from './Footer/Footer'
 import Nav from './Nav/Nav'
@@ -41,6 +42,7 @@ const App=()=>{
                 <Route path='/out' Component={LogoutPro}/>
                 <Route path='/dashboard' Component={SignInPro}/>
                 <Route path='/Service' Component={Service}/>
+                <Route path='/chat' Component={Chat}/>
             </Routes>
             <Footer id="footer" />
         </userContext.Provider>
