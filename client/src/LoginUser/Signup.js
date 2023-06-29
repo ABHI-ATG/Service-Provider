@@ -68,21 +68,21 @@ const SignIn = () => {
                             <div className="mb-3">
                                 <label className="block">
                                     <span className="text-grey-700">First Name</span>
-                                    <input type='text' className="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder='Enter First Name'  name="fname" value={userData.fname} onChange={onChangeHandle} required />
+                                    <input type='text' className="mt-1 p-2 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder='Enter First Name'  name="fname" value={userData.fname} onChange={onChangeHandle} required />
                                 </label>
                             </div>
 
                             <div className="mb-3">
                                 <label className="block">
                                     <span className="text-grey-700">Last Name</span>
-                                    <input type='text' className="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder='Enter Last Name' name="lname" value={userData.lname} onChange={onChangeHandle} required />
+                                    <input type='text' className="mt-1 block w-full p-2 rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder='Enter Last Name' name="lname" value={userData.lname} onChange={onChangeHandle} required />
                                 </label>
                             </div>
 
                             <div className="mb-3">
                                 <label className="block">
                                     <span className="text-grey-700">Email Address</span>
-                                    <input type='email' className="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder='jondoe@email.com' name="email" value={userData.email} onChange={onChangeHandle}required />
+                                    <input type='email' className="mt-1 p-2 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder='jondoe@email.com' name="email" value={userData.email} onChange={onChangeHandle}required />
                                 </label>
                             </div>
 
@@ -90,7 +90,7 @@ const SignIn = () => {
                             <div className="mb-3">
                                 <label className="block">
                                     <span className="text-grey-700">Phone Number</span>
-                                    <input type='text' minLength='10' maxLength='10' className="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder='Enter Phone Number'name="mobile" value={userData.mobile} onChange={onChangeHandle} required />
+                                    <input type='text' minLength='10' maxLength='10' className="mt-1 p-2 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder='Enter Phone Number'name="mobile" value={userData.mobile} onChange={onChangeHandle} required />
                                 </label>
                             </div>
 
@@ -100,7 +100,7 @@ const SignIn = () => {
                                     <div className=' flex '>
                                         <input
                                             type={showPassword ? 'text' : 'password'}
-                                            className="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
+                                            className="mt-1 p-2 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
                                             placeholder="Password" name="password" value={userData.password} onChange={onChangeHandle}
                                             required
                                         />
@@ -121,7 +121,7 @@ const SignIn = () => {
                                     <div className=' flex '>
                                         <input
                                             type={showPassword ? 'text' : 'password'}
-                                            className="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
+                                            className="mt-1 p-2 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
                                             placeholder="Confirm Password"
                                             name='cpassword' value={userData.cpassword} onChange={onChangeHandle}
                                             required

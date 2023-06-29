@@ -48,10 +48,10 @@ export default function Nav() {
                             }`}
                     >
                         <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
-                            <li className="text-gray-600 font-bold hover:text-blue-600">
+                            <li className="text-gray-600 font-bold text-lg hover:text-blue-600">
                                 <Link to="/">Home</Link>
                             </li>
-                            <li className="text-gray-600 font-bold hover:text-blue-600">
+                            <li className="text-gray-600 text-lg font-bold hover:text-blue-600">
                                 <ScrollLink
                                     to="footer"
                                     smooth={true}
@@ -62,11 +62,11 @@ export default function Nav() {
                                     <button> Professionals</button>
                                 </ScrollLink>
                             </li>
-                            {state?(state==1?(<li className="text-gray-600 font-bold hover:text-blue-600">
+                            {state?(state==1?(<li className="text-gray-600 text-lg font-bold hover:text-blue-600">
                                 <Link to="/logout">LogOut</Link>
-                            </li>):(<li className="text-gray-600 font-bold hover:text-blue-600">
+                            </li>):(<li className="text-gray-600 font-bold text-lg hover:text-blue-600">
                                 <Link to="/out">LogOut</Link>
-                            </li>)):(<li className="text-gray-600 font-bold hover:text-blue-600">
+                            </li>)):(<li className="text-gray-600 font-bold text-lg hover:text-blue-600">
                                 <Link to="/signin">SignIn</Link>
                             </li>)}
                         </ul>
