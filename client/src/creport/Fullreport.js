@@ -4,6 +4,7 @@ import ProjectCompleted from './ProjectCompleted'
 import YearsMarket from './YearsMarket'
 import HappyCustomer from './HappyCustomer'
 
+
 export default function Fullreport() {
   return (
     <div>
@@ -13,7 +14,7 @@ export default function Fullreport() {
         <YearsMarket />
         <HappyCustomer />
       </div>
-      <div className=' flex justify-center  '>
+      <div className=' flex ml-8 justify-center  '>
         <img src='./Images/aa.png' alt='ourServices'  />
       </div>
     </div>

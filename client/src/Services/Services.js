@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Providers from './Providers';
+import ErrorPage from '../errorPage/ErrorPage'
 import axios from 'axios'
+import Spinner from "../spinner/Spinner";
 
 const Services = () => {
     const state="uttar Pradesh";
@@ -14,22 +16,26 @@ const Services = () => {
     const decodedName = decodeURIComponent(encodedName);
 
     const [filteredData, setFilteredData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         searchApi();
-    },[]);
+    }, []);
 
-    const searchApi=async (data)=>{
+    const searchApi = async () => {
         try {
-            let work=window.location.href.split('?')[1];
-            const data=await axios.get(`/api/client/service?state=${state}&city=${city}&pincode=${pincode}&work=${work}`,{headers:{
-                Authorization:localStorage.getItem('token')
-            }})
-            setFilteredData(data.data);
-            console.log(data.data);
-            
+            let work = window.location.href.split('?')[1];
+            const response = await axios.get(`/api/client/service?state=${state}&city=${city}&pincode=${pincode}&work=${work}`, {
+                headers: {
+                    Authorization: localStorage.getItem('token')
+                }
+            });
+            setFilteredData(response.data);
+            setIsLoading(false);
+            console.log(response.data);
         } catch (error) {
             console.log(error);
+            setIsLoading(false);
         }
     }
 
@@ -44,40 +50,31 @@ const Services = () => {
                 <h1 className="text-center text-6xl text-stone-800" style={{ fontFamily: "fantasy" }}>{decodedName} Services</h1>
             </div>
             <div>
-                {filteredData.length > 0 ? (
-                    <div className="flex flex-wrap my-5 justify-center">
-                        {filteredData.map((item, index) => (
-                            <div key={index} className="flex justify-center my-5 mx-10">
-                                <div className="relative flex-col items-center shadow-2xl rounded-[20px] px-2">
-                                    <div className="relative flex h-32 w-full justify-center rounded-xl bg-cover">
-                                        <img src='https://thumbs.dreamstime.com/b/repair-home-service-concept-house-construction-150505168.jpg' className="absolute flex h-32 w-full justify-center rounded-xl bg-cover" />
-                                        <div className="absolute -bottom-12 flex h-[87px] w-[87px] items-center justify-center rounded-full border-[4px] border-white ">
-                                            <img className="h-full w-full rounded-full" src='https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' alt="" />
-                                        </div>
-                                    </div>
-                                    <div className="mt-16 flex flex-col items-center">
-                                        <h4 className="text-xl font-bold text-navy-700">
-                                            {item.fname+" "+item.lname}
-                                        </h4>
-                                        <p className="text-base font-normal text-gray-600">State: {item.state}</p>
-                                        <p className="text-base font-normal text-gray-600">City: {item.city}</p>
-                                        <p className="text-base font-normal text-gray-600">Pincode: {item.pincode}</p>
-                                    </div>
-                                    <div className=" flex flex-col">
-                                        <div className="mt-6 mb-3 flex gap-14 md:!gap-14">
-                                            <div className="flex flex-col items-center justify-center">
-                                                <p className="text-2xl font-bold text-navy-700 dark:text-white">{item.experience}</p>
-                                                <p className="text-sm font-normal text-gray-600">Years Of Experienced</p>
-                                            </div>
-                                            <div className="flex flex-col items-center justify-center">
-                                                <p className="text-2xl font-bold text-navy-700 dark:text-white">
-                                                    4.5/10
-                                                </p>
-                                                <p className="text-sm font-normal text-gray-600">Rating</p>
+                {isLoading ? (
+                     <Spinner/>
+                   
+                ) : (
+                    filteredData.length > 0 ? (
+                        <div className="flex flex-wrap my-5 justify-center">
+                            {filteredData.map((item, index) => (
+                                <div key={index} className="flex justify-center my-5 mx-10">
+                                    <div className="relative flex-col items-center shadow-2xl rounded-[20px] px-2">
+                                        <div className="relative flex h-32 w-full justify-center rounded-xl bg-cover">
+                                            <img src='https://thumbs.dreamstime.com/b/repair-home-service-concept-house-construction-150505168.jpg' className="absolute flex h-32 w-full justify-center rounded-xl bg-cover" />
+                                            <div className="absolute -bottom-12 flex h-[87px] w-[87px] items-center justify-center rounded-full border-[4px] border-white ">
+                                                <img className="h-full w-full rounded-full" src='https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' alt="" />
                                             </div>
                                         </div>
+                                        <div className="mt-16 mx-20 mb-5  items-center">
+                                            <h4 className="text-xl text-center font-bold text-navy-700">
+                                                {item.fname + " " + item.lname}
+                                            </h4>
+                                            <p className="text-base text-center font-normal text-gray-600">State: {item.state}</p>
+                                            <p className="text-base text-ellipsis font-normal text-gray-600">City: {item.city}</p>
+                                            <p className="text-base text-center font-normal text-gray-600">Pincode: {item.pincode}</p>
+                                        </div>
+                                        <div className=" flex flex-col">
 
-                                        <div className=" flex-col justify-center">
 
                                             <div className=" flex justify-center">
                                                 <button onClick={()=>chatProvider(item._id)} type="button" className="text-gray-900 bg-[#00BFFF] hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-[#00BFFF]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#00BFFF]/50 mr-2 mb-2">
@@ -88,15 +85,15 @@ const Services = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <p>No data available for {decodedName}</p>
+                            ))}
+                        </div>
+                    ) : (
+                        <p><ErrorPage /></p>
+                    )
                 )}
             </div>
         </div>
     );
-};
+}
 
 export default Services;
