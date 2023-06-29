@@ -49,11 +49,10 @@ const Chat = () => {
           <br/>
           {proData.state}
           <br/>
-
         </div>
         {/* Chat code */}
         <div>
-
+          
         </div>
     </div>
   )
