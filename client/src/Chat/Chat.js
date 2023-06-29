@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 
 const Chat = () => {
+
+  const [room,setRoom]=useState("");
+  const [proData,setProData]=useState([]);
 
   const create=async()=>{
     try {
@@ -10,13 +13,15 @@ const Chat = () => {
         user:localStorage.getItem('id'),
         provider:proId
       },{
-        method:"POST",
         headers:{
-        Authorization:localStorage.getItem('token'),
-      }})
-      console.log(create)
+          Authorization:localStorage.getItem('token')
+        }
+      })
+      setProData(create.data.provider);
+      console.log(create.data)
     } catch (error) {
-      console.log("Error in creating")   
+      console.log("Error in creating")  
+      console.log(error); 
     }
   }
 
@@ -26,7 +31,30 @@ const Chat = () => {
 
   return (
     <div>
-        hello
+        {/* Provider Details */}
+        <div>
+          {proData.city}
+          <br/>
+          {proData.email}
+          <br/>
+          {proData.fname}
+          <br/>
+          {proData.lname}
+          <br/>
+          {proData.mobile}
+          <br/>
+          {proData.pincode}
+          <br/>
+          {proData.profession}
+          <br/>
+          {proData.state}
+          <br/>
+
+        </div>
+        {/* Chat code */}
+        <div>
+
+        </div>
     </div>
   )
 }
