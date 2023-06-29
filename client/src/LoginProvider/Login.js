@@ -62,7 +62,7 @@ const Loginn = () => {
                             <div className="mb-3 w-80">
                                 <label className="block">
                                     <span className="text-grey-700 text-lg">Email Address</span>
-                                    <input type='email' className="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder='jondoe@email.com' required name="email" value={email}
+                                    <input type='email' className="mt-1 p-2 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder='jondoe@email.com' required name="email" value={email}
                                     onChange={(e)=>setEmail(e.target.value)}/>
                                 </label>
                             </div>
@@ -73,7 +73,7 @@ const Loginn = () => {
                                     <div className=' flex '>
                                         <input
                                             type={showPassword ? 'text' : 'password'}
-                                            className="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
+                                            className="mt-1 p-2 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
                                             placeholder="Password"
                                             name="password" value={password}
                                     onChange={(e)=>setPassword(e.target.value)}
