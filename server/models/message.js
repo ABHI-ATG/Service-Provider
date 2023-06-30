@@ -7,7 +7,7 @@ const Message = new mongoose.Schema({
     },
     provider:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Provider"
+        ref:'Provider'
     },
     message:[{
             sender:{
