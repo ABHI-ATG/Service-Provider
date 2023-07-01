@@ -1,5 +1,7 @@
 const User= require('../models/user');
 const Pro=require('../models/provider')
+const Message=require('../models/message')
+
 const signup=async(req,res)=>{
     try {
         console.log("SignUp Client")
@@ -92,4 +94,21 @@ const service=async(req,res)=>{
     }
 }
 
-module.exports={signin,signup,signout,service};
+const create=async(req,res)=>{
+    try {
+        const {user,provider}=req.body;
+        console.log(req.body);
+        const userExist=await Message.findOne({$and:[{user:user},{provider:provider}]}).populate('provider');
+        console.log("hello world");
+        console.log(userExist);
+        if(userExist){
+            return res.status(200).json(userExist);
+        }
+        const data=await Message.create({user,provider});
+        return res.status(200).json(data);
+    } catch (error) {
+        res.status(401).send("Error in create")  
+    }
+}
+
+module.exports={signin,signup,signout,service,create};
