@@ -73,7 +73,7 @@ const Chat = () => {
                 />
                 {!image && (
                   <img
-                    src="./icons/Default.png" // Replace with your default image path
+                    src="./icons/Default.png" 
                     alt="Default Image"
                     className="block rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 object-cover object-center cursor-pointer"
                     onClick={handleDefaultImageClick}
