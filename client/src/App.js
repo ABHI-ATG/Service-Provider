@@ -36,9 +36,9 @@ const App=()=>{
                 <Route path='/' Component={Home}/>
                 <Route path='/signin' Component={LoginUser}/>
                 <Route path='/signup' Component={SignInUser}/>
+                <Route path='/logout' Component={LogoutUser}/>
                 <Route path='/login' Component={LoginPro}/>
                 <Route path='/register' Component={SignInPro}/>
-                <Route path='/logout' Component={LogoutUser}/>
                 <Route path='/out' Component={LogoutPro}/>
                 <Route path='/dashboard' Component={SignInPro}/>
                 <Route path='/Service' Component={Service}/>

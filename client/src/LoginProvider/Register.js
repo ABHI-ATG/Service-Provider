@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios'
+import url from '../url'
 
 const citiesByState = [
     {
@@ -68,7 +69,7 @@ const SignInn = () => {
 
         const { fname, lname, email, mobile, state, district, pincode, city, profession, password, cpassword } = userData;
         console.log(userData);
-        const data = await axios.post('/api/provider/signup',{
+        const data = await axios.post(`${url}/api/provider/signup`,{
             fname, lname, email, mobile, state, city, pincode, profession, password
         } ,{
             headers: {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaStar } from "react-icons/fa";
-
+import url from '../url'
 
 const Chat = () => {
   const [room, setRoom] = useState('');
@@ -14,7 +14,7 @@ const Chat = () => {
     try {
       const proId = window.location.href.split('?id=')[1];
       const create = await axios.post(
-        '/api/client/create',
+        `${url}/api/client/create`,
         {
           user: localStorage.getItem('id'),
           provider: proId,
@@ -56,7 +56,7 @@ const Chat = () => {
   }, []);
 
   return (
-    <div>
+    <div className='flex'>
       <div className="font-sans antialiased text-gray-900 leading-normal tracking-wider bg-cover">
         <div className="flex justify-center items-center h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0">
           <div
@@ -121,7 +121,17 @@ const Chat = () => {
           </div>
         </div>
       </div>
-      {/* Chat code */}
+      <div className='bg-green w-48 h-48'>
+        {/* Chat code */}
+        
+        <div>Provider Message</div>
+        <div>User Message</div>
+
+        <div>
+          <input type="text" placeholder='Type...'/>
+          <button>&gt;</button>
+        </div>
+      </div>
     </div>
   );
 };
