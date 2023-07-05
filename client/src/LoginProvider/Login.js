@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { userContext } from '../App';
 import axios from 'axios'
+import url from '../url'
 
 const Loginn = () => {
     const {state,dispatch}=useContext(userContext);  
@@ -19,7 +20,7 @@ const Loginn = () => {
     const onSubmit=async (e)=>{
       e.preventDefault();
   
-      const data=await axios.post('/api/provider/signin',{
+      const data=await axios.post(`${url}/api/provider/signin`,{
         email,password
         },{
           headers:{

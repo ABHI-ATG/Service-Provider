@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios'
+import url from '../url'
 
 const SignIn = () => {  
     const navigate=useNavigate();
@@ -29,7 +30,7 @@ const SignIn = () => {
 
         const {fname,lname,email,mobile,password,cpassword}=userData;
         console.log(userData);
-        const data=await axios.post('/api/client/signup',{
+        const data=await axios.post(`${url}/api/client/signup`,{
             fname:fname,lname:lname,email:email,mobile:mobile,password:password,cpassword:cpassword
             },{
             headers:{

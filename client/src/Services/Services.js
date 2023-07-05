@@ -4,6 +4,7 @@ import Providers from './Providers';
 import ErrorPage from '../errorPage/ErrorPage'
 import axios from 'axios'
 import Spinner from "../spinner/Spinner";
+import url from '../url'
 
 const Services = () => {
     const state="uttar Pradesh";
@@ -25,7 +26,7 @@ const Services = () => {
     const searchApi = async () => {
         try {
             let work = window.location.href.split('?')[1];
-            const response = await axios.get(`/api/client/service?state=${state}&city=${city}&pincode=${pincode}&work=${work}`, {
+            const response = await axios.get(`${url}/api/client/service?state=${state}&city=${city}&pincode=${pincode}&work=${work}`, {
                 headers: {
                     Authorization: localStorage.getItem('token')
                 }

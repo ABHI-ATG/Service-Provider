@@ -2,6 +2,7 @@ import { useContext, useEffect } from 'react';
 import {useNavigate } from 'react-router-dom';
 import { userContext } from '../App';
 import axios from 'axios';
+import url from '../url'
 
 const Login = () => {
     const navigate=useNavigate();
@@ -9,7 +10,7 @@ const Login = () => {
 
     const callLogOut=async()=>{
         try{
-            const res=await axios.get('/api/provider/signout',{
+            const res=await axios.get(`${url}/api/provider/signout`,{
                 headers:{
                     Authorization:localStorage.getItem('token'),
                     "Content-Type":"application/json"
