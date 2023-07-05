@@ -56,7 +56,7 @@ const Chat = () => {
   }, []);
 
   return (
-    <div className='flex'>
+    <div className>
       <div className="font-sans antialiased text-gray-900 leading-normal tracking-wider bg-cover">
         <div className="flex justify-center items-center h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0">
           <div
@@ -121,8 +121,8 @@ const Chat = () => {
           </div>
         </div>
       </div>
-      <div className='bg-green w-48 h-48'>
-        {/* Chat code */}
+      {/* <div className='bg-green w-48 h-48'>
+       
         
         <div>Provider Message</div>
         <div>User Message</div>
@@ -131,7 +131,7 @@ const Chat = () => {
           <input type="text" placeholder='Type...'/>
           <button>&gt;</button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
