@@ -173,7 +173,7 @@ const SignInn = () => {
                                     {userData.password && (
                                         <FontAwesomeIcon
                                             icon={showPassword ? faEyeSlash : faEye}
-                                            className="eye-icon -ml-6 mb-3"
+                                            className="eye-icon -ml-6 mb-6"
                                             onClick={toggleShowPassword}
                                         />
                                     )}
@@ -183,7 +183,7 @@ const SignInn = () => {
                                     {userData.password && (
                                         <FontAwesomeIcon
                                             icon={showPassword ? faEyeSlash : faEye}
-                                            className="eye-icon -ml-6 mb-3"
+                                            className="eye-icon -ml-6 mb-6 "
                                             onClick={toggleShowPassword}
                                         />
                                     )}
