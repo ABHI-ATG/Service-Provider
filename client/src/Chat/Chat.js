@@ -1,37 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { userContext } from '../App';
+import { useContext } from 'react';
+import url from '../url';
 import { FaStar } from "react-icons/fa";
-import url from '../url'
+import { useNavigate } from 'react-router-dom';
 
 const Chat = () => {
-  const [room, setRoom] = useState('');
-  const [proData, setProData] = useState([]);
+
+  const navigate=useNavigate();
+
+  const {state:{provider}}=useContext(userContext);
+
   const [image, setImage] = useState(null);
   const [rated, setRated] = useState(4);
  
-
-  const create = async () => {
-    try {
-      const proId = window.location.href.split('?id=')[1];
-      const create = await axios.post(
-        `${url}/api/client/create`,
-        {
-          user: localStorage.getItem('id'),
-          provider: proId,
-        },
-        {
-          headers: {
-            Authorization: localStorage.getItem('token'),
-          },
-        }
-      );
-      setProData(create.data.provider);
-      console.log(create.data);
-    } catch (error) {
-      console.log('Error in creating');
-      console.log(error);
-    }
-  };
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -50,13 +32,11 @@ const Chat = () => {
     // Trigger click event on the hidden file input
     document.getElementById('imageInput').click();
   };
-
-  useEffect(() => {
-    create();
-  }, []);
-
+  
   return (
-    <div className>
+    <>
+      <div>
+      <div className>
       <div className="font-sans antialiased text-gray-900 leading-normal tracking-wider bg-cover">
         <div className="flex justify-center items-center h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0">
           <div
@@ -87,12 +67,12 @@ const Chat = () => {
                   />
                 )}
               </div>
-              <h1 className="text-3xl text-center font-bold pt-8 lg:pt-0">{proData.fname}  {proData.lname}</h1>
-              <p className="pt-4 text-base text-center  font-bold flex items-center justify-center "><svg className="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9 12H1v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-8v2H9v-2zm0-1H0V5c0-1.1.9-2 2-2h4V2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v6h-9V9H9v2zm3-8V2H8v1h4z" /></svg>{proData.profession}</p>
-              <p className="pt-2 text-gray-600 text-center text-xs lg:text-sm flex items-center justify-center "><svg className="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm7.75-8a8.01 8.01 0 0 0 0-4h-3.82a28.81 28.81 0 0 1 0 4h3.82zm-.82 2h-3.22a14.44 14.44 0 0 1-.95 3.51A8.03 8.03 0 0 0 16.93 14zm-8.85-2h3.84a24.61 24.61 0 0 0 0-4H8.08a24.61 24.61 0 0 0 0 4zm.25 2c.41 2.4 1.13 4 1.67 4s1.26-1.6 1.67-4H8.33zm-6.08-2h3.82a28.81 28.81 0 0 1 0-4H2.25a8.01 8.01 0 0 0 0 4zm.82 2a8.03 8.03 0 0 0 4.17 3.51c-.42-.96-.74-2.16-.95-3.51H3.07zm13.86-8a8.03 8.03 0 0 0-4.17-3.51c.42.96.74 2.16.95 3.51h3.22zm-8.6 0h3.34c-.41-2.4-1.13-4-1.67-4S8.74 3.6 8.33 6zM3.07 6h3.22c.2-1.35.53-2.55.95-3.51A8.03 8.03 0 0 0 3.07 6z" /></svg> Your Location : City - {proData.city} <br /> State - {proData.state} , Pincode - {proData.pincode} </p>
+              <h1 className="text-3xl text-center font-bold pt-8 lg:pt-0">{provider.fname}  {provider.lname}</h1>
+              <p className="pt-4 text-base text-center  font-bold flex items-center justify-center "><svg className="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9 12H1v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-8v2H9v-2zm0-1H0V5c0-1.1.9-2 2-2h4V2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v6h-9V9H9v2zm3-8V2H8v1h4z" /></svg>{provider.profession}</p>
+              <p className="pt-2 text-gray-600 text-center text-xs lg:text-sm flex items-center justify-center "><svg className="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm7.75-8a8.01 8.01 0 0 0 0-4h-3.82a28.81 28.81 0 0 1 0 4h3.82zm-.82 2h-3.22a14.44 14.44 0 0 1-.95 3.51A8.03 8.03 0 0 0 16.93 14zm-8.85-2h3.84a24.61 24.61 0 0 0 0-4H8.08a24.61 24.61 0 0 0 0 4zm.25 2c.41 2.4 1.13 4 1.67 4s1.26-1.6 1.67-4H8.33zm-6.08-2h3.82a28.81 28.81 0 0 1 0-4H2.25a8.01 8.01 0 0 0 0 4zm.82 2a8.03 8.03 0 0 0 4.17 3.51c-.42-.96-.74-2.16-.95-3.51H3.07zm13.86-8a8.03 8.03 0 0 0-4.17-3.51c.42.96.74 2.16.95 3.51h3.22zm-8.6 0h3.34c-.41-2.4-1.13-4-1.67-4S8.74 3.6 8.33 6zM3.07 6h3.22c.2-1.35.53-2.55.95-3.51A8.03 8.03 0 0 0 3.07 6z" /></svg> Your Location : City - {provider.city} <br /> State - {provider.state} , Pincode - {provider.pincode} </p>
               <div className=' pt-8'>
-                <p className=" text-sm text-center "><span className=' font-bold text-base '>Email</span> - {proData.email}  </p>
-                <p className=" text-sm text-center  "><span className=' font-bold text-base '>Phone Number</span> - {proData.mobile}  </p>
+                <p className=" text-sm text-center "><span className=' font-bold text-base '>Email</span> - {provider.email}  </p>
+                <p className=" text-sm text-center  "><span className=' font-bold text-base '>Phone Number</span> - {provider.mobile}  </p>
                 <p className=" text-sm text-center  "><span className=' font-bold text-base '>Experience</span> - // take experience data  </p>
               </div>
 
@@ -113,7 +93,7 @@ const Chat = () => {
               </div>
 
               <div className="pt-12 pb-8 flex justify-center">
-                <button className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 w-32 rounded-full">
+                <button onClick={()=>navigate('/chatting')} className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 w-32 rounded-full">
                   Chat
                 </button>
               </div>
@@ -133,7 +113,10 @@ const Chat = () => {
         </div>
       </div> */}
     </div>
-  );
+    </div>
+
+    </>
+  )
 };
 
 export default Chat;

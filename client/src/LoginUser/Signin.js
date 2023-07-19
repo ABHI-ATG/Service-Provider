@@ -8,7 +8,7 @@ import url from '../url'
 
 const Login = () => {
 
-  const {state,dispatch}=useContext(userContext);  
+  const {dispatch}=useContext(userContext);  
 
   const navigate=useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -37,7 +37,7 @@ const Login = () => {
         localStorage.setItem("id",data.data.id);
         localStorage.setItem("token",data.data.token);
         localStorage.setItem("name",data.data.name);
-        dispatch({type:"USER",payload:1});
+        dispatch({type:"online",payload:1});
         navigate('/');
     }
 }
@@ -49,7 +49,7 @@ const Login = () => {
       <div className="w-full h-4/5 grid grid-cols-1 md:grid-cols-2 justify-items-center items-center">
         <div className="loginForm rounded-2xl w-11/12 md:w-8/12 h-4/5 md:h-5/6 p-5">
           <div className="loginForm__title text-5xl font-medium">
-            Login<span className=" text-sky-400">.</span>
+            SignIn<span className=" text-sky-400">.</span>
           </div>
 
           <div className="loginForm__subtitle py-5 text-base">

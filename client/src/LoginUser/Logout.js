@@ -5,7 +5,7 @@ import axios from 'axios';
 import url from '../url'
 
 const Logout = () => {
-    const {state,dispatch}=useContext(userContext);  
+    const {dispatch}=useContext(userContext);  
     const navigate=useNavigate();
 
     const callLogOut=async()=>{
@@ -24,7 +24,7 @@ const Logout = () => {
                 localStorage.removeItem("id");
                 localStorage.removeItem("token");
                 localStorage.removeItem("name");
-                dispatch({type:"USER",payload:0});
+                dispatch({type:"offline"});
                 navigate('/');
             }
         }catch(err){

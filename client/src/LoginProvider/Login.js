@@ -7,7 +7,7 @@ import axios from 'axios'
 import url from '../url'
 
 const Loginn = () => {
-    const {state,dispatch}=useContext(userContext);  
+    const {dispatch}=useContext(userContext);  
     const navigate=useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [password, setPassword] = useState('');
@@ -34,9 +34,9 @@ const Loginn = () => {
         localStorage.setItem("id",data.data.id);
         localStorage.setItem("token",data.data.token);
         localStorage.setItem("name",data.data.name);
-            dispatch({type:"USER",payload:2});
-          console.log("Success");
-          navigate('/');
+        dispatch({type:"online",payload:2});
+        console.log("Success");
+        navigate('/');
       }
   }
 

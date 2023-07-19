@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useReducer, useState } from 'react';
 import {Routes,Route} from 'react-router-dom';
 import Service from './Services/Services'
 import LoginUser from './LoginUser/Signin'
@@ -8,6 +8,7 @@ import SignInPro from './LoginProvider/Register'
 import LogoutUser from './LoginUser/Logout';
 import LogoutPro from './LoginProvider/Logout'
 import Chat from './Chat/Chat'
+import Chatting from './Chat/Chatting'
 import Home from './Home/Home';
 import Footer from './Footer/Footer'
 import Nav from './Nav/Nav'
@@ -18,10 +19,22 @@ export const userContext=createContext();
 
 const App=()=>{
     
-    const initialState=0;
+    // onLine, user, provider, message
+    const [initialState,setInitialState]=useState({
+        onLine:1,
+        user:{},
+        provider:{},
+        message:[]
+    });
     const reducer=(state,action)=>{
-        if(action.type==='USER'){
-            return action.payload;
+        if(action.type==='online'){
+            return {...state,onLine:action.payload};
+        }else if(action.type==='offline'){
+            return {...state,onLine:0};
+        }else if(action.type==='user'){
+            return {...state,user:action.payload};
+        }else if(action.type==='provider'){
+            return {...state,provider:action.payload};
         }
         return state;
     }
@@ -43,6 +56,7 @@ const App=()=>{
                 <Route path='/dashboard' Component={SignInPro}/>
                 <Route path='/Service' Component={Service}/>
                 <Route path='/chat' Component={Chat}/>
+                <Route path='/chatting' Component={Chatting}/>
             </Routes>
             <Footer id="footer" />
         </userContext.Provider>
