@@ -62,9 +62,11 @@ export default function Nav() {
                                     <button> Professionals</button>
                                 </ScrollLink>
                             </li>
-                            {onLine?<li className="text-gray-600 text-lg font-bold hover:text-blue-600">
+                            {onLine?(onLine==1?<li className="text-gray-600 text-lg font-bold hover:text-blue-600">
                                 <Link to="/logout">LogOut</Link>
-                            </li>:(<li className="text-gray-600 font-bold text-lg hover:text-blue-600">
+                            </li>:<li className="text-gray-600 text-lg font-bold hover:text-blue-600">
+                                <Link to="/out">LogOut</Link>
+                            </li>):(<li className="text-gray-600 font-bold text-lg hover:text-blue-600">
                                 <Link to="/signin">SignIn</Link>
                             </li>)}
                         </ul>

@@ -16,6 +16,25 @@ const Loginn = () => {
     const toggleShowPassword = () => {
       setShowPassword(!showPassword);
     };
+
+    const messageUpdate=async(token,id)=>{
+        try {
+          const data=await axios.post(`${url}/api/provider/messageUpdate`,{
+            id:id
+          },{
+            method:"POST",
+            headers:{
+                Authorization:token,
+                "Content-Type":"application/json"
+            }
+          })
+          console.log(data)
+          dispatch({type:"messageUpdate",payload:data.data});
+          navigate('/dashboard');
+        } catch (error) {
+          console.log(error);      
+        }
+      }
   
     const onSubmit=async (e)=>{
       e.preventDefault();
@@ -26,17 +45,19 @@ const Loginn = () => {
           headers:{
               "Content-Type":"application/json"
           },
-      })
+      });
   
       if(data.status===400 || !data){
           console.log("Fail to Sign Up");
       }else{
+        console.log("Success");
+        console.log(data.data);
         localStorage.setItem("id",data.data.id);
         localStorage.setItem("token",data.data.token);
-        localStorage.setItem("name",data.data.name);
+        localStorage.setItem("name",data.data.fname);
         dispatch({type:"online",payload:2});
-        console.log("Success");
-        navigate('/');
+        dispatch({type:"provider",payload:data.data});
+        messageUpdate(data.data.token,data.data.id);
       }
   }
 

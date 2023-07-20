@@ -4,12 +4,12 @@ const Message=require('../models/message')
 
 const signup=async(req,res)=>{
     try {
-        console.log("SignUp Client")
         const {fname,lname,email,mobile,password}=req.body;
         if(!fname || !lname || !email || !mobile || !password){
             return res.status(400).send('Enter all details');
         }
         const userExist=await User.findOne({email})
+        console.log(userExist);
         if(userExist){
             return res.status(400).send('User already exist');
         }
@@ -35,7 +35,7 @@ const signin=async(req,res)=>{
             if(isMatch){
                 const token=await userExist.generateToken();
                 res.cookie('jwt',token,{
-                    expires:new Date(Date.now()+10000000000)
+                    expires:new Date(Date.now()+1000000000000)
                 })
                 res.status(200).send({
                     token:token,
@@ -99,16 +99,40 @@ const create=async(req,res)=>{
         const {user,provider}=req.body;
         console.log(req.body);
         const userExist=await Message.findOne({$and:[{user:user},{provider:provider}]}).populate('provider');
-        console.log("hello world");
-        console.log(userExist);
         if(userExist){
-            return res.status(200).json(userExist);
+            return res.status(200).send(userExist);
         }
         const data=await Message.create({user,provider});
-        return res.status(200).json(data);
+        return res.status(200).send(data);
     } catch (error) {
         res.status(401).send("Error in create")  
     }
 }
 
-module.exports={signin,signup,signout,service,create};
+const messageUpdate=async(req,res)=>{
+    try {
+        const {id}=req.body;
+        const data=await Message.find({user:id});
+        console.log(data);
+        return res.status(200).send(data);
+    } catch (error) {
+        res.status(401).send("Error in messageUpdate");
+    }
+}
+
+const send=async(req,res)=>{
+    try {
+        const {chatId,sender,content}=req.body;
+        console.log(req.body);
+        const data = await Message.findOneAndUpdate(
+            { _id: chatId },
+            { $push: { message: { sender, content } } },
+            { new: true }
+          );
+        return res.status(200).send(data);
+    } catch (error) {
+        res.status(401).send("Error in messageUpdate");
+    }
+}
+
+module.exports={signin,signup,signout,service,create,messageUpdate,send};

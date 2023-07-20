@@ -1,4 +1,5 @@
 const Pro= require('../models/provider');
+const Message=require('../models/message')
 
 const signup=async(req,res)=>{
     try {
@@ -28,7 +29,7 @@ const signin=async(req,res)=>{
             return res.status(400).send('Enter all details');
         }
 
-        const userExist=await Pro.findOne({email})
+        let userExist=await Pro.findOne({email})
         if(userExist){
             const isMatch=await userExist.matchPassword(password);
             if(isMatch){
@@ -36,10 +37,16 @@ const signin=async(req,res)=>{
                 res.cookie('jwt',token,{
                     expires:new Date(Date.now()+10000000000)
                 })
-                res.status(200).json({
-                    token:token,
+                return res.status(200).send({
                     id:userExist._id,
-                    name:userExist.fname
+                    token:token,
+                    email:userExist.email,
+                    fname:userExist.fname,
+                    lname:userExist.lname,
+                    city:userExist.city,
+                    mobile:userExist.mobile,
+                    pincode:userExist.pincode,
+                    state:userExist.state,
                 })
             }else{
                 return res.status(400).send('User does not exist');
@@ -65,5 +72,17 @@ const signout=async(req,res)=>{
     }                              
 }
 
+const messageUpdate=async(req,res)=>{
+    try {
+        console.log(req.body);
+        const {id}=req.body;
+        const data=await Message.find({provider:id}).populate('user');
+        console.log(data);
+        return res.status(200).send(data);
+    } catch (error) {
+        res.status(401).send("Error in messageUpdate");
+    }
+}
 
-module.exports={signin,signup,signout};
+
+module.exports={signin,signup,signout,messageUpdate};

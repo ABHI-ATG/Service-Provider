@@ -19,6 +19,25 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
+
+  const messageUpdate=async(token,id)=>{
+    try {
+      const data=await axios.post(`${url}/api/client/messageUpdate`,{
+        id:id
+      },{
+        method:"POST",
+        headers:{
+            Authorization:token,
+            "Content-Type":"application/json"
+        }
+      })
+      dispatch({type:"messageUpdate",payload:data.data});
+      navigate('/');
+    } catch (error) {
+      console.log(error);      
+    }
+  }
+
   const onSubmit=async (e)=>{
     e.preventDefault();
 
@@ -38,7 +57,8 @@ const Login = () => {
         localStorage.setItem("token",data.data.token);
         localStorage.setItem("name",data.data.name);
         dispatch({type:"online",payload:1});
-        navigate('/');
+        dispatch({type:"user",payload:data.data});
+        messageUpdate(data.data.token,data.data.id);
     }
 }
 
