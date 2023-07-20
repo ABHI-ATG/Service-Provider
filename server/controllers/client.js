@@ -6,27 +6,26 @@ const signup=async(req,res)=>{
     try {
         const {fname,lname,email,mobile,password}=req.body;
         if(!fname || !lname || !email || !mobile || !password){
-            return res.status(400).send('Enter all details');
+            return res.json({ status: false,msg: "Enter all detials" });
         }
         const userExist=await User.findOne({email})
         console.log(userExist);
         if(userExist){
-            return res.status(400).send('User already exist');
+            return res.json({ status: false,msg: "User already exists!" });
         }
         const data=await User.create({fname,lname,email,mobile,password})
-        res.status(200).send("Account Created Successfully")
+        res.json({ status:true,msg:"Account created" });
     } catch (error) {
-        return res.status(404).send(error);
+        return res.json({ status: false,msg: error });
     }
 }
 
 const signin=async(req,res)=>{
     try {
-        console.log("SignIn Client")
         const {email , password}=req.body;
         
         if(!email || !password){
-            return res.status(400).send('Enter all details');
+            return res.json({ status: false,msg: "Fill all details" });
         }
 
         const userExist=await User.findOne({email})
@@ -43,13 +42,13 @@ const signin=async(req,res)=>{
                     name:userExist.fname
                 })
             }else{
-                return res.status(400).send('User does not exist');
+                return res.json({ status: false,msg:"Credentials do not match" });
             }
         }else{  
-            return res.status(400).send('User does not exist');
+            return res.json({ status: false,msg:"User does not exists" });
         }
     } catch (error) {
-        return res.status(404).send(error);
+        return res.json({ status: false,msg: error });
     }
 }
 
