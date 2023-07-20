@@ -1,0 +1,11 @@
+.Complete{
+    background-color: #BFBDC1;
+}
+.MainWrapper{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-evenly;
+    background-color:#6D6A75;
+    align-content: center;
+}
