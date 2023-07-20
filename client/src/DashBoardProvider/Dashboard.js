@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { userContext } from "../App";
-import style from '../Css/dashboard.css'
+import style from "../Css/dashboard.css";
 const Dashboard = () => {
   const {
     state: { provider, message },
@@ -8,26 +8,34 @@ const Dashboard = () => {
   console.log(message);
   console.log(provider);
   return (
-    <div className="Complete">
-      <div className="MainWrapper">
-        <div>{provider.fname}  fnam lname {provider.lname}</div>
-        <div>{provider.mobile} mobile</div>
-        <div>{provider.email} email</div>
-        <div>{provider.pincode} pincode</div>
-        <div>{provider.state} state</div>
-        <div>{provider.city} city</div>
-      </div>
-      <div>
-        <h1>fname lname</h1>
-        <p>Hi! message h  ere</p>
-        {message.map((item) => {
-          return (
-            <div>
-              <h1> fname lname {item.user.fname + " " + item.user.lname}</h1>
-              <p> Hi! message here +{item.latest}</p>
-            </div>
-          );
-        })}
+    <div className="MainWrapper">
+      <div className="Complete">
+        <div className="Container">
+          <div className="Brand">
+            <h3>CONTACT INFO</h3>
+          </div>
+          <div className="Current-details">
+            {provider.fname} {provider.lname}
+            <div>{provider.mobile}</div>
+            <div>{provider.email}</div>
+            <div>{provider.pincode}</div>
+            <div>{provider.state}</div>
+            <div>{provider.city}</div>
+          </div>
+        </div>
+        <div>
+          {message.map((item) => {
+            return (
+              <div>
+                <h1 className="contact">
+                  {" "}
+                   {item.user.fname + " " + item.user.lname}
+                </h1>
+                <div className="message">{item.latest}</div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
