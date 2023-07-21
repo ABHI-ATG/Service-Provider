@@ -30,19 +30,23 @@ const SignIn = () => {
 
         const {fname,lname,email,mobile,password,cpassword}=userData;
         console.log(userData);
-        const data=await axios.post(`${url}/api/client/signup`,{
-            fname:fname,lname:lname,email:email,mobile:mobile,password:password,cpassword:cpassword
-            },{
-            headers:{
-                "Content-Type":"application/json"
+        try {
+            const data=await axios.post(`${url}/api/client/signup`,{
+                fname:fname,lname:lname,email:email,mobile:mobile,password:password,cpassword:cpassword
+                },{
+                headers:{
+                    "Content-Type":"application/json"
+                }
+            })
+            console.log(data);
+            if(data.status===400 || !data){
+                console.log("Fail to Sign Up");
+            }else{
+                console.log("Success");
+                navigate('/signin');
             }
-        })
-        console.log(data);
-        if(data.status===400 || !data){
-            console.log("Fail to Sign Up");
-        }else{
-            console.log("Success");
-            navigate('/signin');
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -59,7 +63,7 @@ const SignIn = () => {
                         Already have an account?
                         <span className="ml-2 text-sky-400 font-medium">
                             <Link to='/signin'>
-                                Login
+                                SingIn
                             </Link>
                         </span>
                     </div>
@@ -139,7 +143,7 @@ const SignIn = () => {
                             </div>
 
                             <div className="mt-6">
-                                <input className="py-3 w-24 bg-sky-400 text-white rounded-full" type="submit" onClick={onSubmit} value="Sign Up"/>
+                                <input className="py-3 w-24 bg-sky-400 text-white rounded-full" type="submit" onClick={onSubmit} value="SignUp"/>
                             </div>
                         </form>
                     </div>

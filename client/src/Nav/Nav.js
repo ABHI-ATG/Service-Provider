@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Link as ScrollLink, animateScroll as scroll } from 'react-scroll';
-import {  useContext, useState } from 'react';
+import {  useContext, useEffect, useState } from 'react';
 import { userContext } from '../App';
 
 export default function Nav() {
@@ -13,7 +13,7 @@ export default function Nav() {
         });
     };
 
-    const {state,dispatch}=useContext(userContext);
+    const {state:{onLine}}=useContext(userContext);
 
     return (
         <nav className="w-full bg-white">
@@ -62,9 +62,11 @@ export default function Nav() {
                                     <button> Professionals</button>
                                 </ScrollLink>
                             </li>
-                            {localStorage.getItem('name')?<li className="text-gray-600 text-lg font-bold hover:text-blue-600">
+                            {onLine?(onLine==1?<li className="text-gray-600 text-lg font-bold hover:text-blue-600">
                                 <Link to="/logout">LogOut</Link>
-                            </li>:(<li className="text-gray-600 font-bold text-lg hover:text-blue-600">
+                            </li>:<li className="text-gray-600 text-lg font-bold hover:text-blue-600">
+                                <Link to="/out">LogOut</Link>
+                            </li>):(<li className="text-gray-600 font-bold text-lg hover:text-blue-600">
                                 <Link to="/signin">SignIn</Link>
                             </li>)}
                         </ul>

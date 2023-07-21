@@ -6,7 +6,7 @@ import url from '../url'
 
 const Login = () => {
     const navigate=useNavigate();
-    const {state,dispatch}=useContext(userContext);  
+    const {dispatch}=useContext(userContext);  
 
     const callLogOut=async()=>{
         try{
@@ -20,7 +20,7 @@ const Login = () => {
                 localStorage.removeItem("id");
                 localStorage.removeItem("token");
                 localStorage.removeItem("name");
-                dispatch({type:"USER",payload:0});
+                dispatch({type:"offline"});
                 navigate('/');
             }else{  
                 console.log("Error");
