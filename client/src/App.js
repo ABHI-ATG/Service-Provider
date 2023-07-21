@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useState } from 'react';
+import React, { createContext, useEffect, useReducer, useState } from 'react';
 import {Routes,Route} from 'react-router-dom';
 import Service from './Services/Services'
 import LoginUser from './LoginUser/Signin'
@@ -12,10 +12,14 @@ import Chatting from './Chat/Chatting'
 import Home from './Home/Home';
 import Footer from './Footer/Footer'
 import Dashboard from './DashBoardProvider/Dashboard';
+import Chats from './DashBoardProvider/Chats'
+import Message from './Message/Message'
 import Nav from './Nav/Nav'
 import './Css/index.css'
 import './Css/card.css'
 import './Css/search.css'
+import axios from 'axios';
+import url from './url'
 export const userContext=createContext();
 
 const App=()=>{
@@ -28,6 +32,61 @@ const App=()=>{
         message:[],
         chat:{}
     });
+
+    
+
+    const setProData=async()=>{
+        try {
+            const data=await axios.post(`${url}/api/provider/details`,{
+                id:localStorage.getItem("id")
+              },{
+                method:"POST",
+                headers:{
+                    Authorization:localStorage.getItem("token"),
+                    "Content-Type":"application/json"
+                }
+            })
+          dispatch({type:"messageUpdate",payload:data.data.message});
+          dispatch({type:"provider",payload:data.data.user});
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const setUserData=async()=>{
+        console.log("user");
+        try {
+            const data=await axios.post(`${url}/api/client/details`,{
+                id:localStorage.getItem("id")
+              },{
+                method:"POST",
+                headers:{
+                    Authorization:localStorage.getItem("token"),
+                    "Content-Type":"application/json"
+                }
+            })
+            console.log(data);
+          dispatch({type:"messageUpdate",payload:data.data.message});
+          dispatch({type:"user",payload:data.data.user});
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(()=>{
+        const tmp=localStorage.getItem("onLine");
+        if(tmp && !initialState.onLine){
+            dispatch({type:"online",payload:tmp});
+            if(tmp==1){
+                setUserData();
+            }else{
+                setProData();
+            }
+        }
+    },[])
+
     const reducer=(state,action)=>{
         if(action.type==='online'){
             return {...state,onLine:action.payload};
@@ -79,6 +138,8 @@ const App=()=>{
                 <Route path='/chat' Component={Chat}/>
                 <Route path='/chatting' Component={Chatting}/>
                 <Route path='/dashboard' Component={Dashboard}/>
+                <Route path='/dashboard/chatting' Component={Chats}/>
+                <Route path='/message' Component={Message}/>
             </Routes>
             <Footer id="footer" />
         </userContext.Provider>

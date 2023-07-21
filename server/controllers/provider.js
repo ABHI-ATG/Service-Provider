@@ -72,12 +72,29 @@ const signout=async(req,res)=>{
     }                              
 }
 
-const messageUpdate=async(req,res)=>{
+const details=async(req,res)=>{
     try {
-        console.log(req.body);
         const {id}=req.body;
         const data=await Message.find({provider:id}).populate('user');
-        console.log(data);
+        return res.status(200).send({
+            user:req.rootUser,
+            message:data
+        });
+    } catch (error) {
+        res.status(401).send("Error in messageUpdate");
+    }
+}
+
+
+const send=async(req,res)=>{
+    try {
+        const {chatId,sender,content}=req.body;
+        console.log(req.body);
+        const data = await Message.findOneAndUpdate(
+            { _id: chatId },
+            { $push: { message: { sender, content } } },
+            { new: true }
+          );
         return res.status(200).send(data);
     } catch (error) {
         res.status(401).send("Error in messageUpdate");
@@ -85,4 +102,4 @@ const messageUpdate=async(req,res)=>{
 }
 
 
-module.exports={signin,signup,signout,messageUpdate};
+module.exports={signin,signup,signout,details,send};

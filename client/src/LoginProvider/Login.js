@@ -19,7 +19,7 @@ const Loginn = () => {
 
     const messageUpdate=async(token,id)=>{
         try {
-          const data=await axios.post(`${url}/api/provider/messageUpdate`,{
+          const data=await axios.post(`${url}/api/provider/details`,{
             id:id
           },{
             method:"POST",
@@ -28,8 +28,7 @@ const Loginn = () => {
                 "Content-Type":"application/json"
             }
           })
-          console.log(data)
-          dispatch({type:"messageUpdate",payload:data.data});
+          dispatch({type:"messageUpdate",payload:data.data.message});
           navigate('/dashboard');
         } catch (error) {
           console.log(error);      
@@ -50,11 +49,10 @@ const Loginn = () => {
       if(data.status===400 || !data){
           console.log("Fail to Sign Up");
       }else{
-        console.log("Success");
-        console.log(data.data);
         localStorage.setItem("id",data.data.id);
         localStorage.setItem("token",data.data.token);
         localStorage.setItem("name",data.data.fname);
+        localStorage.setItem("onLine",2);
         dispatch({type:"online",payload:2});
         dispatch({type:"provider",payload:data.data});
         messageUpdate(data.data.token,data.data.id);

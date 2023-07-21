@@ -1,5 +1,5 @@
 const router=require('express')();
-const {signin,signup,signout,service,create,messageUpdate,send} = require('../controllers/client');
+const {signin,signup,signout,service,create,details,send} = require('../controllers/client');
 const {authenticateUser} = require('../middleware/authenticate');
 
 /**Post Method */
@@ -13,7 +13,7 @@ router.route('/signin').post(signin);
 router.route('/signout').get(authenticateUser,signout);
 router.route('/service').get(authenticateUser,service);
 router.route('/create').post(authenticateUser,create);
-router.route('/messageUpdate').post(authenticateUser,messageUpdate);
+router.route('/details').post(authenticateUser,details);
 router.route('/send').post(authenticateUser,send);
 
 

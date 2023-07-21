@@ -109,12 +109,15 @@ const create=async(req,res)=>{
     }
 }
 
-const messageUpdate=async(req,res)=>{
+const details=async(req,res)=>{
     try {
         const {id}=req.body;
-        const data=await Message.find({user:id});
-        console.log(data);
-        return res.status(200).send(data);
+        const data=await Message.find({user:id}).populate('provider');
+        console.log(req.rootUser);
+        return res.status(200).send({
+            user:req.rootUser,
+            message:data
+        });
     } catch (error) {
         res.status(401).send("Error in messageUpdate");
     }
@@ -128,11 +131,11 @@ const send=async(req,res)=>{
             { _id: chatId },
             { $push: { message: { sender, content } } },
             { new: true }
-          );
+          ).populate('provider');
         return res.status(200).send(data);
     } catch (error) {
         res.status(401).send("Error in messageUpdate");
     }
 }
 
-module.exports={signin,signup,signout,service,create,messageUpdate,send};
+module.exports={signin,signup,signout,service,create,details,send};

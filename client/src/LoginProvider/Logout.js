@@ -20,6 +20,7 @@ const Login = () => {
                 localStorage.removeItem("id");
                 localStorage.removeItem("token");
                 localStorage.removeItem("name");
+                localStorage.removeItem("onLine");
                 dispatch({type:"offline"});
                 navigate('/');
             }else{  

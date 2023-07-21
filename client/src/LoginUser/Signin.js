@@ -8,7 +8,7 @@ import url from '../url'
 
 const Login = () => {
 
-  const {dispatch}=useContext(userContext);  
+  const {state:{user,provider,message,chat},dispatch}=useContext(userContext);  
 
   const navigate=useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -22,16 +22,18 @@ const Login = () => {
 
   const messageUpdate=async(token,id)=>{
     try {
-      const data=await axios.post(`${url}/api/client/messageUpdate`,{
+      const data=await axios.post(`${url}/api/client/details`,{
         id:id
       },{
         method:"POST",
         headers:{
-            Authorization:token,
+            Authorization:localStorage.getItem("token"),
             "Content-Type":"application/json"
         }
       })
-      dispatch({type:"messageUpdate",payload:data.data});
+      console.log(data.data);
+      dispatch({type:"user",payload:data.data.user});
+      dispatch({type:"messageUpdate",payload:data.data.message});
       navigate('/');
     } catch (error) {
       console.log(error);      
@@ -52,12 +54,11 @@ const Login = () => {
     if(data.status===400 || !data){
         console.log("Fail to Sign Up");
     }else{
-        console.log("Success");
         localStorage.setItem("id",data.data.id);
         localStorage.setItem("token",data.data.token);
         localStorage.setItem("name",data.data.name);
+        localStorage.setItem("onLine",1);
         dispatch({type:"online",payload:1});
-        dispatch({type:"user",payload:data.data});
         messageUpdate(data.data.token,data.data.id);
     }
 }

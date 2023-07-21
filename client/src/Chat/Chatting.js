@@ -8,6 +8,10 @@ const Chatting = () => {
   const {dispatch,state:{user,provider,message,chat}}=useContext(userContext);
   const [content,setContent]=useState("");
 
+  console.log("chatting")
+  console.log(provider)
+  console.log(message)
+
   const create=async()=>{
     try {
       const {data}=await axios.post(`${url}/api/client/create`,{
@@ -38,7 +42,10 @@ const Chatting = () => {
     let present;
     if(message.length){
       present=message.some((obj)=>{
-        if(obj.provider===provider._id){
+        if(!obj.provider){
+          return false;
+        }
+        if(obj.provider._id===provider._id){
           dispatch({type:'chat',payload:obj})
           return true;
         }
@@ -61,7 +68,7 @@ const Chatting = () => {
         },{
           method:"POST",
           headers:{
-            Authorization:user.token,
+            Authorization:localStorage.getItem("token"),
             "Content-Type":"application/json"
           }
         })
