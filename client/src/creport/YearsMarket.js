@@ -36,13 +36,19 @@ const YearsMarket = () => {
     return () => {
       clearInterval(interval);
       window.removeEventListener("scroll", handleScroll);
-    };// eslint-disable-next-line
+    }; // eslint-disable-next-line
   }, []); // Empty dependency array to ensure the effect runs only once
 
   return (
     <div className="w-60 flex-col justify-center align-middle my-2 mx-8">
-      <img src="./icons/calendars.png" className="w-36 flex justify-center align-middle ml-12" alt="Calendar" />
-      <p className="text-center font-bold text-4xl my-1">{customerSatisfaction}</p>
+      <img
+        src="./icons/calendars.png"
+        className="w-36 flex justify-center align-middle ml-12"
+        alt="Calendar"
+      />
+      <p className="text-center font-bold text-4xl my-1">
+        {customerSatisfaction}
+      </p>
       <hr class="w-12 h-2 mx-auto my-2 bg-gray-200 border-0 rounded md:my-2 "></hr>
       <div className=" text-xl text-center text-slate-600">Years In Market</div>
     </div>

@@ -29,7 +29,7 @@ const Dashboard = () => {
               <div>
                 <h1 className="contact">
                   {" "}
-                   {item.user.fname + " " + item.user.lname}
+                  {item.user.fname + " " + item.user.lname}
                 </h1>
                 <div className="message">{item.latest}</div>
               </div>

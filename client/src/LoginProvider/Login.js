@@ -53,18 +53,15 @@ const Loginn = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const {data} = await axios.post(
-      `${url}/api/provider/signin`,
-      {
-        email,
-        password,
-      }
-    );
+    const { data } = await axios.post(`${url}/api/provider/signin`, {
+      email,
+      password,
+    });
 
     if (data.status === false) {
       toast.error(data.msg, toastOptions);
-    } else if(data.status === true) {
-    localStorage.setItem(
+    } else if (data.status === true) {
+      localStorage.setItem(
         process.env.REACT_APP_LOCALHOST_KEY,
         JSON.stringify(data.data)
       );
@@ -143,7 +140,7 @@ const Loginn = () => {
           </div>
         </div>
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </>
   );
 };

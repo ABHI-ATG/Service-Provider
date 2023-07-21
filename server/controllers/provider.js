@@ -15,7 +15,14 @@ const signup = async (req, res) => {
       password,
     } = req.body;
     if (
-      !fname ||!lname ||!email ||!mobile ||!password ||!state ||!pincode ||!city
+      !fname ||
+      !lname ||
+      !email ||
+      !mobile ||
+      !password ||
+      !state ||
+      !pincode ||
+      !city
     ) {
       return res.json({ status: false, msg: "Enter all detials" });
     }
@@ -46,7 +53,7 @@ const signin = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-        return res.json({ status: false, msg: "Enter all details" });
+      return res.json({ status: false, msg: "Enter all details" });
     }
 
     let userExist = await Pro.findOne({ email });
@@ -58,7 +65,7 @@ const signin = async (req, res) => {
           expires: new Date(Date.now() + 10000000000),
         });
         return res.json({
-         status:true,
+          status: true,
           id: userExist._id,
           token: token,
           email: userExist.email,
@@ -73,7 +80,7 @@ const signin = async (req, res) => {
         return res.json({ status: false, msg: "Invalid credentials" });
       }
     } else {
-        return res.json({ status: false, msg: "User do not exist" });
+      return res.json({ status: false, msg: "User do not exist" });
     }
   } catch (error) {
     return res.json({ status: false, msg: "Enter all detials" });

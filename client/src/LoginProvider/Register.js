@@ -91,25 +91,17 @@ const SignInn = () => {
       cpassword,
     } = userData;
     console.log(userData);
-    const { data } = await axios.post(
-      `${url}/api/provider/signup`,
-      {
-        fname,
-        lname,
-        email,
-        mobile,
-        state,
-        city,
-        pincode,
-        profession,
-        password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const { data } = await axios.post(`${url}/api/provider/signup`, {
+      fname,
+      lname,
+      email,
+      mobile,
+      state,
+      city,
+      pincode,
+      profession,
+      password,
+    });
     if (data.status === false) {
       toast.error(data.msg, toastOptions);
     } else if (data.status === true) {
