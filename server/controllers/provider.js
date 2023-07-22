@@ -3,14 +3,11 @@ const Message=require('../models/message')
 
 const signup=async(req,res)=>{
     try {
-        console.log(req.body);
-        
         const {fname, lname, email, mobile, state, city, pincode, profession, password}=req.body;
         if(!fname || !lname || !email || !mobile || !password || !state ||  !pincode || !city){
             return res.status(400).send('Enter all details');
         }
         const userExist=await Pro.findOne({email})
-        console.log(userExist);
         if(userExist){
             return res.status(400).send('User already exist');
         }
@@ -89,7 +86,6 @@ const details=async(req,res)=>{
 const send=async(req,res)=>{
     try {
         const {chatId,sender,content}=req.body;
-        console.log(req.body);
         const data = await Message.findOneAndUpdate(
             { _id: chatId },
             { $push: { message: { sender, content } } },

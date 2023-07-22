@@ -8,12 +8,13 @@ const authenticateUser=async(req,res,next)=>{
         if(!token){
             res.status(401).send("Authorization Fails")
         }
+        console.log(token);
         if(token.startsWith('Bearer ')){
             token=token.split(' ')[1];
         }
         const verify=jwt.verify(token,process.env.SECRET_KEY);
         const userExist=await User.findOne({_id:verify._id,"tokens.token":token});
-
+        console.log(userExist);
         if(!userExist){
             throw new Error("User Not Found");
         }
@@ -32,18 +33,15 @@ const authenticateUser=async(req,res,next)=>{
 const authenticatePro=async(req,res,next)=>{
     try{
         let token=req.headers.authorization;
-        console.log(token);
         if(!token){
             res.status(401).send("Authorization Fails")
         }
         if(token.startsWith('Bearer ')){
             token=token.split(' ')[1];
         }
-        console.log(token);
         const verify=jwt.verify(token,process.env.SECRET_KEY);
         const userExist=await Pro.findOne({_id:verify._id,"tokens.token":token});
 
-        console.log(userExist);
         if(!userExist){
             throw new Error("User Not Found");
         }

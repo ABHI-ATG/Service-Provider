@@ -5,7 +5,7 @@ import axios from 'axios';
 import url from '../url'
 
 const Logout = () => {
-    const {dispatch}=useContext(userContext);  
+    const {dispatch,state:{socket}}=useContext(userContext);  
     const navigate=useNavigate();
 
     const callLogOut=async()=>{
@@ -16,11 +16,13 @@ const Logout = () => {
                     Accept:"application/json",
                 },
             })
-            console.log(res);
             if(res.status===400){
                 console.log("Error");
                 throw new Error("Logout Failed")
             }else{  
+                if(Object.keys(socket).length!==0){
+                    socket.disconnect();
+                }
                 localStorage.removeItem("id");
                 localStorage.removeItem("token");
                 localStorage.removeItem("name");

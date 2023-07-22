@@ -5,12 +5,8 @@ import url from '../url'
 
 const Chatting = () => {
 
-  const {dispatch,state:{user,provider,message,chat}}=useContext(userContext);
+  const {dispatch,state:{user,provider,message,chat,socket}}=useContext(userContext);
   const [content,setContent]=useState("");
-
-  console.log("chatting")
-  console.log(provider)
-  console.log(message)
 
   const create=async()=>{
     try {
@@ -31,7 +27,7 @@ const Chatting = () => {
       puser:0,
       latest:"Say Hi!"
     }});
-    console.log(data)
+    socket.emit('connectRoom',data._id);
 
     } catch (error) {
       console.log(error);
@@ -47,12 +43,12 @@ const Chatting = () => {
         }
         if(obj.provider._id===provider._id){
           dispatch({type:'chat',payload:obj})
+          socket.emit('connectRoom',obj._id);
           return true;
         }
         return false;
       });
     }
-    console.log(present);
     if(!present){
       create();
     }
@@ -72,6 +68,7 @@ const Chatting = () => {
             "Content-Type":"application/json"
           }
         })
+        console.log(localStorage.getItem("token"));
         dispatch({type:"message",payload:{
           id:chat._id,
           sender:1,
@@ -81,15 +78,44 @@ const Chatting = () => {
           sender:1,
           content:content
         }})
-        console.log(data);
-        console.log(message);
-        console.log(chat);
+        socket.emit('send',{
+          chatId:chat._id,
+          sender:1,
+          content:content
+        })
         setContent("");
       } catch (error) {
         console.log(error);
       }
     }
   }
+
+  // Recieve
+  useEffect(()=>{
+    socket.on('recieved',(data)=>{
+      if(chat._id===data.chatId){
+        dispatch({type:"chatMessage",payload:{
+          sender:data.sender,
+          content:data.content
+        }})
+        dispatch({type:"message",payload:{
+          id:data.chatId,
+          sender:data.sender,
+          content:data.content
+        }})
+      }else{
+        dispatch({type:"message",payload:{
+          id:data.chatId,
+          sender:data.sender,
+          content:data.content
+        }})
+      }
+    })
+    return ()=>{
+      socket.disconnect();
+    }
+  },[])
+
 
   return (
     <div>

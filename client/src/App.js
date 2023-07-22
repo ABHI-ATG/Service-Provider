@@ -20,6 +20,8 @@ import './Css/card.css'
 import './Css/search.css'
 import axios from 'axios';
 import url from './url'
+import io from 'socket.io-client'
+const ENDPOINT = "http://localhost:8000";
 export const userContext=createContext();
 
 const App=()=>{
@@ -30,7 +32,8 @@ const App=()=>{
         user:{},
         provider:{},
         message:[],
-        chat:{}
+        chat:{},
+        socket:{}
     });
 
     
@@ -85,6 +88,12 @@ const App=()=>{
                 setProData();
             }
         }
+        if(tmp){
+            const conn=io(ENDPOINT);
+            dispatch({type:"socket",payload:conn});
+        }else{
+            if(Object.keys(initialState.socket).length!==0)initialState.socket.disconnect();
+        }
     },[])
 
     const reducer=(state,action)=>{
@@ -116,6 +125,8 @@ const App=()=>{
             return {...state,chat:action.payload};
         }else if(action.type==='chatMessage'){
             return {...state,chat:{...state.chat,message:[...state.chat.message,action.payload]}};
+        }else if(action.type==='socket'){
+            return {...state,socket:action.payload};
         }
         return state;
     }

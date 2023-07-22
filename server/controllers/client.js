@@ -9,7 +9,6 @@ const signup=async(req,res)=>{
             return res.status(400).send('Enter all details');
         }
         const userExist=await User.findOne({email})
-        console.log(userExist);
         if(userExist){
             return res.status(400).send('User already exist');
         }
@@ -22,7 +21,6 @@ const signup=async(req,res)=>{
 
 const signin=async(req,res)=>{
     try {
-        console.log("SignIn Client")
         const {email , password}=req.body;
         
         if(!email || !password){
@@ -56,8 +54,6 @@ const signin=async(req,res)=>{
 
 const signout=async(req,res)=>{
     try {
-        console.log("Logout Client");
-        console.log(req.userId);
         res.clearCookie('jwt');
         const data=await User.findOne({_id:req.userId});
         await User.updateOne({_id:req.userId},{
@@ -65,7 +61,6 @@ const signout=async(req,res)=>{
         })
         return res.status(200).json({messege:"successfully log out"})  
     }catch(err){
-        console.log("logout fails");
         return res.status(400).send({ error: "Credentials does not Match"})
     }                              
 }
@@ -85,7 +80,6 @@ const service=async(req,res)=>{
               { city: { $regex: new RegExp(city, "i") } }
             ]
           });
-        console.log(data);
 
         res.status(200).send(data)
         
@@ -97,7 +91,6 @@ const service=async(req,res)=>{
 const create=async(req,res)=>{
     try {
         const {user,provider}=req.body;
-        console.log(req.body);
         const userExist=await Message.findOne({$and:[{user:user},{provider:provider}]}).populate('provider');
         if(userExist){
             return res.status(200).send(userExist);
@@ -113,7 +106,6 @@ const details=async(req,res)=>{
     try {
         const {id}=req.body;
         const data=await Message.find({user:id}).populate('provider');
-        console.log(req.rootUser);
         return res.status(200).send({
             user:req.rootUser,
             message:data
@@ -126,7 +118,6 @@ const details=async(req,res)=>{
 const send=async(req,res)=>{
     try {
         const {chatId,sender,content}=req.body;
-        console.log(req.body);
         const data = await Message.findOneAndUpdate(
             { _id: chatId },
             { $push: { message: { sender, content } } },

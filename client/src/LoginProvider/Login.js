@@ -5,6 +5,8 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { userContext } from '../App';
 import axios from 'axios'
 import url from '../url'
+import io from 'socket.io-client'
+const ENDPOINT = "http://localhost:8000";
 
 const Loginn = () => {
     const {dispatch}=useContext(userContext);  
@@ -29,6 +31,8 @@ const Loginn = () => {
             }
           })
           dispatch({type:"messageUpdate",payload:data.data.message});
+          const conn=io(ENDPOINT);
+            dispatch({type:"socket",payload:conn});
           navigate('/dashboard');
         } catch (error) {
           console.log(error);      

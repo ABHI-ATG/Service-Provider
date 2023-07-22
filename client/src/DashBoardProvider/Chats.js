@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {userContext} from '../App'
 import axios from 'axios';
 import url from '../url';
@@ -6,9 +6,13 @@ import url from '../url';
 
 const Chats = () => {
 
-  const {state:{chat,message},dispatch}=useContext(userContext);
+  const {state:{chat,message,socket},dispatch}=useContext(userContext);
   console.log(chat);
   const [content,setContent]=useState("");
+
+  useEffect(()=>{
+    socket.emit('connectRoom',chat._id);
+  },[])
 
 
   const send=async()=>{
@@ -34,15 +38,43 @@ const Chats = () => {
           sender:2,
           content:content
         }})
-        console.log(data);
-        console.log(message);
-        console.log(chat);
+        socket.emit('send',{
+          chatId:chat._id,
+          sender:2,
+          content:content
+        })
         setContent("");
       } catch (error) {
         console.log(error);
       }
     }
   }
+
+   // Recieve
+   useEffect(()=>{
+    socket.on('recieved',(data)=>{
+      if(chat._id===data.chatId){
+        dispatch({type:"chatMessage",payload:{
+          sender:data.sender,
+          content:data.content
+        }})
+        dispatch({type:"message",payload:{
+          id:data.chatId,
+          sender:data.sender,
+          content:data.content
+        }})
+      }else{
+        dispatch({type:"message",payload:{
+          id:data.chatId,
+          sender:data.sender,
+          content:data.content
+        }})
+      }
+    })
+    return ()=>{
+      socket.disconnect();
+    }
+  },[])
 
   return (
     <div>

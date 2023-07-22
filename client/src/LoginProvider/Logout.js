@@ -6,7 +6,7 @@ import url from '../url'
 
 const Login = () => {
     const navigate=useNavigate();
-    const {dispatch}=useContext(userContext);  
+    const {dispatch,state:{socket}}=useContext(userContext);  
 
     const callLogOut=async()=>{
         try{
@@ -22,6 +22,7 @@ const Login = () => {
                 localStorage.removeItem("name");
                 localStorage.removeItem("onLine");
                 dispatch({type:"offline"});
+                if(Object.keys(socket).length!==0)socket.disconnect();
                 navigate('/');
             }else{  
                 console.log("Error");
