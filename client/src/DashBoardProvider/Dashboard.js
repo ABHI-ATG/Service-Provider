@@ -19,6 +19,7 @@ const Dashboard = () => {
           <div className="Brand">
             <h3>CONTACT INFO</h3>
           </div>
+          {provider?
           <div className="Current-details">
             {provider.fname} {provider.lname}
             <div>{provider.mobile}</div>
@@ -27,9 +28,10 @@ const Dashboard = () => {
             <div>{provider.state}</div>
             <div>{provider.city}</div>
           </div>
+          :<></>} 
         </div>
         <div>
-          {message.map((item) => {
+          {message?message.map((item) => {
             return (
               <div onClick={()=>{
                 dispatch({type:"chat",payload:item})
@@ -42,7 +44,7 @@ const Dashboard = () => {
                 <div className="message">{item.latest}</div>
               </div>
             );
-          })}
+          }):<></>}
         </div>
       </div>
     </div>

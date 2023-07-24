@@ -15,29 +15,7 @@ const Loginn = () => {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
   
-    const toggleShowPassword = () => {
-      setShowPassword(!showPassword);
-    };
-
-    const messageUpdate=async(token,id)=>{
-        try {
-          const data=await axios.post(`${url}/api/provider/details`,{
-            id:id
-          },{
-            method:"POST",
-            headers:{
-                Authorization:token,
-                "Content-Type":"application/json"
-            }
-          })
-          dispatch({type:"messageUpdate",payload:data.data.message});
-          const conn=io(ENDPOINT);
-            dispatch({type:"socket",payload:conn});
-          navigate('/dashboard');
-        } catch (error) {
-          console.log(error);      
-        }
-      }
+    
   
     const onSubmit=async (e)=>{
       e.preventDefault();
@@ -61,6 +39,27 @@ const Loginn = () => {
         dispatch({type:"provider",payload:data.data});
         messageUpdate(data.data.token,data.data.id);
       }
+  }
+
+  const messageUpdate=async(token,id)=>{
+    try {
+      const data=await axios.post(`${url}/api/provider/details`,{
+        id:id
+      },{
+        method:"POST",
+        headers:{
+            Authorization:token,
+            "Content-Type":"application/json"
+        }
+      })
+      dispatch({type:"messageupdate",payload:data.data.message});
+      const conn=io(ENDPOINT);
+      dispatch({type:"socket",payload:conn});
+      conn.emit("setup",id);
+      navigate('/dashboard');
+    } catch (error) {
+      console.log(error);      
+    }
   }
 
 
@@ -108,7 +107,9 @@ const Loginn = () => {
                                             <FontAwesomeIcon 
                                             icon={showPassword ? faEyeSlash : faEye}
                                             className="eye-icon -ml-6 mt-4"
-                                            onClick={toggleShowPassword}
+                                            onClick={()=>{
+                                                setShowPassword(!showPassword);
+                                            }}
                                         />
                                         ) }
                                         

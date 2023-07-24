@@ -10,39 +10,14 @@ const ENDPOINT = "http://localhost:8000";
 
 const Login = () => {
 
-  const {state:{user,provider,message,chat},dispatch}=useContext(userContext);  
-
+  const {dispatch}=useContext(userContext);  
   const navigate=useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
 
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-
-  const messageUpdate=async(token,id)=>{
-    try {
-      const data=await axios.post(`${url}/api/client/details`,{
-        id:id
-      },{
-        method:"POST",
-        headers:{
-            Authorization:localStorage.getItem("token"),
-            "Content-Type":"application/json"
-        }
-      })
-      console.log(data.data);
-      dispatch({type:"user",payload:data.data.user});
-      dispatch({type:"messageUpdate",payload:data.data.message});
-      const conn=io(ENDPOINT);
-      dispatch({type:"socket",payload:conn});
-      navigate('/');
-    } catch (error) {
-      console.log(error);      
-    }
-  }
+  
 
   const onSubmit=async (e)=>{
     e.preventDefault();
@@ -63,9 +38,31 @@ const Login = () => {
         localStorage.setItem("name",data.data.name);
         localStorage.setItem("onLine",1);
         dispatch({type:"online",payload:1});
-        messageUpdate(data.data.token,data.data.id);
+        messageUpdate(data.data.id);
+        navigate('/');
     }
 }
+
+  const messageUpdate=async(id)=>{
+    try {
+      const data=await axios.post(`${url}/api/client/details`,{
+        id:id
+      },{
+        method:"POST",
+        headers:{
+            Authorization:localStorage.getItem("token"),
+            "Content-Type":"application/json"
+        }
+      })
+      dispatch({type:"user",payload:data.data.user});
+      dispatch({type:"messageupdate",payload:data.data. message});
+      const conn=io(ENDPOINT);
+      dispatch({type:"socket",payload:conn});
+      conn.emit("setup",id);
+    } catch (error) {
+      console.log(error);      
+    }
+  }
 
 
 
@@ -114,7 +111,9 @@ const Login = () => {
                       <FontAwesomeIcon
                         icon={showPassword ? faEyeSlash : faEye}
                         className="eye-icon -ml-6 mt-4"
-                        onClick={toggleShowPassword}
+                        onClick={()=>{
+                          setShowPassword(!showPassword);
+                        }}
                       />
                     )}
                   </div>

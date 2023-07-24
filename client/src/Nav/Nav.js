@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Link as ScrollLink, animateScroll as scroll } from 'react-scroll';
-import {  useContext, useEffect, useState } from 'react';
+import {  useContext, useState } from 'react';
 import { userContext } from '../App';
 
 export default function Nav() {

@@ -90,7 +90,7 @@ const send=async(req,res)=>{
             { _id: chatId },
             { $push: { message: { sender, content } } },
             { new: true }
-          );
+          ).populate('user');
         return res.status(200).send(data);
     } catch (error) {
         res.status(401).send("Error in messageUpdate");

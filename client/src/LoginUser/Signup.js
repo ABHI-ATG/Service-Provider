@@ -18,7 +18,6 @@ const SignIn = () => {
         const value=e.target.value;
         const name=e.target.name;
         setuserData({...userData,[name]:value})
-        console.log(userData);
     }
 
     const toggleShowPassword = () => {
@@ -29,7 +28,6 @@ const SignIn = () => {
         e.preventDefault();
 
         const {fname,lname,email,mobile,password,cpassword}=userData;
-        console.log(userData);
         try {
             const data=await axios.post(`${url}/api/client/signup`,{
                 fname:fname,lname:lname,email:email,mobile:mobile,password:password,cpassword:cpassword
@@ -38,11 +36,9 @@ const SignIn = () => {
                     "Content-Type":"application/json"
                 }
             })
-            console.log(data);
             if(data.status===400 || !data){
                 console.log("Fail to Sign Up");
             }else{
-                console.log("Success");
                 navigate('/signin');
             }
         } catch (error) {

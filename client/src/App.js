@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer, useState } from 'react';
+import React, { createContext,useReducer, useState } from 'react';
 import {Routes,Route} from 'react-router-dom';
 import Service from './Services/Services'
 import LoginUser from './LoginUser/Signin'
@@ -14,149 +14,111 @@ import Footer from './Footer/Footer'
 import Dashboard from './DashBoardProvider/Dashboard';
 import Chats from './DashBoardProvider/Chats'
 import Message from './Message/Message'
+import Socket from './Socket/Socket'
 import Nav from './Nav/Nav'
 import './Css/index.css'
-import './Css/card.css'
-import './Css/search.css'
-import axios from 'axios';
-import url from './url'
-import io from 'socket.io-client'
-const ENDPOINT = "http://localhost:8000";
-export const userContext=createContext();
+import './Css/card.css';
+import './Css/search.css';
+export  const userContext=createContext();
+
+
+// const [initialState,setInitialState]=useState({
+const initialState={
+  onLine:0,
+  user:null,
+  provider:null,
+  message:[],
+  chat:null,
+  socket:null,
+  send:null
+}
+// });
+
+const ActionType={
+  ONLINE:"online",
+  OFFLINE:"offline",
+  USER:"user",
+  PROVIDER:"provider",
+  CREATE:"create",
+  MESSAGEUPDATE:"messageupdate",
+  MESSAGE:"message",
+  CHAT:"chat",
+  CHATMESSAGE:"chatmessage",
+  SOCKET:"socket",
+  SEND:"send"
+}
+
+const reducer=(state,action)=>{
+  switch (action.type){
+    case ActionType.ONLINE:
+      return {...state,onLine:action.payload};
+    case ActionType.OFFLINE:
+      return {...state,onLine:0};
+    case ActionType.USER:
+      return {...state,user:action.payload};
+    case ActionType.PROVIDER:
+      return {...state,provider:action.payload};
+    case ActionType.CREATE:
+      return {...state,message:[...state.message,{
+          chatId:action.payload,
+          message:[],
+          puser:0,
+          latest:"Say Hi!"
+      }]};
+    case ActionType.MESSAGEUPDATE:
+      return {...state,message:action.payload};
+    case ActionType.MESSAGE:
+      return {...state,message:state.message.map((item)=>{
+          if(item._id===action.payload.id){
+              item.message=[...item.message,{sender:action.payload.sender,content:action.payload.content}]
+          }
+          return item;
+      })}
+    case ActionType.CHAT:
+      return {...state,chat:action.payload};
+    case ActionType.CHATMESSAGE:
+      if(state.chat){
+        if(state.chat._id===action.payload.id){
+          return {...state,chat:{...state.chat,message:[...state.chat.message,action.payload]}};
+        }
+      }
+      return state;
+    case ActionType.SOCKET:
+      return {...state,socket:action.payload};
+    case ActionType.SEND:
+      return {...state,send:action.payload};
+    default:
+      return state;
+  }
+}
 
 const App=()=>{
-    
-    // onLine, user, provider, message
-    const [initialState,setInitialState]=useState({
-        onLine:0,
-        user:{},
-        provider:{},
-        message:[],
-        chat:{},
-        socket:{}
-    });
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-    
-
-    const setProData=async()=>{
-        try {
-            const data=await axios.post(`${url}/api/provider/details`,{
-                id:localStorage.getItem("id")
-              },{
-                method:"POST",
-                headers:{
-                    Authorization:localStorage.getItem("token"),
-                    "Content-Type":"application/json"
-                }
-            })
-          dispatch({type:"messageUpdate",payload:data.data.message});
-          dispatch({type:"provider",payload:data.data.user});
-
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    const setUserData=async()=>{
-        console.log("user");
-        try {
-            const data=await axios.post(`${url}/api/client/details`,{
-                id:localStorage.getItem("id")
-              },{
-                method:"POST",
-                headers:{
-                    Authorization:localStorage.getItem("token"),
-                    "Content-Type":"application/json"
-                }
-            })
-            console.log(data);
-          dispatch({type:"messageUpdate",payload:data.data.message});
-          dispatch({type:"user",payload:data.data.user});
-            
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    useEffect(()=>{
-        const tmp=localStorage.getItem("onLine");
-        if(tmp && !initialState.onLine){
-            dispatch({type:"online",payload:tmp});
-            if(tmp==1){
-                setUserData();
-            }else{
-                setProData();
-            }
-        }
-        if(tmp){
-            const conn=io(ENDPOINT);
-            dispatch({type:"socket",payload:conn});
-        }else{
-            if(Object.keys(initialState.socket).length!==0)initialState.socket.disconnect();
-        }
-    },[])
-
-    const reducer=(state,action)=>{
-        if(action.type==='online'){
-            return {...state,onLine:action.payload};
-        }else if(action.type==='offline'){
-            return {...state,onLine:0};
-        }else if(action.type==='user'){
-            return {...state,user:action.payload};
-        }else if(action.type==='provider'){
-            return {...state,provider:action.payload};
-        }else if(action.type==='create'){
-            return {...state,message:[...state.message,{
-                chatId:action.payload,
-                message:[],
-                puser:0,
-                latest:"Say Hi!"
-            }]};
-        }else if(action.type==='messageUpdate'){
-            return {...state,message:action.payload};
-        }else if(action.type==='message'){
-            return {...state,message:state.message.map((item)=>{
-                if(item._id===action.payload.id){
-                    item.message=[...item.message,{sender:action.payload.sender,content:action.payload.content}]
-                }
-                return item;
-            })}
-        }else if(action.type==='chat'){
-            return {...state,chat:action.payload};
-        }else if(action.type==='chatMessage'){
-            return {...state,chat:{...state.chat,message:[...state.chat.message,action.payload]}};
-        }else if(action.type==='socket'){
-            return {...state,socket:action.payload};
-        }
-        return state;
-    }
-    
-    const [state, dispatch] = useReducer(reducer, initialState);
-
-    return (
+  return (
     <>
-        <userContext.Provider value={{state,dispatch}}>
-            <Nav/>
-            <Routes>
-                <Route path='/' Component={Home}/>
-                <Route path='/signin' Component={LoginUser}/>
-                <Route path='/signup' Component={SignInUser}/>
-                <Route path='/logout' Component={LogoutUser}/>
-                <Route path='/login' Component={LoginPro}/>
-                <Route path='/register' Component={SignInPro}/>
-                <Route path='/out' Component={LogoutPro}/>
-                <Route path='/Service' Component={Service}/>
-                <Route path='/chat' Component={Chat}/>
-                <Route path='/chatting' Component={Chatting}/>
-                <Route path='/dashboard' Component={Dashboard}/>
-                <Route path='/dashboard/chatting' Component={Chats}/>
-                <Route path='/message' Component={Message}/>
-            </Routes>
-            <Footer id="footer" />
-        </userContext.Provider>
-
+      <userContext.Provider value={{state,dispatch}}>
+        <Nav />
+        <Socket />
+        <Routes>
+          <Route path='/' Component={Home}/>
+          <Route path='/signin' Component={LoginUser}/>
+          <Route path='/signup' Component={SignInUser}/>
+          <Route path='/logout' Component={LogoutUser}/>
+          <Route path='/login' Component={LoginPro}/>
+          <Route path='/register' Component={SignInPro}/>
+          <Route path='/out' Component={LogoutPro}/>
+          <Route path='/Service' Component={Service}/>
+          <Route path='/chat' Component={Chat}/>
+          <Route path='/chatting' Component={Chatting}/>
+          <Route path='/dashboard' Component={Dashboard}/>
+          <Route path='/dashboard/chatting' Component={Chats}/>
+          <Route path='/message' Component={Message}/>
+        </Routes>
+        <Footer id="footer" />
+      </userContext.Provider>
     </>
-    )
+  )
 }
 
 export default App;

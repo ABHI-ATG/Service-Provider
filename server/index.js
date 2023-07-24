@@ -49,27 +49,21 @@ const io=require('socket.io')(server,{
 })
 
 io.on('connection',(socket)=>{
-  let userId;
-  let chatId;
   console.log('a user connected');
 
   socket.on('setup',(id)=>{
-    userId=id;
-    console.log(`connected ${id}`)
-    socket.join(id);
-  })
-  socket.on('connectRoom',(id)=>{
-    chatId=id;
     console.log(`connected ${id}`)
     socket.join(id);
   })
 
-  socket.on('create',(data)=>{
-    socket.to(data.provider).emit('createUser',data);
-  })
+  // socket.on('create',(data)=>{
+  //   socket.to(data.provider).emit('createUser',data);
+  // })
 
   socket.on('send',(data)=>{
-    socket.to(data.chatId).emit('recieved',data);
+    console.log("data");
+    console.log(data);
+    socket.to(data.id).emit('recieved',data);
   })
 
   socket.on('disconnect',()=>{
