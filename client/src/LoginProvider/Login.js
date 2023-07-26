@@ -5,6 +5,8 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { userContext } from '../App';
 import axios from 'axios'
 import url from '../url'
+import io from 'socket.io-client'
+const ENDPOINT = "http://localhost:8000";
 
 const Loginn = () => {
     const {dispatch}=useContext(userContext);  
@@ -13,28 +15,7 @@ const Loginn = () => {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
   
-    const toggleShowPassword = () => {
-      setShowPassword(!showPassword);
-    };
-
-    const messageUpdate=async(token,id)=>{
-        try {
-          const data=await axios.post(`${url}/api/provider/messageUpdate`,{
-            id:id
-          },{
-            method:"POST",
-            headers:{
-                Authorization:token,
-                "Content-Type":"application/json"
-            }
-          })
-          console.log(data)
-          dispatch({type:"messageUpdate",payload:data.data});
-          navigate('/dashboard');
-        } catch (error) {
-          console.log(error);      
-        }
-      }
+    
   
     const onSubmit=async (e)=>{
       e.preventDefault();
@@ -50,15 +31,35 @@ const Loginn = () => {
       if(data.status===400 || !data){
           console.log("Fail to Sign Up");
       }else{
-        console.log("Success");
-        console.log(data.data);
         localStorage.setItem("id",data.data.id);
         localStorage.setItem("token",data.data.token);
         localStorage.setItem("name",data.data.fname);
+        localStorage.setItem("onLine",2);
         dispatch({type:"online",payload:2});
         dispatch({type:"provider",payload:data.data});
         messageUpdate(data.data.token,data.data.id);
       }
+  }
+
+  const messageUpdate=async(token,id)=>{
+    try {
+      const data=await axios.post(`${url}/api/provider/details`,{
+        id:id
+      },{
+        method:"POST",
+        headers:{
+            Authorization:token,
+            "Content-Type":"application/json"
+        }
+      })
+      dispatch({type:"messageupdate",payload:data.data.message});
+      const conn=io(ENDPOINT);
+      dispatch({type:"socket",payload:conn});
+      conn.emit("setup",id);
+      navigate('/dashboard');
+    } catch (error) {
+      console.log(error);      
+    }
   }
 
 
@@ -106,7 +107,9 @@ const Loginn = () => {
                                             <FontAwesomeIcon 
                                             icon={showPassword ? faEyeSlash : faEye}
                                             className="eye-icon -ml-6 mt-4"
-                                            onClick={toggleShowPassword}
+                                            onClick={()=>{
+                                                setShowPassword(!showPassword);
+                                            }}
                                         />
                                         ) }
                                         

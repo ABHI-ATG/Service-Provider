@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Link as ScrollLink, animateScroll as scroll } from 'react-scroll';
-import {  useContext, useEffect, useState } from 'react';
+import {  useContext, useState } from 'react';
 import { userContext } from '../App';
 
 export default function Nav() {
@@ -50,6 +50,9 @@ export default function Nav() {
                         <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
                             <li className="text-gray-600 font-bold text-lg hover:text-blue-600">
                                 <Link to="/">Home</Link>
+                            </li>
+                            <li className="text-gray-600 font-bold text-lg hover:text-blue-600">
+                                <Link to="/message">Message</Link>
                             </li>
                             <li className="text-gray-600 text-lg font-bold hover:text-blue-600">
                                 <ScrollLink

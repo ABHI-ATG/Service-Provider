@@ -1,12 +1,17 @@
 import React, { useContext } from "react";
 import { userContext } from "../App";
 import style from "../Css/dashboard.css";
+import { useNavigate } from "react-router-dom";
+
+
+
 const Dashboard = () => {
   const {
-    state: { provider, message },
+    state: { provider, message },dispatch
   } = useContext(userContext);
-  console.log(message);
-  console.log(provider);
+
+  const navigate=useNavigate();
+
   return (
     <div className="MainWrapper">
       <div className="Complete">
@@ -14,6 +19,7 @@ const Dashboard = () => {
           <div className="Brand">
             <h3>CONTACT INFO</h3>
           </div>
+          {provider?
           <div className="Current-details">
             {provider.fname} {provider.lname}
             <div>{provider.mobile}</div>
@@ -22,11 +28,15 @@ const Dashboard = () => {
             <div>{provider.state}</div>
             <div>{provider.city}</div>
           </div>
+          :<></>} 
         </div>
         <div>
-          {message.map((item) => {
+          {message?message.map((item) => {
             return (
-              <div>
+              <div onClick={()=>{
+                dispatch({type:"chat",payload:item})
+                navigate('chatting')
+              }}>
                 <h1 className="contact">
                   {" "}
                    {item.user.fname + " " + item.user.lname}
@@ -34,7 +44,7 @@ const Dashboard = () => {
                 <div className="message">{item.latest}</div>
               </div>
             );
-          })}
+          }):<></>}
         </div>
       </div>
     </div>

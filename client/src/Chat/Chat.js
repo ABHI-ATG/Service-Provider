@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { userContext } from '../App';
 import { useContext } from 'react';
 import url from '../url';
 import { FaStar } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Chat = () => {
 
   const navigate=useNavigate();
 
-  const {state:{provider}}=useContext(userContext);
+  const {state:{provider,message,user},dispatch}=useContext(userContext);
 
   const [image, setImage] = useState(null);
   const [rated, setRated] = useState(4);
@@ -32,6 +33,52 @@ const Chat = () => {
     // Trigger click event on the hidden file input
     document.getElementById('imageInput').click();
   };
+
+  const create=async()=>{
+    try {
+      const {data}=await axios.post(`${url}/api/client/create`,{
+        user:user.id,
+        provider:provider._id
+      },{
+        method:"POST",
+        headers:{
+          Authorization:user.token,
+          "Content-Type":"application/json"
+        }
+    });
+    dispatch({type:"create",payload:data._id});
+    dispatch({type:'chat',payload:{
+      chatId:data._id,
+      message:[],
+      puser:0,
+      latest:"Say Hi!"
+    }});
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const goChatting=()=>{
+
+    let present;
+    if(message.length){
+      present=message.some((obj)=>{
+        if(!obj.provider){
+          return false;
+        }
+        if(obj.provider._id===provider._id){
+          dispatch({type:'chat',payload:obj})
+          return true;
+        }
+        return false;
+      });
+    }
+    if(!present){
+      create();
+    }
+    navigate('/chatting')
+  }
   
   return (
     <>
@@ -93,7 +140,7 @@ const Chat = () => {
               </div>
 
               <div className="pt-12 pb-8 flex justify-center">
-                <button onClick={()=>navigate('/chatting')} className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 w-32 rounded-full">
+                <button onClick={goChatting} className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 w-32 rounded-full">
                   Chat
                 </button>
               </div>
@@ -101,17 +148,6 @@ const Chat = () => {
           </div>
         </div>
       </div>
-      {/* <div className='bg-green w-48 h-48'>
-       
-        
-        <div>Provider Message</div>
-        <div>User Message</div>
-
-        <div>
-          <input type="text" placeholder='Type...'/>
-          <button>&gt;</button>
-        </div>
-      </div> */}
     </div>
     </div>
 
