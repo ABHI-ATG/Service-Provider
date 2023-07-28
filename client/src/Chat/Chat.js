@@ -140,7 +140,7 @@ const Chat = () => {
               </div>
 
               <div className="pt-12 pb-8 flex justify-center">
-                <button onClick={goChatting} className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 w-32 rounded-full">
+                <button onClick={goChatting} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 w-32 rounded-full">
                   Chat
                 </button>
               </div>
