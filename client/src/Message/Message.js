@@ -64,8 +64,7 @@ const Message = () => {
 
   return (
     <div className="h-screen  items-center ">
-
-    
+      
       <form className="my-5 w-full px-20 ">
         <label for="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
         <div className="relative">
@@ -78,6 +77,9 @@ const Message = () => {
             <button type="submit" className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 ">Search</button>
         </div>
       </form>
+      <div className=' text-center m-4'>
+        <h1 className=' text-center text-5xl font-extrabold text-slate-500 '>Chats</h1>
+      </div>
 
       {message.length && message.map((item) => {
         return (
@@ -94,8 +96,8 @@ const Message = () => {
                   <div className="ml-4 flex-1 border-b border-grey-lighter py-4">
                     <div className="flex items-bottom justify-between">
                       <p className="text-grey-darkest">
-                        <span>{item.provider ? item.provider.fname : <></>} </span>
-                        <span>  {item.provider ? item.provider.lname : <></>}</span>
+                        <span>{item.user ? item.user.fname : <></>} </span>
+                        <span>  {item.user ? item.user.lname : <></>}</span>
                       </p>
                     </div>
                     <p className="text-grey-dark mt-1 text-sm">
