@@ -6,7 +6,7 @@ import { userContext } from '../App';
 import axios from 'axios'
 import url from '../url'
 import io from 'socket.io-client'
-const ENDPOINT = "http://localhost:8000";
+import ENDPOINT from '../ENDPOINT';
 
 const Login = () => {
 
@@ -24,6 +24,30 @@ const Login = () => {
 
     const data=await axios.post(`${url}/api/client/signin`,{
       email,password
+      },{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        }
+    })
+    if(data.status===400 || !data){
+        console.log("Fail to Sign Up");
+    }else{
+        localStorage.setItem("id",data.data.id);
+        localStorage.setItem("token",data.data.token);
+        localStorage.setItem("name",data.data.name);
+        localStorage.setItem("onLine",1);
+        dispatch({type:"online",payload:1});
+        messageUpdate(data.data.id);
+        navigate('/');
+    }
+}
+
+  const guest=async (e)=>{
+    e.preventDefault();
+
+    const data=await axios.post(`${url}/api/client/signin`,{
+      email:"guest@gmail.com",password:"guest"
       },{
         method:"POST",
         headers:{
@@ -121,10 +145,8 @@ const Login = () => {
               </div>
 
               <div className="my-10">
-                {
-
                   <input className=" bg-sky-400 text-white py-3 w-24 rounded-full" type="submit" onClick={onSubmit} value="SignIn"/>
-                }
+                  <input className=" bg-sky-400 text-white py-3 w-24 rounded-full ml-1" type="submit" onClick={guest} value="LogIn Guest"/>
               </div>
             </form>
           </div>
