@@ -12,7 +12,7 @@ const Card = (props) => {
                         return (
                             (props.type === e.type) ? (
                                 <article className="card m-3">
-                                    <img className='card__background' style={{ width: "300px" }} src="/Electrician.jpg" alt={e.imgproname} />
+                                    <img className='card__background' style={{ width: "300px" }} src={"./Images/"+e.imgproname+".jpg"} alt={e.imgproname} />
                                     <div className="card__content | flow">
                                         <div className="card__content--container | flow">
                                             <h5 className=' text-3xl font-extrabold text-white'>{e.proname}</h5>
