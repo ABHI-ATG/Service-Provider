@@ -3,7 +3,7 @@ import axios from 'axios';
 import url from '../url'
 import io from 'socket.io-client'
 import { userContext } from '../App';
-const ENDPOINT="https://servicely-backend.onrender.com/"
+import ENDPOINT from '../ENDPOINT';
 
 const Sokcet = () => {
 
