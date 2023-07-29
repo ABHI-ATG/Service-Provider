@@ -53,7 +53,15 @@ const reducer=(state,action)=>{
     case ActionType.ONLINE:
       return {...state,onLine:action.payload};
     case ActionType.OFFLINE:
-      return {...state,onLine:0};
+      return {
+        onLine:0,
+        user:null,
+        provider:null,
+        message:[],
+        chat:null,
+        socket:null,
+        send:null
+      };
     case ActionType.USER:
       return {...state,user:action.payload};
     case ActionType.PROVIDER:
