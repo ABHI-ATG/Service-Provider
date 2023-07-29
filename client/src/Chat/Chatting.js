@@ -3,8 +3,9 @@ import { userContext } from '../App';
 
 const Chatting = () => {
 
-  const { state: { chat }, dispatch } = useContext(userContext);
+  const { state: {provider, chat }, dispatch } = useContext(userContext);
   const [content, setContent] = useState("");
+  console.log(provider);
 
   return (
     <div className='my-7 p-8'>
@@ -16,10 +17,10 @@ const Chatting = () => {
             </div>
             <div className="ml-4">
               <p className="text-grey-darkest font-bold text-xl">
-                Provider Name
+                {provider.fname + provider.lname}
               </p>
               <p className="text-grey-darker text-xs mt-1">
-                cityname , Profession
+                {provider.city} , {provider.profession}
               </p>
             </div>
           </div>
