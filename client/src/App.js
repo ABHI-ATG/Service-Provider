@@ -16,6 +16,7 @@ import Chats from './DashBoardProvider/Chats'
 import Message from './Message/Message'
 import Socket from './Socket/Socket'
 import Nav from './Nav/Nav'
+import ErrorPage from './errorPage/ErrorPage';
 import './Css/index.css'
 import './Css/card.css';
 import './Css/search.css';
@@ -114,6 +115,7 @@ const App=()=>{
           <Route path='/dashboard' Component={Dashboard}/>
           <Route path='/dashboard/chatting' Component={Chats}/>
           <Route path='/message' Component={Message}/>
+          <Route path='*' Component={ErrorPage}/>
         </Routes>
         <Footer id="footer" />
       </userContext.Provider>
