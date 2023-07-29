@@ -54,7 +54,7 @@ const Message = () => {
     if (!present) {
       create();
     }
-    if (onLine == 1)
+    if (onLine === 1)
       navigate('/chatting')
     else
       navigate('/dashboard/chatting')
