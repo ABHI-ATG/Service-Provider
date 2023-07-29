@@ -139,11 +139,11 @@ const Dashboard = () => {
                 </p>
               </div>
 
-              <div className="pt-12 pb-8 flex justify-center">
+              {/* <div className="pt-12 pb-8 flex justify-center">
                 <button onClick={goChatting} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 w-32 rounded-full">
                   Messages
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
