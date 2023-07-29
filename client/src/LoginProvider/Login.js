@@ -6,7 +6,7 @@ import { userContext } from '../App';
 import axios from 'axios'
 import url from '../url'
 import io from 'socket.io-client'
-const ENDPOINT = "http://localhost:8000";
+import ENDPOINT from '../ENDPOINT';
 
 const Loginn = () => {
     const {dispatch}=useContext(userContext);  
@@ -22,6 +22,30 @@ const Loginn = () => {
   
       const data=await axios.post(`${url}/api/provider/signin`,{
         email,password
+        },{
+          headers:{
+              "Content-Type":"application/json"
+          },
+      });
+  
+      if(data.status===400 || !data){
+          console.log("Fail to Sign Up");
+      }else{
+        localStorage.setItem("id",data.data.id);
+        localStorage.setItem("token",data.data.token);
+        localStorage.setItem("name",data.data.fname);
+        localStorage.setItem("onLine",2);
+        dispatch({type:"online",payload:2});
+        dispatch({type:"provider",payload:data.data});
+        messageUpdate(data.data.token,data.data.id);
+      }
+  }
+
+    const guest=async (e)=>{
+      e.preventDefault();
+  
+      const data=await axios.post(`${url}/api/provider/signin`,{
+        email:"guest@gmail.com",password:"guest"
         },{
           headers:{
               "Content-Type":"application/json"
@@ -119,9 +143,8 @@ const Loginn = () => {
                             </div>
 
                             <div className="my-4">
-                                {
-                                    <input className=" bg-sky-400 text-white py-3 w-24 rounded-full" onClick={onSubmit} type="submit"/>
-                                }
+                                <input className=" bg-sky-400 text-white py-3 w-24 rounded-full" onClick={onSubmit} type="submit"/>
+                                <input className=" bg-sky-400 text-white py-3 w-24 rounded-full ml-1 p-1" onClick={guest} type="submit" value="LogIn Guest"/>
                             </div>
                         </form>
                     </div>

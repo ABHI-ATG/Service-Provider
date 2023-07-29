@@ -96,8 +96,8 @@ const Message = () => {
                   <div className="ml-4 flex-1 border-b border-grey-lighter py-4">
                     <div className="flex items-bottom justify-between">
                       <p className="text-grey-darkest">
-                        <span>{item.provider ? item.provider.fname : <></>} </span>
-                        <span>  {item.provider ? item.provider.lname : <></>}</span>
+                        <span>{item.user ? item.user.fname : <></>} </span>
+                        <span>  {item.user ? item.user.lname : <></>}</span>
                       </p>
                     </div>
                     <p className="text-grey-dark mt-1 text-sm">
