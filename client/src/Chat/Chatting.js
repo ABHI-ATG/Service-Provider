@@ -8,7 +8,7 @@ const Chatting = () => {
   console.log(provider);
 
   return (
-    <div className='my-7 p-8'>
+    <div className='mb-7 mt-3 p-8'>
       <div className="w-full  flex flex-col" >
         <div className="py-2 px-3 bg-grey-lighter border-y w-full my-3 flex flex-row justify-between items-center">
           <div className="flex items-center">
