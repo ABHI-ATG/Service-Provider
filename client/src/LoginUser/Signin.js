@@ -1,17 +1,18 @@
-import { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { userContext } from "../App";
+import { useState,useContext } from 'react';
+import { Link,useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { userContext } from '../App';
+import axios from 'axios'
+import url from '../url'
+import io from 'socket.io-client'
+import ENDPOINT from '../ENDPOINT';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
-import url from "../url";
-import io from "socket.io-client";
-import ENDPOINT from "../ENDPOINT";
-import { loginRouteUser } from "../routes/APIroute";
+import { loginRouteUser } from '../routes/APIroute';
 
 const Login = () => {
+
   const { dispatch } = useContext(userContext);
   const navigate = useNavigate();
 
@@ -119,12 +120,21 @@ const Login = () => {
             SignIn<span className=" text-sky-400">.</span>
           </div>
 
-          <div className="loginForm__subtitle py-5 text-base">
-            Don't have an account?
+          <div className="loginForm__subtitle pt-5 text-base">
+            Don't have a permanent account?
             <span className="ml-2 text-sky-400 font-medium">
               <Link to="/signup">Sign Up</Link>
             </span>
           </div>
+
+          <div className="loginForm__subtitle pb-5 text-base">
+            Don't have an account?
+            <span className="ml-2 text-sky-400 font-medium">
+            <input className="  py-3 w-24  ml-1" type="submit" onClick={guest} value="LogIn Guest"/>
+            </span>
+          </div>
+          
+          
 
           <div className="loginForm__form">
             <form method="POST">
