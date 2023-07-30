@@ -32,23 +32,24 @@ function EditUser() {
   } = useContext(userContext);
   console.log(user);
 
-  const handleSubmit =async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    try{
-    const { data } =await axios.put(editUser, {
-      fname: user.fname,
-      lname: user.lname,
-      email: user.email,
-      phone: user.phone,
-      userId: user._id,
-    });
-    if (data.status=== true) {
-      toast.success(data.msg, toastoptions);
-    } else if (data.status === false) {
-      toast.error(data.msg, toastoptionserror);
-    }}catch(e){
-        toast.error("Unable to update data",toastoptionserror);
-        return;
+    try {
+      const { data } = await axios.put(editUser, {
+        fname: user.fname,
+        lname: user.lname,
+        email: user.email,
+        phone: user.phone,
+        userId: user._id,
+      });
+      if (data.status === true) {
+        toast.success(data.msg, toastoptions);
+      } else if (data.status === false) {
+        toast.error(data.msg, toastoptionserror);
+      }
+    } catch (e) {
+      toast.error("Unable to update data", toastoptionserror);
+      return;
     }
   };
 

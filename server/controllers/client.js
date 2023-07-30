@@ -130,7 +130,7 @@ const edituser = async (req, res) => {
   try {
     const user = await User.findById(userId);
     if (!user) {
-      return res.json({status:false, msg: "User not found." });
+      return res.json({ status: false, msg: "User not found." });
     }
     if (firstName) {
       user.firstName = firstName;
@@ -145,10 +145,10 @@ const edituser = async (req, res) => {
       user.email = email;
     }
     await user.save();
-    return res.json({ status: true, msg: "User data updated successfully." });
+    return res.json({ status: true, msg: "User data updated successfully " });
   } catch (error) {
     console.error("Error updating user data:", error);
-    return res.json({ status: false, msg: "Server error" });
+    return res.json({ status: false, msg: " Server error " });
   }
 };
 

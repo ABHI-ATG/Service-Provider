@@ -120,7 +120,10 @@ const reducer = (state, action) => {
     case ActionType.SEND:
       return { ...state, send: action.payload };
     case ActionType.USERCHANGE:
-      return { ...state, user: {...state.user, [action.payload.type]:action.payload.value} };
+      return {
+        ...state,
+        user: { ...state.user, [action.payload.type]: action.payload.value },
+      };
     default:
       return state;
   }
