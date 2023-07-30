@@ -9,82 +9,82 @@ import io from 'socket.io-client'
 import ENDPOINT from '../ENDPOINT';
 
 const Loginn = () => {
-    const {dispatch}=useContext(userContext);  
-    const navigate=useNavigate();
+    const { dispatch } = useContext(userContext);
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-  
-    
-  
-    const onSubmit=async (e)=>{
-      e.preventDefault();
-  
-      const data=await axios.post(`${url}/api/provider/signin`,{
-        email,password
-        },{
-          headers:{
-              "Content-Type":"application/json"
-          },
-      });
-  
-      if(data.status===400 || !data){
-          console.log("Fail to Sign Up");
-      }else{
-        localStorage.setItem("id",data.data.id);
-        localStorage.setItem("token",data.data.token);
-        localStorage.setItem("name",data.data.fname);
-        localStorage.setItem("onLine",2);
-        dispatch({type:"online",payload:2});
-        dispatch({type:"provider",payload:data.data});
-        messageUpdate(data.data.token,data.data.id);
-      }
-  }
 
-    const guest=async (e)=>{
-      e.preventDefault();
-  
-      const data=await axios.post(`${url}/api/provider/signin`,{
-        email:"guest@gmail.com",password:"guest"
-        },{
-          headers:{
-              "Content-Type":"application/json"
-          },
-      });
-  
-      if(data.status===400 || !data){
-          console.log("Fail to Sign Up");
-      }else{
-        localStorage.setItem("id",data.data.id);
-        localStorage.setItem("token",data.data.token);
-        localStorage.setItem("name",data.data.fname);
-        localStorage.setItem("onLine",2);
-        dispatch({type:"online",payload:2});
-        dispatch({type:"provider",payload:data.data});
-        messageUpdate(data.data.token,data.data.id);
-      }
-  }
 
-  const messageUpdate=async(token,id)=>{
-    try {
-      const data=await axios.post(`${url}/api/provider/details`,{
-        id:id
-      },{
-        method:"POST",
-        headers:{
-            Authorization:token,
-            "Content-Type":"application/json"
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+
+        const data = await axios.post(`${url}/api/provider/signin`, {
+            email, password
+        }, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+        });
+
+        if (data.status === 400 || !data) {
+            console.log("Fail to Sign Up");
+        } else {
+            localStorage.setItem("id", data.data.id);
+            localStorage.setItem("token", data.data.token);
+            localStorage.setItem("name", data.data.fname);
+            localStorage.setItem("onLine", 2);
+            dispatch({ type: "online", payload: 2 });
+            dispatch({ type: "provider", payload: data.data });
+            messageUpdate(data.data.token, data.data.id);
         }
-      })
-      dispatch({type:"messageupdate",payload:data.data.message});
-      const conn=io(ENDPOINT);
-      dispatch({type:"socket",payload:conn});
-      conn.emit("setup",id);
-      navigate('/dashboard');
-    } catch (error) {
-      console.log(error);      
     }
-  }
+
+    const guest = async (e) => {
+        e.preventDefault();
+
+        const data = await axios.post(`${url}/api/provider/signin`, {
+            email: "guest@gmail.com", password: "guest"
+        }, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+        });
+
+        if (data.status === 400 || !data) {
+            console.log("Fail to Sign Up");
+        } else {
+            localStorage.setItem("id", data.data.id);
+            localStorage.setItem("token", data.data.token);
+            localStorage.setItem("name", data.data.fname);
+            localStorage.setItem("onLine", 2);
+            dispatch({ type: "online", payload: 2 });
+            dispatch({ type: "provider", payload: data.data });
+            messageUpdate(data.data.token, data.data.id);
+        }
+    }
+
+    const messageUpdate = async (token, id) => {
+        try {
+            const data = await axios.post(`${url}/api/provider/details`, {
+                id: id
+            }, {
+                method: "POST",
+                headers: {
+                    Authorization: token,
+                    "Content-Type": "application/json"
+                }
+            })
+            dispatch({ type: "messageupdate", payload: data.data.message });
+            const conn = io(ENDPOINT);
+            dispatch({ type: "socket", payload: conn });
+            conn.emit("setup", id);
+            navigate('/dashboard');
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 
     return (
@@ -95,12 +95,19 @@ const Loginn = () => {
                         Professionals Login<span className=" text-sky-400">.</span>
                     </div>
 
-                    <div className="loginForm__subtitle py-5 text-base">
-                        Don't have an account?
+                    <div className="loginForm__subtitle p-5 text-base">
+                        Don't have a permanent account?
                         <span className="ml-2 text-sky-400 font-medium">
                             <Link to='/register'>
                                 Register
                             </Link>
+                        </span>
+                    </div>
+
+                    <div className="loginForm__subtitle pb-5 text-base">
+                        Don't have an account?
+                        <span className="ml-2 text-sky-400 font-medium">
+                            <input className="  py-3 w-24  ml-1" type="submit" onClick={guest} value="LogIn Guest" />
                         </span>
                     </div>
 
@@ -110,7 +117,7 @@ const Loginn = () => {
                                 <label className="block">
                                     <span className="text-grey-700 text-lg">Email Address</span>
                                     <input type='email' className="mt-1 p-2 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder='jondoe@email.com' required name="email" value={email}
-                                    onChange={(e)=>setEmail(e.target.value)}/>
+                                        onChange={(e) => setEmail(e.target.value)} />
                                 </label>
                             </div>
 
@@ -123,28 +130,28 @@ const Loginn = () => {
                                             className="mt-1 p-2 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
                                             placeholder="Password"
                                             name="password" value={password}
-                                    onChange={(e)=>setPassword(e.target.value)}
+                                            onChange={(e) => setPassword(e.target.value)}
                                             required
                                         />
                                         {password &&
-                                        (
-                                            <FontAwesomeIcon 
-                                            icon={showPassword ? faEyeSlash : faEye}
-                                            className="eye-icon -ml-6 mt-4"
-                                            onClick={()=>{
-                                                setShowPassword(!showPassword);
-                                            }}
-                                        />
-                                        ) }
-                                        
+                                            (
+                                                <FontAwesomeIcon
+                                                    icon={showPassword ? faEyeSlash : faEye}
+                                                    className="eye-icon -ml-6 mt-4"
+                                                    onClick={() => {
+                                                        setShowPassword(!showPassword);
+                                                    }}
+                                                />
+                                            )}
+
                                     </div>
                                 </label>
 
                             </div>
 
                             <div className="my-4">
-                                <input className=" bg-sky-400 text-white py-3 w-24 rounded-full" onClick={onSubmit} type="submit"/>
-                                <input className=" bg-sky-400 text-white py-3 w-24 rounded-full ml-1 p-1" onClick={guest} type="submit" value="LogIn Guest"/>
+                                <input className=" bg-sky-400 text-white py-3 w-24 rounded-full" onClick={onSubmit} type="submit" />
+                               
                             </div>
                         </form>
                     </div>

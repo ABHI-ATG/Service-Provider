@@ -16,9 +16,9 @@ const Chatting = () => {
   }, []);
 
   return (
-    <div className='mb-7 mt-3 p-8'>
+    <div className='mb-7 p-2'>
       <div className="w-full  flex flex-col"  >
-        <div className="py-2 px-3 bg-grey-lighter border-y w-full my-3 flex flex-row justify-between items-center ">
+        <div className="py-2 px-3 bg-grey-lighter border-y w-full my-1 flex flex-row justify-between items-center ">
           <div className="flex items-center">
             <div>
               <img className="w-10 h-10 rounded-full" src="./icons/Default.png" />
