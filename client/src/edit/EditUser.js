@@ -30,7 +30,6 @@ function EditUser() {
     state: { user },
     dispatch,
   } = useContext(userContext);
-  console.log(user);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
