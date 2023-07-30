@@ -3,6 +3,7 @@ import {useNavigate } from 'react-router-dom';
 import { userContext } from '../App';
 import axios from 'axios';
 import url from '../url'
+import Spinner from '../spinner/Spinner';
 
 const Login = () => {
     const navigate=useNavigate();
@@ -40,7 +41,7 @@ const Login = () => {
 
   return (
     <>
-    <h1>This is logout page</h1>
+     <Spinner/>
     </>
   )
 }
