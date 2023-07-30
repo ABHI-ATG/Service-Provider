@@ -54,13 +54,13 @@ const Message = () => {
     if (!present) {
       create();
     }
-    if (onLine == 1)
+    if (onLine === 1)
       navigate('/chatting')
     else
       navigate('/dashboard/chatting')
 
   }
-
+  console.log(message);
 
   return (
     <div className="h-screen  items-center ">
@@ -98,6 +98,8 @@ const Message = () => {
                       <p className="text-grey-darkest">
                         <span>{item.user ? item.user.fname : <></>} </span>
                         <span>  {item.user ? item.user.lname : <></>}</span>
+                        <span>{item.provider ? item.provider.fname : <></>} </span>
+                        <span>  {item.provider ? item.provider.lname : <></>}</span>
                       </p>
                     </div>
                     <p className="text-grey-dark mt-1 text-sm">

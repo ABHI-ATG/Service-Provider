@@ -1,5 +1,5 @@
-import React, { createContext,useReducer, useState } from 'react';
-import {Routes,Route} from 'react-router-dom';
+import React, { createContext,useReducer } from 'react';
+import {Routes,Route, useNavigate} from 'react-router-dom';
 import Service from './Services/Services'
 import LoginUser from './LoginUser/Signin'
 import LoginPro from './LoginProvider/Login'
@@ -16,6 +16,7 @@ import Chats from './DashBoardProvider/Chats'
 import Message from './Message/Message'
 import Socket from './Socket/Socket'
 import Nav from './Nav/Nav'
+import ErrorPage from './errorPage/ErrorPage';
 import './Css/index.css'
 import './Css/card.css';
 import './Css/search.css';
@@ -102,6 +103,8 @@ const reducer=(state,action)=>{
 
 const App=()=>{
   const [state, dispatch] = useReducer(reducer, initialState);
+  const navigate=useNavigate();
+
 
   return (
     <>
@@ -110,18 +113,22 @@ const App=()=>{
         <Socket />
         <Routes>
           <Route path='/' Component={Home}/>
+          <Route path='/Service' Component={Service}/>
+          <Route path='/chat' Component={Chat}/>
+          <Route path='/chatting' Component={Chatting}/>
+
           <Route path='/signin' Component={LoginUser}/>
           <Route path='/signup' Component={SignInUser}/>
           <Route path='/logout' Component={LogoutUser}/>
           <Route path='/login' Component={LoginPro}/>
           <Route path='/register' Component={SignInPro}/>
           <Route path='/out' Component={LogoutPro}/>
-          <Route path='/Service' Component={Service}/>
-          <Route path='/chat' Component={Chat}/>
-          <Route path='/chatting' Component={Chatting}/>
+
           <Route path='/dashboard' Component={Dashboard}/>
           <Route path='/dashboard/chatting' Component={Chats}/>
+
           <Route path='/message' Component={Message}/>
+          <Route path='*' Component={ErrorPage}/>
         </Routes>
         <Footer id="footer" />
       </userContext.Provider>
