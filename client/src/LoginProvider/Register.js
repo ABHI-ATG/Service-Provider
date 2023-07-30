@@ -92,7 +92,6 @@ const SignInn = () => {
 
     if (
       fname === "" ||
-      lname === "" ||
       mobile === "" ||
       state === "" ||
       pincode === "" ||

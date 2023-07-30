@@ -45,7 +45,7 @@ const SignIn = () => {
     e.preventDefault();
 
     const { fname, lname, email, mobile, password, cpassword } = userData;
-    if (fname === "" || lname === "" || mobile === "") {
+    if (fname === ""  || mobile === "") {
       toast.error("Enter all details", toastOptions);
       return;
     }

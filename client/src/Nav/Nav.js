@@ -17,7 +17,7 @@ export default function Nav() {
 
     return (
         <nav className="w-full bg-white">
-            <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-2 shadow-xl ">
+            <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-2  ">
                 {/* Rest of the code... */}
                 <div>
                     <div className="flex items-center justify-between py-3 md:py-5 md:block">
@@ -54,6 +54,9 @@ export default function Nav() {
                             <li className="text-gray-600 font-bold text-lg hover:text-blue-600">
                                 <Link to="/message">Message</Link>
                             </li>
+                            <li className="text-gray-600 font-bold text-lg hover:text-blue-600">
+                                <Link to="/edituser">Edit User</Link>
+                            </li>
                             {localStorage.getItem('onLine')?<></>:
                             <li className="text-gray-600 text-lg font-bold hover:text-blue-600">
                                 <ScrollLink
@@ -67,7 +70,7 @@ export default function Nav() {
                                 </ScrollLink>
                             </li>
                             }
-                            {onLine?(onLine==1?<li className="text-gray-600 text-lg font-bold hover:text-blue-600">
+                            {onLine?(onLine===1?<li className="text-gray-600 text-lg font-bold hover:text-blue-600">
                                 <Link to="/logout">LogOut</Link>
                             </li>:<li className="text-gray-600 text-lg font-bold hover:text-blue-600">
                                 <Link to="/out">LogOut</Link>
