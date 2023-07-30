@@ -4,17 +4,14 @@ const Message=require('../models/message')
 const signup=async(req,res)=>{
     try {
         const {fname, lname, email, mobile, state, city, pincode, profession, password}=req.body;
-        if(!fname || !lname || !email || !mobile || !password || !state ||  !pincode || !city){
-            return res.status(400).send('Enter all details');
-        }
         const userExist=await Pro.findOne({email})
         if(userExist){
-            return res.status(400).send('User already exist');
+            return res.json({ msg: "User mail already exist", status: false });
         }
         const data=await Pro.create({fname, lname, email, mobile, state, city, pincode, profession, password})
-        res.status(200).send("Account Created Successfully")
+        return res.json({ msg: "Account created Successfully", status: true });
     } catch (error) {
-        return res.status(404).send(error);
+        return res.json({ msg: "Can't login", status: false });
     }
 }
 
@@ -22,10 +19,6 @@ const signin=async(req,res)=>{
     try {
         const {email , password}=req.body;
         
-        if(!email || !password){
-            return res.status(400).send('Enter all details');
-        }
-
         let userExist=await Pro.findOne({email})
         if(userExist){
             const isMatch=await userExist.matchPassword(password);
@@ -34,7 +27,8 @@ const signin=async(req,res)=>{
                 res.cookie('jwt',token,{
                     expires:new Date(Date.now()+10000000000)
                 })
-                return res.status(200).send({
+                return res.json({
+                    status:true,
                     id:userExist._id,
                     token:token,
                     email:userExist.email,
@@ -46,13 +40,13 @@ const signin=async(req,res)=>{
                     state:userExist.state,
                 })
             }else{
-                return res.status(400).send('User does not exist');
+                return res.json({ msg: "Invalid credentials", status: false });
             }
         }else{  
-            return res.status(400).send('User does not exist');
+            return res.json({ msg: "Invalid credentials", status: false });
         }
     } catch (error) {
-        return res.status(404).send(error);
+        return res.json({ msg: "Can't login", status: false });
     }           
 }
 
