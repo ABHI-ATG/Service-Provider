@@ -1,94 +1,115 @@
-import { useState,useContext } from 'react';
-import { Link,useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { userContext } from '../App';
-import axios from 'axios'
-import url from '../url'
-import io from 'socket.io-client'
-import ENDPOINT from '../ENDPOINT';
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { userContext } from "../App";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import url from "../url";
+import io from "socket.io-client";
+import ENDPOINT from "../ENDPOINT";
+import { loginRouteUser } from "../routes/APIroute";
 
 const Login = () => {
-
-  const {dispatch}=useContext(userContext);  
-  const navigate=useNavigate();
+  const { dispatch } = useContext(userContext);
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const toastOptions = {
+    position: "bottom-right",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  };
 
-  
-
-  const onSubmit=async (e)=>{
+  const onSubmit = async (e) => {
     e.preventDefault();
-
-    const data=await axios.post(`${url}/api/client/signin`,{
-      email,password
-      },{
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
-        }
-    })
-    if(data.status===400 || !data){
-        console.log("Fail to Sign Up");
-    }else{
-        localStorage.setItem("id",data.data.id);
-        localStorage.setItem("token",data.data.token);
-        localStorage.setItem("name",data.data.name);
-        localStorage.setItem("onLine",1);
-        dispatch({type:"online",payload:1});
-        messageUpdate(data.data.id);
-        navigate('/');
+    if (email === "") {
+      toast.error("Enter email", toastOptions);
+      return;
     }
-}
-
-  const guest=async (e)=>{
-    e.preventDefault();
-
-    const data=await axios.post(`${url}/api/client/signin`,{
-      email:"guest@gmail.com",password:"guest"
-      },{
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
-        }
-    })
-    if(data.status===400 || !data){
-        console.log("Fail to Sign Up");
-    }else{
-        localStorage.setItem("id",data.data.id);
-        localStorage.setItem("token",data.data.token);
-        localStorage.setItem("name",data.data.name);
-        localStorage.setItem("onLine",1);
-        dispatch({type:"online",payload:1});
-        messageUpdate(data.data.id);
-        navigate('/');
+    if (password === "") {
+      toast.error("Enter password", toastOptions);
+      return;
     }
-}
 
-  const messageUpdate=async(id)=>{
     try {
-      const data=await axios.post(`${url}/api/client/details`,{
-        id:id
-      },{
-        method:"POST",
-        headers:{
-            Authorization:localStorage.getItem("token"),
-            "Content-Type":"application/json"
-        }
-      })
-      dispatch({type:"user",payload:data.data.user});
-      dispatch({type:"messageupdate",payload:data.data. message});
-      const conn=io(ENDPOINT);
-      dispatch({type:"socket",payload:conn});
-      conn.emit("setup",id);
-    } catch (error) {
-      console.log(error);      
+      const { data } = await axios.post(loginRouteUser, {
+        email,
+        password,
+      });
+      if (data.status === false) {
+        toast.error(data.msg, toastOptions);
+        return;
+      } else if (data.status === true) {
+        localStorage.setItem("id", data.id);
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("name", data.name);
+        localStorage.setItem("onLine", 1);
+        dispatch({ type: "online", payload: 1 });
+        messageUpdate(data.id);
+        navigate("/");
+      }
+    } catch (e) {
+      toast.error(e.message, toastOptions);
+      return;
     }
-  }
+  };
 
+  const guest = async (e) => {
+    e.preventDefault();
 
+    try {
+      const { data } = await axios.post(loginRouteUser, {
+        email: "guest@gmail.com",
+        password: "guest",
+      });
+      if (data.status === false) {
+        toast.error(data.msg, toastOptions);
+        return;
+      } else if (data.status === true) {
+        localStorage.setItem("id", data.id);
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("name", data.name);
+        localStorage.setItem("onLine", 1);
+        dispatch({ type: "online", payload: 1 });
+        messageUpdate(data.id);
+        navigate("/");
+      }
+    } catch (e) {
+      toast.error("Can't connect to server", toastOptions);
+      return;
+    }
+  };
+
+  const messageUpdate = async (id) => {
+    try {
+      const data = await axios.post(
+        `${url}/api/client/details`,
+        {
+          id: id,
+        },
+        {
+          method: "POST",
+          headers: {
+            Authorization: localStorage.getItem("token"),
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      dispatch({ type: "user", payload: data.data.user });
+      dispatch({ type: "messageupdate", payload: data.data.message });
+      const conn = io(ENDPOINT);
+      dispatch({ type: "socket", payload: conn });
+      conn.emit("setup", id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -101,32 +122,40 @@ const Login = () => {
           <div className="loginForm__subtitle py-5 text-base">
             Don't have an account?
             <span className="ml-2 text-sky-400 font-medium">
-              <Link to='/signup'>
-                Sign Up
-              </Link>
+              <Link to="/signup">Sign Up</Link>
             </span>
           </div>
 
           <div className="loginForm__form">
-            <form method='POST'>
+            <form method="POST">
               <div className="mb-3">
                 <label className="block">
                   <span className="text-grey-700">Email Address</span>
-                  <input type='email' className="mt-1 p-2 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder='jondoe@email.com' value={email} name="email" onChange={(e)=>{
-                    setEmail(e.target.value)
-                  }} required />
+                  <input
+                    type="email"
+                    className="mt-1 p-2 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
+                    placeholder="jondoe@email.com"
+                    value={email}
+                    name="email"
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                    }}
+                    required
+                  />
                 </label>
               </div>
 
               <div className="mb-3">
                 <label className="block">
                   <span className="text-grey-700">Password</span>
-                  <div className=' flex '>
+                  <div className=" flex ">
                     <input
-                      type={showPassword ? 'text' : 'password'}
+                      type={showPassword ? "text" : "password"}
                       className="mt-1 p-2 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
-                      value={password} name="password" onChange={(e)=>{
-                        setPassword(e.target.value)
+                      value={password}
+                      name="password"
+                      onChange={(e) => {
+                        setPassword(e.target.value);
                       }}
                       placeholder="Password"
                       required
@@ -135,7 +164,7 @@ const Login = () => {
                       <FontAwesomeIcon
                         icon={showPassword ? faEyeSlash : faEye}
                         className="eye-icon -ml-6 mt-4"
-                        onClick={()=>{
+                        onClick={() => {
                           setShowPassword(!showPassword);
                         }}
                       />
@@ -145,18 +174,27 @@ const Login = () => {
               </div>
 
               <div className="my-10">
-                  <input className=" bg-sky-400 text-white py-3 w-24 rounded-full" type="submit" onClick={onSubmit} value="SignIn"/>
-                  <input className=" bg-sky-400 text-white py-3 w-24 rounded-full ml-1" type="submit" onClick={guest} value="LogIn Guest"/>
+                <input
+                  className=" bg-sky-400 text-white py-3 w-24 rounded-full"
+                  type="submit"
+                  onClick={onSubmit}
+                  value="SignIn"
+                />
+                <input
+                  className=" bg-sky-400 text-white py-3 w-24 rounded-full ml-1"
+                  type="submit"
+                  onClick={guest}
+                  value="LogIn Guest"
+                />
               </div>
             </form>
           </div>
         </div>
 
-        <div className="hidden md:block bg-[url('https://img.freepik.com/free-vector/cleaners-with-cleaning-products-housekeeping-service_18591-52068.jpg?w=740&t=st=1682166693~exp=1682167293~hmac=64f5e0eb7e8469795f4782203b4f34d321d34786324396addf4fd0b94cee2f24')]  bg-right bg-no-repeat w-full h-[500px]">
-
-        </div>
+        <div className="hidden md:block bg-[url('https://img.freepik.com/free-vector/cleaners-with-cleaning-products-housekeeping-service_18591-52068.jpg?w=740&t=st=1682166693~exp=1682167293~hmac=64f5e0eb7e8469795f4782203b4f34d321d34786324396addf4fd0b94cee2f24')]  bg-right bg-no-repeat w-full h-[500px]"></div>
       </div>
+      <ToastContainer />
     </>
-  )
-}
+  );
+};
 export default Login;

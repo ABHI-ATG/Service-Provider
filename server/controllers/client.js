@@ -5,28 +5,20 @@ const Message=require('../models/message')
 const signup=async(req,res)=>{
     try {
         const {fname,lname,email,mobile,password}=req.body;
-        if(!fname || !lname || !email || !mobile || !password){
-            return res.status(400).send('Enter all details');
-        }
-        const userExist=await User.findOne({email})
+        const userExist=await User.findOne({email});
         if(userExist){
-            return res.status(400).send('User already exist');
+            return res.json({ msg: "User mail already exist", status: false });
         }
         const data=await User.create({fname,lname,email,mobile,password})
-        res.status(200).send("Account Created Successfully")
+        return res.json({status:true,msg:'Account created successfully'});
     } catch (error) {
-        return res.status(404).send(error);
+        return res.json({status:false,msg:" Couldn't create account"});
     }
 }
 
 const signin=async(req,res)=>{
     try {
         const {email , password}=req.body;
-        
-        if(!email || !password){
-            return res.status(400).send('Enter all details');
-        }
-
         const userExist=await User.findOne({email})
         if(userExist){
             const isMatch=await userExist.matchPassword(password);
@@ -35,19 +27,20 @@ const signin=async(req,res)=>{
                 res.cookie('jwt',token,{
                     expires:new Date(Date.now()+1000000000000)
                 })
-                res.status(200).send({
+                res.json({
+                    status:true,
                     token:token,
                     id:userExist._id,
                     name:userExist.fname
                 })
             }else{
-                return res.status(400).send('User does not exist');
+                return res.json({status:false,msg:"Invalid Credentials"});
             }
         }else{  
-            return res.status(400).send('User does not exist');
+            return res.json({status:false,msg:"Invalid Credentials"});
         }
     } catch (error) {
-        return res.status(404).send(error);
+        return res.json({status:false,msg:" Couldn't create account"});
     }
 }
 

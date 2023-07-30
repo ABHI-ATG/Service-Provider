@@ -5,9 +5,19 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import url from "../url";
 import ReverseGeocode from "../reverseGeoCode/ReverseGeoCode";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { signUpRouteUser } from "../routes/APIroute";
 
 const SignIn = () => {
+  const toastOptions = {
+    position: "bottom-right",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  };
+
   const navigate = useNavigate();
 
   const [userData, setuserData] = useState({
@@ -18,7 +28,7 @@ const SignIn = () => {
     password: "",
     cpassword: "",
   });
-  
+
   const [showPassword, setShowPassword] = useState(false);
 
   const onChangeHandle = (e) => {
@@ -35,30 +45,52 @@ const SignIn = () => {
     e.preventDefault();
 
     const { fname, lname, email, mobile, password, cpassword } = userData;
+    if (fname === "" || lname === "" || mobile === "") {
+      toast.error("Enter all details", toastOptions);
+      return;
+    }
+    if (email === "") {
+      toast.error("Enter email", toastOptions);
+      return;
+    }
+    if (password.length < 4) {
+      toast.error("Atleast 4 digit Password", toastOptions);
+      return;
+    }
+    if (password === "" || cpassword === "") {
+      toast.error("Enter password and confirm password", toastOptions);
+      return;
+    }
+    if (mobile.length !== 10) {
+      toast.error("Enter valid 10 digit number", toastOptions);
+      return;
+    }
+    if (password !== cpassword) {
+      toast.error("Password and confirm password do not match", toastOptions);
+      return;
+    }
     try {
-      const data = await axios.post(
-        `${url}/api/client/signup`,
+      const { data } = await axios.post(
+        signUpRouteUser,
         {
-          fname: fname,
-          lname: lname,
-          email: email,
-          mobile: mobile,
-          password: password,
-          cpassword: cpassword,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          fname,
+          lname,
+          email,
+          mobile,
+          password,
+          
         }
       );
-      if (data.status === 400 || !data) {
-        console.log("Fail to Sign Up");
-      } else {
+      if (data.status === false) {
+        toast.error(data.msg, toastOptions);
+        return;
+      } else if (data.status === true) {
         navigate("/signin");
-      }
+      } 
     } catch (error) {
       console.log(error);
+      toast.error("Error while connecting to server", toastOptions);
+      return;
     }
   };
 
@@ -73,7 +105,7 @@ const SignIn = () => {
           <div className="loginForm__subtitle py-5 text-base">
             Already have an account?
             <span className="ml-2 text-sky-400 font-medium">
-              <Link to="/signin">SingIn</Link>
+              <Link to="/signin">Sign In</Link>
             </span>
           </div>
 
@@ -200,11 +232,11 @@ const SignIn = () => {
             </form>
           </div>
         </div>
-        <ReverseGeocode/>
-        <div>
-    </div>
+        <ReverseGeocode />
+        <div></div>
         <div className="hidden md:block bg-[url('https://img.freepik.com/free-vector/cleaner-with-cleaning-products-housekeeping-service_18591-52057.jpg?w=740&t=st=1682167423~exp=1682168023~hmac=f0aae2ea84ab46eea6a12d64dadd8e9a92ac895b93fdb4d55d2fab433abef97b')] bg-right bg-no-repeat w-full h-full"></div>
       </div>
+      <ToastContainer />
     </>
   );
 };
