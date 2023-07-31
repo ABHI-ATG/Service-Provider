@@ -101,7 +101,7 @@ export default function Nav() {
                 </li>
               )}
               {onLine ? (
-                onLine === 1 ? (
+                onLine == 1 ? (
                   <li className="text-gray-600 text-lg font-bold hover:text-blue-600">
                     <Link to="/logout">LogOut</Link>
                   </li>
