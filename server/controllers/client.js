@@ -125,18 +125,19 @@ const send = async (req, res) => {
   }
 };
 
+
 const edituser = async (req, res) => {
-  const { userId, firstName, lastName, mobile, email } = req.body;
+  const { userId, fname, lname, mobile, email } = req.body;
   try {
     const user = await User.findById(userId);
     if (!user) {
       return res.json({ status: false, msg: "User not found." });
     }
-    if (firstName) {
-      user.firstName = firstName;
+    if (fname) {
+      user.fname = fname;
     }
-    if (lastName) {
-      user.lastName = lastName;
+    if (lname) {
+      user.lname = lname;
     }
     if (mobile) {
       user.mobile = mobile;
@@ -144,8 +145,21 @@ const edituser = async (req, res) => {
     if (email) {
       user.email = email;
     }
-    await user.save();
-    return res.json({ status: true, msg: "User data updated successfully " });
+    try {
+      
+      const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        user,
+        { new: true }
+      );
+      return res.json({
+        status: true,
+        msg: "User updated successfully.",
+        data: updatedUser,
+      });
+    } catch (e) {
+      return res.json({ status: false, msg: "can't update " });
+    }
   } catch (error) {
     console.error("Error updating user data:", error);
     return res.json({ status: false, msg: " Server error " });

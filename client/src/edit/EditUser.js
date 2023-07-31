@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import axios from "axios";
 import { userContext } from "../App";
@@ -26,6 +26,7 @@ function EditUser() {
     progress: undefined,
     theme: "light",
   };
+
   const {
     state: { user },
     dispatch,
@@ -38,10 +39,11 @@ function EditUser() {
         fname: user.fname,
         lname: user.lname,
         email: user.email,
-        phone: user.phone,
+        mobile: user.mobile,
         userId: user._id,
       });
       if (data.status === true) {
+      
         toast.success(data.msg, toastoptions);
       } else if (data.status === false) {
         toast.error(data.msg, toastoptionserror);
@@ -105,11 +107,11 @@ function EditUser() {
                   className="border-solid border-2 pl-1 rounded-md border-slate-700 "
                   id="inputUsername"
                   type="text"
-                  value={user ? user.phone : "Phone"}
+                  value={user ? user.mobile : "Phone"}
                   onChange={(e) =>
                     dispatch({
                       type: "userchange",
-                      payload: { type: "phone", value: e.target.value },
+                      payload: { type: "mobile", value: e.target.value },
                     })
                   }
                   placeholder="Enter your Mobile Number"
