@@ -21,7 +21,6 @@ import "./Css/index.css";
 import "./Css/card.css";
 import "./Css/search.css";
 import EditUser from "./edit/EditUser";
-import EditProvider from "./edit/EditProvider";
 export const userContext = createContext();
 
 // const [initialState,setInitialState]=useState({

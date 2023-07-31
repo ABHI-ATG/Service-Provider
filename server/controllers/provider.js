@@ -91,5 +91,44 @@ const send=async(req,res)=>{
     }
 }
 
+const edit=async(req,res)=>{
+    const { userId, fname, lname, mobile, email } = req.body;
+    try {
+      const user = await Pro.findById(userId);
+      if (!user) {
+        return res.json({ status: false, msg: "User not found." });
+      }
+      if (fname) {
+        user.fname = fname;
+      }
+      if (lname) {
+        user.lname = lname;
+      }
+      if (mobile) {
+        user.mobile = mobile;
+      }
+      if (email) {
+        user.email = email;
+      }
+      try {
+        
+        const updatedUser = await Pro.findByIdAndUpdate(
+          userId,
+          user,
+          { new: true }
+        );
+        return res.json({
+          status: true,
+          msg: "User updated successfully.",
+          data: updatedUser,
+        });
+      } catch (e) {
+        return res.json({ status: false, msg: "can't update " });
+      }
+    } catch (error) {
+      console.error("Error updating user data:", error);
+      return res.json({ status: false, msg: " Server error " });
+    }
+}
 
-module.exports={signin,signup,signout,details,send};
+module.exports={signin,signup,signout,details,send,edit};
