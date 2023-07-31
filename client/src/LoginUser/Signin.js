@@ -190,12 +190,7 @@ const Login = () => {
                   onClick={onSubmit}
                   value="SignIn"
                 />
-                <input
-                  className=" bg-sky-400 text-white py-3 w-24 rounded-full ml-1"
-                  type="submit"
-                  onClick={guest}
-                  value="LogIn Guest"
-                />
+                
               </div>
             </form>
           </div>

@@ -120,6 +120,12 @@ const Loginn = () => {
               <Link to="/register">Register</Link>
             </span>
           </div>
+          <div className="loginForm__subtitle pb-5 text-base">
+            Don't have an account?
+            <span className="ml-2 text-sky-400 font-medium">
+            <input className="  py-3 w-24  ml-1" type="submit" onClick={guest} value="LogIn Guest"/>
+            </span>
+          </div>
 
           <div className="loginForm__form">
             <form method="POST" className=" flex flex-col justify-center">
@@ -170,12 +176,7 @@ const Loginn = () => {
                   onClick={onSubmit}
                   type="submit"
                 />
-                <input
-                  className=" bg-sky-400 text-white py-3 w-24 rounded-full ml-1 p-1"
-                  onClick={guest}
-                  type="submit"
-                  value="LogIn Guest"
-                />
+                
               </div>
             </form>
           </div>
