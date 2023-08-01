@@ -6,6 +6,7 @@ const {
   signout,
   details,
   send,
+  edit,
 } = require("../controllers/provider");
 const { authenticatePro } = require("../middleware/authenticate");
 
@@ -19,5 +20,6 @@ router.route("/signin").post(signin);
 router.route("/details").post(authenticatePro, details);
 router.route("/signout").get(authenticatePro, signout);
 router.route("/send").post(authenticatePro, send);
+router.route("/edit").put(edit);
 
 module.exports = router;

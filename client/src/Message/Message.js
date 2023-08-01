@@ -3,8 +3,20 @@ import { userContext } from '../App'
 import { useNavigate } from 'react-router-dom';
 import url from '../url';
 import axios from 'axios';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Message = () => {
+  const toastoptions = {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  };
 
   const { state: { onLine, message, user, provider, socket }, dispatch } = useContext(userContext);
   const navigate = useNavigate();
@@ -32,12 +44,16 @@ const Message = () => {
       });
 
     } catch (error) {
-      console.log(error);
+      toast.error(error,toastoptions);
     }
   }
 
   const goChatting = (item) => {
-    dispatch({ type: "provider", payload: item.provider })
+    if(localStorage.getItem('onLine')==1){
+      dispatch({ type: "provider", payload: item.provider })
+    }else{
+      dispatch({ type: "user", payload: item.user })
+    }
     let present;
     if (message.length) {
       present = message.some((obj) => {
@@ -60,7 +76,6 @@ const Message = () => {
       navigate('/dashboard/chatting')
 
   }
-  console.log(message);
 
   return (
     <div className="h-screen  items-center ">
@@ -112,6 +127,7 @@ const Message = () => {
           </div>
         )
       })}
+     <ToastContainer />
     </div>
   )
 }

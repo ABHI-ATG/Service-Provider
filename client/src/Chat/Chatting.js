@@ -6,7 +6,6 @@ const Chatting = () => {
   const { state: {provider, chat }, dispatch } = useContext(userContext);
   const [content, setContent] = useState("");
   const inputRef = useRef(null); 
-  console.log(provider);
 
 
   useEffect(() => {
@@ -25,7 +24,7 @@ const Chatting = () => {
             </div>
             <div className="ml-4">
               <p className="text-grey-darkest font-bold text-xl">
-                {provider.fname + provider.lname}
+                {provider.fname +" "+ provider.lname}
               </p>
               <p className="text-grey-darker text-xs mt-1">
                 {provider.city} , {provider.profession}
