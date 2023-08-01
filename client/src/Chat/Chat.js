@@ -37,12 +37,12 @@ const Chat = () => {
   const create=async()=>{
     try {
       const {data}=await axios.post(`${url}/api/client/create`,{
-        user:user.id,
+        user:user._id,
         provider:provider._id
       },{
         method:"POST",
         headers:{
-          Authorization:user.token,
+          Authorization:localStorage.getItem('token'),
           "Content-Type":"application/json"
         }
     });

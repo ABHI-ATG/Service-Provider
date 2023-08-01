@@ -79,12 +79,16 @@ export default function Nav() {
               <li className="text-gray-600 font-bold text-lg hover:text-blue-600">
                 <Link to="/">Home</Link>
               </li>
+              {localStorage.getItem("onLine")?
+              <>
               <li className="text-gray-600 font-bold text-lg hover:text-blue-600">
                 <Link to="/message">Message</Link>
               </li>
               <li className="text-gray-600 font-bold text-lg hover:text-blue-600">
                 <Link to="/edituser">Edit User</Link>
               </li>
+              </>
+              :<></>}
               {localStorage.getItem("onLine") ? (
                 <></>
               ) : (

@@ -49,7 +49,11 @@ const Message = () => {
   }
 
   const goChatting = (item) => {
-    dispatch({ type: "provider", payload: item.provider })
+    if(localStorage.getItem('onLine')==1){
+      dispatch({ type: "provider", payload: item.provider })
+    }else{
+      dispatch({ type: "user", payload: item.user })
+    }
     let present;
     if (message.length) {
       present = message.some((obj) => {
