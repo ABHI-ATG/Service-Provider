@@ -85,7 +85,7 @@ export default function Nav() {
                 <Link to="/message">Message</Link>
               </li>
               <li className="text-gray-600 font-bold text-lg hover:text-blue-600">
-                <Link to="/edituser">Edit User</Link>
+                <Link to="/edituser">Edit</Link>
               </li>
               </>
               :<></>}
