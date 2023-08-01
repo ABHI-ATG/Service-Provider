@@ -31,7 +31,7 @@ function EditUser() {
     state: { user, onLine },
     dispatch,
   } = useContext(userContext);
-  
+
   console.log(user);
 
   const handleSubmit = async (event) => {
