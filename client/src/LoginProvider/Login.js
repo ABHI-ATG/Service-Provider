@@ -9,6 +9,7 @@ import io from "socket.io-client";
 import ENDPOINT from "../ENDPOINT";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Spinner from "../spinner/Spinner";
 
 const Loginn = () => {
   const toastOptions = {
@@ -23,34 +24,45 @@ const Loginn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if(email===""||password===""){
+    if (email === "" || password === "") {
       toast.error("Enter all details", toastOptions);
       return;
     }
-    const {data} = await axios.post(
-      `${url}/api/provider/signin`,
-      {
-        email,
-        password,
-      }
-    );
+    try {
+      setLoading(true); // Set loading state to true
 
-    if (data.status === false) {
-      toast.error(data.msg,toastOptions);
-      return;
-    } else {
-      localStorage.setItem("id", data.id);
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("name", data.fname);
-      localStorage.setItem("onLine", 2);
-      dispatch({ type: "online", payload: 2 });
-      dispatch({ type: "provider", payload: data });
-      messageUpdate(data.token, data.id);
+      const { data } = await axios.post(
+        `${url}/api/provider/signin`,
+        {
+          email,
+          password,
+        }
+      );
+
+      if (data.status === false) {
+        toast.error(data.msg, toastOptions);
+        return;
+      } else {
+        localStorage.setItem("id", data.id);
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("name", data.fname);
+        localStorage.setItem("onLine", 2);
+        dispatch({ type: "online", payload: 2 });
+        dispatch({ type: "provider", payload: data });
+        messageUpdate(data.token, data.id);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false); // Set loading state back to false
     }
   };
+
 
   const guest = async (e) => {
     e.preventDefault();
@@ -114,7 +126,7 @@ const Loginn = () => {
             Professionals Login<span className=" text-sky-400">.</span>
           </div>
 
-          <div className="loginForm__subtitle py-5 text-base">
+          <div className="loginForm__subtitle pt-5 text-base">
             Don't have an account?
             <span className="ml-2 text-sky-400 font-medium">
               <Link to="/register">Register</Link>
@@ -123,7 +135,7 @@ const Loginn = () => {
           <div className="loginForm__subtitle pb-5 text-base">
             Don't have an account?
             <span className="ml-2 text-sky-400 font-medium">
-            <input className="  py-3 w-24  ml-1" type="submit" onClick={guest} value="LogIn Guest"/>
+              <input className="  py-3 w-24  ml-1" type="submit" onClick={guest} value="LogIn Guest" />
             </span>
           </div>
 
@@ -170,13 +182,17 @@ const Loginn = () => {
                 </label>
               </div>
 
-              <div className="my-4">
-                <input
-                  className=" bg-sky-400 text-white py-3 w-24 rounded-full"
-                  onClick={onSubmit}
-                  type="submit"
-                />
-                
+              <div className="flex justify-center my-4">
+                {loading ? (
+                  <div className="flex justify-center w-12 h-12 border-4 border-dashed rounded-full animate-spin dark:border-sky-400"></div>
+                ) : (
+                  <input
+                    className="bg-sky-400 text-white py-3 w-24 rounded-full"
+                    onClick={onSubmit}
+                    type="submit"
+                    disabled={loading}
+                  />
+                )}
               </div>
             </form>
           </div>
