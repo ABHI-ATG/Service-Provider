@@ -19,6 +19,8 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [loading , setLoading] = useState(false);
+
   const toastOptions = {
     position: "bottom-right",
     autoClose: 8000,
@@ -39,6 +41,7 @@ const Login = () => {
     }
 
     try {
+      setLoading(true);
       const { data } = await axios.post(loginRouteUser, {
         email,
         password,
@@ -58,6 +61,8 @@ const Login = () => {
     } catch (e) {
       toast.error(e.message, toastOptions);
       return;
+    } finally{
+      setLoading(false);
     }
   };
 
@@ -183,14 +188,19 @@ const Login = () => {
                 </label>
               </div>
 
-              <div className="my-10">
-                <input
+              <div className="my-10 flex justify-center">
+               
+                  <input
                   className=" bg-sky-400 text-white py-3 w-24 rounded-full"
                   type="submit"
                   onClick={onSubmit}
                   value="SignIn"
                 />
-                
+                {loading && (
+                   <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-transparent backdrop-blur-sm">
+                      <div className="flex justify-center w-12 h-12 border-4 border-dashed rounded-full animate-spin dark:border-sky-400"></div>
+                    </div>
+                  )}      
               </div>
             </form>
           </div>

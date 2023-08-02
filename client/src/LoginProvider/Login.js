@@ -34,7 +34,7 @@ const Loginn = () => {
       return;
     }
     try {
-      setLoading(true); // Set loading state to true
+      setLoading(true); 
 
       const { data } = await axios.post(
         `${url}/api/provider/signin`,
@@ -59,7 +59,7 @@ const Loginn = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false); // Set loading state back to false
+      setLoading(false); 
     }
   };
 
@@ -183,16 +183,19 @@ const Loginn = () => {
               </div>
 
               <div className="flex justify-center my-4">
-                {loading ? (
-                  <div className="flex justify-center w-12 h-12 border-4 border-dashed rounded-full animate-spin dark:border-sky-400"></div>
-                ) : (
+               
                   <input
                     className="bg-sky-400 text-white py-3 w-24 rounded-full"
                     onClick={onSubmit}
                     type="submit"
                     disabled={loading}
                   />
-                )}
+                  {loading && (
+                   <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-transparent backdrop-blur-sm">
+                      <div className="flex justify-center w-12 h-12 border-4 border-dashed rounded-full animate-spin dark:border-sky-400"></div>
+                    </div>
+                  )}     
+               
               </div>
             </form>
           </div>
