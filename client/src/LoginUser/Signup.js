@@ -30,6 +30,7 @@ const SignIn = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const onChangeHandle = (e) => {
     const value = e.target.value;
@@ -42,30 +43,37 @@ const SignIn = () => {
   };
 
   const onSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
 
     const { fname, lname, email, mobile, password, cpassword } = userData;
     if (fname === ""  || mobile === "") {
+      setLoading(false);
       toast.error("Enter all details", toastOptions);
       return;
     }
     if (email === "") {
+      setLoading(false);
       toast.error("Enter email", toastOptions);
       return;
     }
     if (password.length < 4) {
+      setLoading(false);
       toast.error("Atleast 4 digit Password", toastOptions);
       return;
     }
     if (password === "" || cpassword === "") {
+      setLoading(false);
       toast.error("Enter password and confirm password", toastOptions);
       return;
     }
     if (mobile.length !== 10) {
+      setLoading(false);
       toast.error("Enter valid 10 digit number", toastOptions);
       return;
     }
     if (password !== cpassword) {
+      setLoading(false);
       toast.error("Password and confirm password do not match", toastOptions);
       return;
     }
@@ -80,17 +88,18 @@ const SignIn = () => {
           password,
           
         }
-      );
-      if (data.status === false) {
+        );
+        if (data.status === false) {
         toast.error(data.msg, toastOptions);
-        return;
       } else if (data.status === true) {
+        setLoading(false);
         navigate("/signin");
       } 
     } catch (error) {
       console.log(error);
       toast.error("Error while connecting to server", toastOptions);
-      return;
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -228,6 +237,11 @@ const SignIn = () => {
                   onClick={onSubmit}
                   value="SignUp"
                 />
+                {loading && (
+                   <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-transparent backdrop-blur-sm">
+                      <div className="flex justify-center w-12 h-12 border-4 border-dashed rounded-full animate-spin dark:border-sky-400"></div>
+                    </div>
+                  )}   
               </div>
             </form>
           </div>

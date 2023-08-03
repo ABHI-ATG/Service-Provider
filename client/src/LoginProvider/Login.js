@@ -66,7 +66,8 @@ const Loginn = () => {
 
   const guest = async (e) => {
     e.preventDefault();
-
+    try{
+      setLoading(true);
     const data = await axios.post(
       `${url}/api/provider/signin`,
       {
@@ -90,6 +91,11 @@ const Loginn = () => {
       dispatch({ type: "online", payload: 2 });
       dispatch({ type: "provider", payload: data.data });
       messageUpdate(data.data.token, data.data.id);
+    }
+    }catch(error){
+      console.log(error);
+    }finally{
+      setLoading(false);
     }
   };
 

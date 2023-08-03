@@ -48,7 +48,7 @@ const Login = () => {
       });
       if (data.status === false) {
         toast.error(data.msg, toastOptions);
-        return;
+        setLoading(false);
       } else if (data.status === true) {
         localStorage.setItem("id", data.id);
         localStorage.setItem("token", data.token);
@@ -60,7 +60,6 @@ const Login = () => {
       }
     } catch (e) {
       toast.error(e.message, toastOptions);
-      return;
     } finally{
       setLoading(false);
     }
@@ -70,13 +69,13 @@ const Login = () => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const { data } = await axios.post(loginRouteUser, {
         email: "guest@gmail.com",
         password: "guest",
       });
       if (data.status === false) {
         toast.error(data.msg, toastOptions);
-        return;
       } else if (data.status === true) {
         localStorage.setItem("id", data.id);
         localStorage.setItem("token", data.token);
@@ -88,7 +87,8 @@ const Login = () => {
       }
     } catch (e) {
       toast.error("Can't connect to server", toastOptions);
-      return;
+    } finally{
+      setLoading(false);
     }
   };
 
