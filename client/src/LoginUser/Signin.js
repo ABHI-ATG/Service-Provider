@@ -10,10 +10,12 @@ import ENDPOINT from '../ENDPOINT';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loginRouteUser } from '../routes/APIroute';
+import ReverseGeocode from "../reverseGeoCode/ReverseGeoCode";
+
 
 const Login = () => {
 
-  const { dispatch } = useContext(userContext);
+  const { state:{location}, dispatch } = useContext(userContext);
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -48,19 +50,20 @@ const Login = () => {
       });
       if (data.status === false) {
         toast.error(data.msg, toastOptions);
-        return;
+        setLoading(false);
       } else if (data.status === true) {
         localStorage.setItem("id", data.id);
         localStorage.setItem("token", data.token);
         localStorage.setItem("name", data.name);
         localStorage.setItem("onLine", 1);
+        localStorage.setItem("city", location.city);
+        localStorage.setItem("postalCode", location.postalCode);
         dispatch({ type: "online", payload: 1 });
         messageUpdate(data.id);
         navigate("/");
       }
     } catch (e) {
       toast.error(e.message, toastOptions);
-      return;
     } finally{
       setLoading(false);
     }
@@ -70,25 +73,28 @@ const Login = () => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const { data } = await axios.post(loginRouteUser, {
         email: "guest@gmail.com",
         password: "guest",
       });
       if (data.status === false) {
         toast.error(data.msg, toastOptions);
-        return;
       } else if (data.status === true) {
         localStorage.setItem("id", data.id);
         localStorage.setItem("token", data.token);
         localStorage.setItem("name", data.name);
         localStorage.setItem("onLine", 1);
+        localStorage.setItem("city", location.city);
+        localStorage.setItem("postalCode", location.postalCode);
         dispatch({ type: "online", payload: 1 });
         messageUpdate(data.id);
         navigate("/");
       }
     } catch (e) {
       toast.error("Can't connect to server", toastOptions);
-      return;
+    } finally{
+      setLoading(false);
     }
   };
 
@@ -208,6 +214,7 @@ const Login = () => {
 
         <div className="hidden md:block bg-[url('https://img.freepik.com/free-vector/cleaners-with-cleaning-products-housekeeping-service_18591-52068.jpg?w=740&t=st=1682166693~exp=1682167293~hmac=64f5e0eb7e8469795f4782203b4f34d321d34786324396addf4fd0b94cee2f24')]  bg-right bg-no-repeat w-full h-[500px]"></div>
       </div>
+      <ReverseGeocode />
       <ToastContainer />
     </>
   );

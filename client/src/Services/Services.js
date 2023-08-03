@@ -8,15 +8,12 @@ import url from '../url'
 import {userContext} from '../App';
 
 const Services = () => {
-    const state="uttar Pradesh";
-    const city="muradnagar";
-    const pincode="201204"
 
-    const {dispatch}=useContext(userContext);
+    const {state:{location},dispatch}=useContext(userContext);
 
     const navigate=useNavigate();
-    const location = useLocation();
-    const encodedName = location.pathname.slice(9);
+    const loc = useLocation();
+    const encodedName = loc.pathname.slice(9);
     const decodedName = decodeURIComponent(encodedName);
 
     const [filteredData, setFilteredData] = useState([]);
@@ -29,11 +26,12 @@ const Services = () => {
     const searchApi = async () => {
         try {
             let work = window.location.href.split('?')[1];
-            const response = await axios.get(`${url}/api/client/service?state=${state}&city=${city}&pincode=${pincode}&work=${work}`, {
+            const response = await axios.get(`${url}/api/client/service?city=${location.city}&pincode=${location.postalCode}&work=${work}`, {
                 headers: {
                     Authorization: localStorage.getItem('token')
                 }
             });
+            console.log(response);
             setFilteredData(response.data);
             setIsLoading(false);
         } catch (error) {
@@ -52,7 +50,7 @@ const Services = () => {
                 {isLoading ? (
                      <Spinner/>
                 ) : (
-                    filteredData.length > 0 ? (
+                    localStorage.getItem('onLine') > 0 ? (
                         <div className="flex flex-wrap my-5 justify-center">
                             {filteredData.map((item, index) => (
                                 <div key={index} className="flex justify-center my-5 mx-10">

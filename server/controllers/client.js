@@ -62,14 +62,12 @@ const signout = async (req, res) => {
 
 const service = async (req, res) => {
   try {
-    const state = req.query.state;
     const city = req.query.city;
     const pincode = req.query.pincode;
     const work = req.query.work;
 
     const data = await Pro.find({
       profession: { $regex: new RegExp(work, "i") },
-      state: { $regex: new RegExp(state, "i") },
       $or: [
         { pincode: { $regex: new RegExp(pincode, "i") } },
         { city: { $regex: new RegExp(city, "i") } },

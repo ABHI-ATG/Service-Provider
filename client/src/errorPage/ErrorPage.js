@@ -17,12 +17,9 @@ import { Link } from 'react-router-dom';
 		</div>
 		
 		<div class="contant_box_404">
-		<h3 class="h2">
-		Look like you're lost
-		</h3>
-		
+		<h3 class="h2">Look like you're lost</h3>
 		<p>the page you are looking for not avaible!</p>
-		
+			<h3 class="h2"><Link to='/signin'><span style={{color:"blue"}}>SingIn &nbsp;</span></Link><span>If You haven't</span></h3>
 		<Link to='/'><a href="/" class="link_404">Go to Home</a></Link>
 	</div>
 		</div>

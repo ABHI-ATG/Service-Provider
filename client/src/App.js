@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useEffect, useReducer } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Service from "./Services/Services";
 import LoginUser from "./LoginUser/Signin";
@@ -32,6 +32,10 @@ const initialState = {
   chat: null,
   socket: null,
   send: null,
+  location:{
+    city:null,
+    postalCode:null
+  }
 };
 // });
 
@@ -48,6 +52,7 @@ const ActionType = {
   SOCKET: "socket",
   SEND: "send",
   USERCHANGE: "userchange",
+  LOCATION: "location",
 };
 
 const reducer = (state, action) => {
@@ -123,6 +128,8 @@ const reducer = (state, action) => {
         ...state,
         user: { ...state.user, [action.payload.type]: action.payload.value },
       };
+    case ActionType.LOCATION:
+      return {...state,location:action.payload};
     default:
       return state;
   }
@@ -131,6 +138,13 @@ const reducer = (state, action) => {
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    const pre=document.getElementsByTagName('pre');
+    if(pre.length>0){
+      navigate('/');
+    }
+  },[])
 
   return (
     <>

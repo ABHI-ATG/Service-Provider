@@ -77,7 +77,11 @@ export default function Nav() {
           >
             <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
               <li className="text-gray-600 font-bold text-lg hover:text-blue-600">
-                <Link to="/">Home</Link>
+                {
+                  localStorage.getItem('onLine')==2?
+                  <Link to="/dashboard">Home</Link>:
+                  <Link to="/">Home</Link>
+                }
               </li>
               {localStorage.getItem("onLine")?
               <>

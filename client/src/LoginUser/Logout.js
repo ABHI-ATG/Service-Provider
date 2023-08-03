@@ -28,6 +28,9 @@ const Logout = () => {
                 localStorage.removeItem("token");
                 localStorage.removeItem("name");
                 localStorage.removeItem("onLine");
+                localStorage.removeItem("city");
+                localStorage.removeItem("city");
+                localStorage.removeItem("postalCode");
                 dispatch({type:"offline"});
                 navigate('/');
             }

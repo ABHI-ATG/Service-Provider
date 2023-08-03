@@ -109,6 +109,10 @@ const Sokcet = () => {
                 "Content-Type":"application/json"
             }
         })
+      dispatch({type:"location",payload:{
+        city:localStorage.getItem('city'),
+        postalCode:localStorage.getItem('postalCode'),
+      }})
       dispatch({type:"messageupdate",payload:data.data.message});
       dispatch({type:"user",payload:data.data.user});
         
