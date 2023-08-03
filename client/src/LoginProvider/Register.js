@@ -11,7 +11,7 @@ import { signUpRouteProvider } from "../routes/APIroute";
 const citiesByState = [
   {
     state: "Uttar Pradesh",
-    cities: ["Ghaziabad", "Meerut", "Muradnagar"],
+    cities: ["Ghaziabad", "Meerut", "Muradnagar" , "Modinagar" , "Mawana" , "Baraut" , "Baghpat" , "Noida" , "Greater Noida"],
   },
   {
     state: "Delhi",
@@ -64,7 +64,6 @@ const SignInn = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const onChangeHandle = (e) => {
     const value = e.target.value;
@@ -123,7 +122,6 @@ const SignInn = () => {
       return;
     }
     try {
-      setLoading(true);
       const { data } = await axios.post(signUpRouteProvider, {
         fname,
         lname,
@@ -138,13 +136,13 @@ const SignInn = () => {
 
       if (data.status === false) {
         toast.error(data.msg, toastOptions);
+        return;
       } else if (data.status === true) {
         navigate("/login");
       }
     } catch (e) {
       toast.error("Can't connect to server", toastOptions);
-    }finally{
-      setLoading(false);
+      return;
     }
   };
 
@@ -354,11 +352,6 @@ const SignInn = () => {
                   onClick={onSubmit}
                   required
                 />
-                {loading && (
-                   <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-transparent backdrop-blur-sm">
-                      <div className="flex justify-center w-12 h-12 border-4 border-dashed rounded-full animate-spin dark:border-sky-400"></div>
-                    </div>
-                  )}   
               </div>
             </form>
           </div>
