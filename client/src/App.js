@@ -33,8 +33,8 @@ const initialState = {
   socket: null,
   send: null,
   location:{
-    city:null,
-    postalCode:null
+    city: 'default',
+    postalCode: 0
   }
 };
 // });

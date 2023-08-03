@@ -52,12 +52,12 @@ const Login = () => {
         toast.error(data.msg, toastOptions);
         setLoading(false);
       } else if (data.status === true) {
+        localStorage.setItem("city", location.city);
+        localStorage.setItem("postalCode", location.postalCode);
         localStorage.setItem("id", data.id);
         localStorage.setItem("token", data.token);
         localStorage.setItem("name", data.name);
         localStorage.setItem("onLine", 1);
-        localStorage.setItem("city", location.city);
-        localStorage.setItem("postalCode", location.postalCode);
         dispatch({ type: "online", payload: 1 });
         messageUpdate(data.id);
         navigate("/");
@@ -81,12 +81,13 @@ const Login = () => {
       if (data.status === false) {
         toast.error(data.msg, toastOptions);
       } else if (data.status === true) {
+        console.log(location.city);
+        localStorage.setItem("city", location.city);
+        localStorage.setItem("postalCode", location.postalCode);
         localStorage.setItem("id", data.id);
         localStorage.setItem("token", data.token);
         localStorage.setItem("name", data.name);
         localStorage.setItem("onLine", 1);
-        localStorage.setItem("city", location.city);
-        localStorage.setItem("postalCode", location.postalCode);
         dispatch({ type: "online", payload: 1 });
         messageUpdate(data.id);
         navigate("/");

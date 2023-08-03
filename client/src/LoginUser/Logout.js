@@ -32,6 +32,7 @@ const Logout = () => {
                 localStorage.removeItem("city");
                 localStorage.removeItem("postalCode");
                 dispatch({type:"offline"});
+                dispatch({type:"location",payload:{city:'default',postalCode:0}});
                 navigate('/');
             }
         }catch(err){
