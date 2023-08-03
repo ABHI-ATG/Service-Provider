@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useEffect, useReducer } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Service from "./Services/Services";
 import LoginUser from "./LoginUser/Signin";
@@ -131,6 +131,13 @@ const reducer = (state, action) => {
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    const pre=document.getElementsByTagName('pre');
+    if(pre.length>0){
+      navigate('/');
+    }
+  },[])
 
   return (
     <>
