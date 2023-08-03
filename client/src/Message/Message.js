@@ -78,7 +78,7 @@ const Message = () => {
   }
 
   return (
-    <div className="h-screen  items-center ">
+    <div className="items-center ">
       
       <form className="my-5 w-full px-20 ">
         <label for="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
