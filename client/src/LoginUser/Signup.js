@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import url from "../url";
-import ReverseGeocode from "../reverseGeoCode/ReverseGeoCode";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { signUpRouteUser } from "../routes/APIroute";
@@ -246,7 +245,6 @@ const SignIn = () => {
             </form>
           </div>
         </div>
-        <ReverseGeocode />
         <div></div>
         <div className="hidden md:block bg-[url('https://img.freepik.com/free-vector/cleaner-with-cleaning-products-housekeeping-service_18591-52057.jpg?w=740&t=st=1682167423~exp=1682168023~hmac=f0aae2ea84ab46eea6a12d64dadd8e9a92ac895b93fdb4d55d2fab433abef97b')] bg-right bg-no-repeat w-full h-full"></div>
       </div>

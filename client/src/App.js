@@ -32,6 +32,10 @@ const initialState = {
   chat: null,
   socket: null,
   send: null,
+  location:{
+    city:null,
+    postalCode:null
+  }
 };
 // });
 
@@ -48,6 +52,7 @@ const ActionType = {
   SOCKET: "socket",
   SEND: "send",
   USERCHANGE: "userchange",
+  LOCATION: "location",
 };
 
 const reducer = (state, action) => {
@@ -123,6 +128,8 @@ const reducer = (state, action) => {
         ...state,
         user: { ...state.user, [action.payload.type]: action.payload.value },
       };
+    case ActionType.LOCATION:
+      return {...state,location:action.payload};
     default:
       return state;
   }

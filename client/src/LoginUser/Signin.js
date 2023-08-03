@@ -10,10 +10,12 @@ import ENDPOINT from '../ENDPOINT';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loginRouteUser } from '../routes/APIroute';
+import ReverseGeocode from "../reverseGeoCode/ReverseGeoCode";
+
 
 const Login = () => {
 
-  const { dispatch } = useContext(userContext);
+  const { state:{location}, dispatch } = useContext(userContext);
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -54,6 +56,8 @@ const Login = () => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("name", data.name);
         localStorage.setItem("onLine", 1);
+        localStorage.setItem("city", location.city);
+        localStorage.setItem("postalCode", location.postalCode);
         dispatch({ type: "online", payload: 1 });
         messageUpdate(data.id);
         navigate("/");
@@ -81,6 +85,8 @@ const Login = () => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("name", data.name);
         localStorage.setItem("onLine", 1);
+        localStorage.setItem("city", location.city);
+        localStorage.setItem("postalCode", location.postalCode);
         dispatch({ type: "online", payload: 1 });
         messageUpdate(data.id);
         navigate("/");
@@ -208,6 +214,7 @@ const Login = () => {
 
         <div className="hidden md:block bg-[url('https://img.freepik.com/free-vector/cleaners-with-cleaning-products-housekeeping-service_18591-52068.jpg?w=740&t=st=1682166693~exp=1682167293~hmac=64f5e0eb7e8469795f4782203b4f34d321d34786324396addf4fd0b94cee2f24')]  bg-right bg-no-repeat w-full h-[500px]"></div>
       </div>
+      <ReverseGeocode />
       <ToastContainer />
     </>
   );
