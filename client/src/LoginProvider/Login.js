@@ -26,7 +26,6 @@ const Loginn = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
-
   const onSubmit = async (e) => {
     e.preventDefault();
     if (email === "" || password === "") {
@@ -34,16 +33,13 @@ const Loginn = () => {
       return;
     }
     try {
-      setLoading(true); 
-
-      const { data } = await axios.post(
-        `${url}/api/provider/signin`,
-        {
-          email,
-          password,
-        }
-      );
-
+      setLoading(true);
+      console.log(email, password);
+      const { data } = await axios.post(`${url}/api/provider/signin`, {
+        email,
+        password,
+      });
+      console.log(data.status);
       if (data.status === false) {
         toast.error(data.msg, toastOptions);
         return;
@@ -59,42 +55,41 @@ const Loginn = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
-
   const guest = async (e) => {
     e.preventDefault();
-    try{
+    try {
       setLoading(true);
-    const data = await axios.post(
-      `${url}/api/provider/signin`,
-      {
-        email: "guest@gmail.com",
-        password: "guest",
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
+      const data = await axios.post(
+        `${url}/api/provider/signin`,
+        {
+          email: "guest@gmail.com",
+          password: "guest",
         },
-      }
-    );
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    if (data.status === 400 || !data) {
-      console.log("Fail to Sign Up");
-    } else {
-      localStorage.setItem("id", data.data.id);
-      localStorage.setItem("token", data.data.token);
-      localStorage.setItem("name", data.data.fname);
-      localStorage.setItem("onLine", 2);
-      dispatch({ type: "online", payload: 2 });
-      dispatch({ type: "provider", payload: data.data });
-      messageUpdate(data.data.token, data.data.id);
-    }
-    }catch(error){
+      if (data.status === 400 || !data) {
+        console.log("Fail to Sign Up");
+      } else {
+        localStorage.setItem("id", data.data.id);
+        localStorage.setItem("token", data.data.token);
+        localStorage.setItem("name", data.data.fname);
+        localStorage.setItem("onLine", 2);
+        dispatch({ type: "online", payload: 2 });
+        dispatch({ type: "provider", payload: data.data });
+        messageUpdate(data.data.token, data.data.id);
+      }
+    } catch (error) {
       console.log(error);
-    }finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -141,7 +136,12 @@ const Loginn = () => {
           <div className="loginForm__subtitle pb-5 text-base">
             Don't have an account?
             <span className="ml-2 text-sky-400 font-medium">
-              <input className="  py-3 w-24  ml-1" type="submit" onClick={guest} value="LogIn Guest" />
+              <input
+                className="  py-3 w-24  ml-1"
+                type="submit"
+                onClick={guest}
+                value="LogIn Guest"
+              />
             </span>
           </div>
 
@@ -189,19 +189,17 @@ const Loginn = () => {
               </div>
 
               <div className="flex justify-center my-4">
-               
-                  <input
-                    className="bg-sky-400 text-white py-3 w-24 rounded-full"
-                    onClick={onSubmit}
-                    type="submit"
-                    disabled={loading}
-                  />
-                  {loading && (
-                   <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-transparent backdrop-blur-sm">
-                      <div className="flex justify-center w-12 h-12 border-4 border-dashed rounded-full animate-spin dark:border-sky-400"></div>
-                    </div>
-                  )}     
-               
+                <input
+                  className="bg-sky-400 text-white py-3 w-24 rounded-full"
+                  onClick={onSubmit}
+                  type="submit"
+                  disabled={loading}
+                />
+                {loading && (
+                  <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-transparent backdrop-blur-sm">
+                    <div className="flex justify-center w-12 h-12 border-4 border-dashed rounded-full animate-spin dark:border-sky-400"></div>
+                  </div>
+                )}
               </div>
             </form>
           </div>

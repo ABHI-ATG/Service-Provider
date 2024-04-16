@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const Pro = require("../models/provider");
 const Message = require("../models/message");
-const mongoose =require('mongoose')
+const mongoose = require("mongoose");
 
 const signup = async (req, res) => {
   try {
@@ -19,6 +19,7 @@ const signup = async (req, res) => {
 
 const signin = async (req, res) => {
   try {
+    console.log(req.body);
     const { email, password } = req.body;
     const userExist = await User.findOne({ email });
     if (userExist) {
@@ -74,16 +75,15 @@ const service = async (req, res) => {
         { city: { $regex: new RegExp(city, "i") } },
       ],
     });
-    if(data.length==0){
-      data=await Pro.find({fname:'Jon'});
-      data[0].profession=work;
+    if (data.length == 0) {
+      data = await Pro.find({ fname: "Jon" });
+      data[0].profession = work;
     }
     res.status(200).send(data);
   } catch (error) {
     res.status(401).send("Failed to Search");
   }
 };
-
 
 const create = async (req, res) => {
   try {
@@ -128,7 +128,6 @@ const send = async (req, res) => {
   }
 };
 
-
 const edituser = async (req, res) => {
   const { userId, fname, lname, mobile, email } = req.body;
   try {
@@ -149,12 +148,9 @@ const edituser = async (req, res) => {
       user.email = email;
     }
     try {
-      
-      const updatedUser = await User.findByIdAndUpdate(
-        userId,
-        user,
-        { new: true }
-      );
+      const updatedUser = await User.findByIdAndUpdate(userId, user, {
+        new: true,
+      });
       return res.json({
         status: true,
         msg: "User updated successfully.",
